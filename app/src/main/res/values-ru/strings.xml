@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Туристический блог</string>
+    <string name="profile">Профиль</string>
+    <string name="search">Поиск</string>
+    <string name="home">Главная</string>
+    <string name="more">Еще</string>
+    <string name="favorites">Избранное</string>
+</resources>

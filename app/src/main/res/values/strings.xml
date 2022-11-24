@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">Blog tour</string>
+    <string name="profile">Profile</string>
+    <string name="search">Search</string>
+    <string name="home">Home</string>
+    <string name="more">More</string>
+    <string name="favorites">Favorites</string>
 </resources>
