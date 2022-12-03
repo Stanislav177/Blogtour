@@ -1,31 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/btn_profile"
+        android:id="@+id/btn_profile_menu"
         android:icon="@drawable/ic_person"
         android:orderInCategory="20"
-        android:title="@string/profile" />
+        android:title="@string/profile_bottom_menu" />
 
     <item
-        android:id="@+id/btn_search"
+        android:id="@+id/btn_search_menu"
         android:icon="@drawable/ic_content_paste_search"
         android:orderInCategory="90"
-        android:title="@string/search" />
+        android:title="@string/search_bottom_menu" />
 
     <item
-        android:id="@+id/btn_home"
+        android:id="@+id/btn_home_menu"
         android:icon="@drawable/ic_home"
         android:orderInCategory="50"
-        android:title="@string/home" />
+        android:title="@string/home_bottom_menu" />
     <item
-        android:id="@+id/btn_more"
+        android:id="@+id/btn_more_menu"
         android:icon="@drawable/ic_more"
         android:orderInCategory="100"
-        android:title="@string/more" />
+        android:title="@string/more_bottom_menu" />
 
     <item
-        android:id="@+id/btn_favorites"
+        android:id="@+id/btn_favorites_menu"
         android:icon="@drawable/ic_star"
         android:orderInCategory="10"
-        android:title="@string/favorites" />
+        android:title="@string/favorites_bottom_menu" />
 </menu>

@@ -2,6 +2,7 @@ package com.example.blogtour
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import com.example.blogtour.databinding.ActivityMainBinding
 import com.example.blogtour.ui.home.HomeFragment
 
@@ -15,8 +16,41 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         if (savedInstanceState == null) {
-            supportFragmentManager.beginTransaction()
-                .replace(R.id.containerFragment, HomeFragment()).commit()
+            toFragment(HomeFragment())
+            binding.navMenuBottom.selectedItemId = R.id.btn_home_menu
+        }
+        initBottomMenu()
+    }
+
+    private fun toFragment(f: Fragment) {
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.containerFragment, f).commit()
+    }
+
+    private fun initBottomMenu() {
+        binding.navMenuBottom.setOnItemSelectedListener {
+            when (it.itemId) {
+                R.id.btn_favorites_menu -> {
+                    true
+                }
+                R.id.btn_profile_menu -> {
+                    true
+                }
+                R.id.btn_home_menu -> {
+                    toFragment(HomeFragment())
+                    true
+                }
+                R.id.btn_more_menu -> {
+                    true
+                }
+                R.id.btn_profile_menu -> {
+                    true
+                }
+
+                else ->
+                    true
+
+            }
         }
     }
 }

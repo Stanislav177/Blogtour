@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="text_size_like_item">15sp</dimen>
+    <dimen name="text_size_text_item">17sp</dimen>
+    <dimen name="margin_date_add_post_item">7dp</dimen>
+    <dimen name="margin_text_item">5dp</dimen>
+    <dimen name="margin_like_fromcountlike_item_">5dp</dimen>
+    <dimen name="margin_nickname_more_item">7dp</dimen>
+    <dimen name="text_size_nickname_item">20sp</dimen>
+    <dimen name="margin_image_item">5dp</dimen>
+    <dimen name="margin_card_corner_radius_item">10dp</dimen>
+    <dimen name="card_elevation_item">15dp</dimen>
+    <dimen name="margin_top_item">5dp</dimen>
+</resources>
