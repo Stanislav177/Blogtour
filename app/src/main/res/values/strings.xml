@@ -1,3 +1,17 @@
 <resources>
     <string name="app_name">Blog tour</string>
+    <string name="profile_bottom_menu">Profile</string>
+    <string name="search_bottom_menu">Search</string>
+    <string name="home_bottom_menu">Home</string>
+    <string name="more_bottom_menu">More</string>
+    <string name="favorites_bottom_menu">Favorites</string>
+
+    <string name="tools_text_item">The main goal of our big car trip was the Great Smoky Mountains
+        National Park. Smoky is a huge forest area of several thousand square kilometers.</string>
+    <string name="tools_like_item">- like</string>
+    <string name="tools_data_item">01.12.2022</string>
+    <string name="tools_count_like">0</string>
+    <string name="name_tabs_home_new">New</string>
+    <string name="name_tabs_home_best">Best</string>
+    <string name="name_tabs_home_subscriptions">Subscriptions</string>
 </resources>
