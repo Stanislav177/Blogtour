@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/nickNameTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="7dp"
+        android:layout_marginTop="7dp"
+        android:layout_marginEnd="7dp"
+        android:textSize="20dp"
+        app:layout_constraintEnd_toStartOf="@+id/moreCard"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_chainStyle="spread_inside"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="NickName" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/moreCard"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="7dp"
+        android:layout_marginTop="7dp"
+        android:layout_marginEnd="7dp"
+        android:background="@drawable/ic_more"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_chainStyle="spread_inside"
+        app:layout_constraintStart_toEndOf="@+id/nickNameTextView"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/imageCard"
+        android:layout_width="match_parent"
+        android:layout_height="400sp"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/ic_baseline_image_24"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/nickNameTextView" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/likeCard"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/ic_like_off"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/imageCard" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/countLike"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:text="0"
+        android:textSize="15sp"
+        app:layout_constraintStart_toEndOf="@id/likeCard"
+        app:layout_constraintTop_toTopOf="@id/likeCard" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvCardLike"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:text="- нравится"
+        android:textSize="15sp"
+        app:layout_constraintStart_toEndOf="@+id/countLike"
+        app:layout_constraintTop_toTopOf="@+id/likeCard" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/textPostCard"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:lines="4"
+        android:textSize="17sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/likeCard"
+        tools:text="Главной целью нашего большого автомобильного путешествия был национальный парк Грейт Смоки Маунтинс. Смоки – это огромный массив леса площадью несколько тысяч квадратных километров. " />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/dateAdditionsBlog"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="7dp"
+        android:layout_marginEnd="5dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textPostCard"
+        tools:text="01.12.2022" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
