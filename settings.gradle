@@ -14,3 +14,4 @@ dependencyResolutionManagement {
 }
 rootProject.name = "Blog tour"
 include ':app'
+include ':airtable'

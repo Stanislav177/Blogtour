@@ -6,7 +6,6 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.blogtour.appState.AppStateListBlog
 import com.example.blogtour.databinding.FragmentHomeBinding
 import com.example.blogtour.utils.BaseFragment
-import kotlinx.android.synthetic.main.fragment_home.*
 
 class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::inflate) {
 
@@ -24,7 +23,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
         postViewModel.getLiveData().observe(viewLifecycleOwner) {
             renderData(it)
         }
-        recyclerListBlog.adapter = adapter
+
+        binding.recyclerListBlog.adapter = adapter
 
         postViewModel.getPostList()
     }

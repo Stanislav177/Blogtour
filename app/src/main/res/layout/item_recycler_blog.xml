@@ -44,9 +44,8 @@
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/imagePost"
             android:layout_width="match_parent"
-            android:layout_height="400sp"
+            android:layout_height="320dp"
             android:layout_marginTop="@dimen/margin_image_item"
-            android:background="@drawable/ic_baseline_image_24"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/nickNameTextView" />
 
@@ -100,8 +99,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/textPostCard"
             tools:text="@string/tools_data_item" />
-
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.cardview.widget.CardView>

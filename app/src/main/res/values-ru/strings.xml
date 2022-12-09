@@ -7,7 +7,9 @@
     <string name="more_bottom_menu">Еще</string>
     <string name="favorites_bottom_menu">Избранное</string>
 
-    <string name="tools_text_item">Главной целью нашего большого автомобильного путешествия был национальный парк Грейт Смоки Маунтинс. Смоки – это огромный массив леса площадью несколько тысяч квадратных километров.</string>
+    <string name="tools_text_item">Главной целью нашего большого автомобильного путешествия был
+        национальный парк Грейт Смоки Маунтинс. Смоки – это огромный массив леса площадью
+        несколько тысяч квадратных километров.</string>
     <string name="tools_like_item">- нравится</string>
     <string name="tools_data_item">01.12.2022</string>
     <string name="tools_count_like">0</string>
