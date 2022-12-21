@@ -1,10 +1,10 @@
-package com.example.blogtour.data
+package com.myblogtour.blogtour.data
 
 class RepoPostListImpl {
 
 
-//    private val dataPost: List<Post> = listOf(
-//        Post("0",
+//    private val dataPost: List<CreatePost> = listOf(
+//        CreatePost("0",
 //            "nick0",
 //            "foto",
 //            "Главной целью нашего большого" +
@@ -17,7 +17,7 @@ class RepoPostListImpl {
 //            "Теннесси — США",
 //            "01.02.2019",
 //            "02.12.2022"),
-//        Post("1",
+//        CreatePost("1",
 //            "nick1",
 //            "foto",
 //            "В дождливый день в Стамбуле мы с Наташей" +
@@ -29,7 +29,7 @@ class RepoPostListImpl {
 //            "Теннесси — США",
 //            "01.02.2019",
 //            "02.12.2022"),
-//        Post("2",
+//        CreatePost("2",
 //            "nick2",
 //            "foto",
 //            "Главной целью нашего большого" +
@@ -42,7 +42,7 @@ class RepoPostListImpl {
 //            "Теннесси — США",
 //            "01.02.2019",
 //            "02.12.2022"),
-//        Post("3",
+//        CreatePost("3",
 //            "nick3",
 //            "foto",
 //            "В дождливый день в Стамбуле мы с Наташей" +

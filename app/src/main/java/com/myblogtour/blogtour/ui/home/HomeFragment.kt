@@ -1,11 +1,11 @@
-package com.example.blogtour.ui.home
+package com.myblogtour.blogtour.ui.home
 
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.ViewModelProvider
-import com.example.blogtour.appState.AppStateListBlog
-import com.example.blogtour.databinding.FragmentHomeBinding
-import com.example.blogtour.utils.BaseFragment
+import com.myblogtour.blogtour.appState.AppStateListBlog
+import com.myblogtour.blogtour.databinding.FragmentHomeBinding
+import com.myblogtour.blogtour.utils.BaseFragment
 
 class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::inflate) {
 

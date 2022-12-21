@@ -9,7 +9,7 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 
 android {
-    namespace 'com.example.blogtour'
+    namespace 'com.myblogtour.blogtour'
     compileSdk 33
 
     defaultConfig {
@@ -43,11 +43,16 @@ android {
 }
 
 dependencies {
-    implementation "io.coil-kt:coil:2.1.0"
+    implementation 'io.coil-kt:coil:2.1.0'
+
+    implementation 'com.squareup.okhttp3:logging-interceptor:4.10.0'
 
     implementation 'com.google.code.gson:gson:2.8.8'
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
+
+    implementation 'com.squareup.retrofit2:converter-jackson:2.9.0'
+
 
     implementation 'androidx.core:core-ktx:1.9.0'
     implementation 'androidx.appcompat:appcompat:1.5.1'

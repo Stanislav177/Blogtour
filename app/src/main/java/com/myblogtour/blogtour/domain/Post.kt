@@ -1,4 +1,4 @@
-package com.example.blogtour.domain
+package com.myblogtour.blogtour.domain
 
 data class Post(
     val id: String, // id поста
@@ -12,5 +12,5 @@ data class Post(
 )
 
 data class Image(
-    val url: String,
+    val url: String? = null,
 )

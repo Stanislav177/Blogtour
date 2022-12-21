@@ -1,12 +1,11 @@
 plugins {
     id 'com.android.library'
     id 'org.jetbrains.kotlin.android'
+    id 'kotlin-parcelize'
 }
 
-apply plugin: 'kotlin-android-extensions'
-
 android {
-    namespace 'com.example.airtable'
+    namespace 'com.myblogtour.airtable'
     compileSdk 32
 
     defaultConfig {
@@ -39,6 +38,9 @@ android {
 }
 
 dependencies {
+
+    implementation 'com.squareup.okhttp3:logging-interceptor:4.10.0'
+
     implementation 'com.google.code.gson:gson:2.8.8'
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.9.0'

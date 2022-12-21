@@ -1,4 +1,4 @@
-package com.example.blogtour.ui.home
+package com.myblogtour.blogtour.ui.home
 
 import android.view.LayoutInflater
 import android.view.View
@@ -7,8 +7,8 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
-import com.example.blogtour.R
-import com.example.blogtour.domain.Post
+import com.myblogtour.blogtour.R
+import com.myblogtour.blogtour.domain.Post
 
 class HomeRecyclerAdapter : RecyclerView.Adapter<HomeRecyclerAdapter.PostViewHolder>() {
 

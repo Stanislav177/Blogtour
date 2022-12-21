@@ -1,4 +1,4 @@
-package com.example.blogtour.utils
+package com.myblogtour.blogtour.utils
 
 import android.os.Bundle
 import android.view.LayoutInflater

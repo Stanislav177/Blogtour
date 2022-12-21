@@ -1,10 +1,10 @@
-package com.example.blogtour
+package com.myblogtour.blogtour
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import com.example.blogtour.databinding.ActivityMainBinding
-import com.example.blogtour.ui.home.HomeFragment
+import com.myblogtour.blogtour.databinding.ActivityMainBinding
+import com.myblogtour.blogtour.ui.home.HomeFragment
 
 class MainActivity : AppCompatActivity() {
 

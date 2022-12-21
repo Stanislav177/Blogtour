@@ -1,9 +1,9 @@
-package com.example.blogtour.utils
+package com.myblogtour.blogtour.utils
 
-import com.example.airtable.data.DTO
-import com.example.airtable.data.URLImage
-import com.example.blogtour.domain.Image
-import com.example.blogtour.domain.Post
+import com.myblogtour.airtable.domain.DTO
+import com.myblogtour.airtable.domain.URLImage
+import com.myblogtour.blogtour.domain.Image
+import com.myblogtour.blogtour.domain.Post
 
 fun converterFromDTOtoPost(dto: DTO): MutableList<Post> {
     val dtoSize = dto.records.size

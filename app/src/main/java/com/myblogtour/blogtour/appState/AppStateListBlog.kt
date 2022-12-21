@@ -1,6 +1,6 @@
-package com.example.blogtour.appState
+package com.myblogtour.blogtour.appState
 
-import com.example.blogtour.domain.Post
+import com.myblogtour.blogtour.domain.Post
 
 sealed class AppStateListBlog {
     data class Success(val dataPost: List<Post>) : AppStateListBlog()
