@@ -52,6 +52,7 @@ class HomeViewModel(private val liveData: MutableLiveData<AppStateListBlog> = Mu
         post.addProperty("id", id)
         post.addProperty("text", text)
         post.addProperty("likeCount", likeCount)
+        post.addProperty("location", location)
         post.addProperty("dateTour", dateTour)
         post.addProperty("dateAddition", dateAddition)
         createPost.add("fields", post)
