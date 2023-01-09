@@ -3,56 +3,95 @@ package com.myblogtour.blogtour.ui.registrationUser
 import android.text.Editable
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.auth.ktx.userProfileChangeRequest
+import com.google.firebase.ktx.Firebase
 import com.myblogtour.blogtour.appState.AppStateUserRegistration
 import com.myblogtour.blogtour.utils.validatorEmail.EmailValidatorPatternImpl
 import com.myblogtour.blogtour.utils.validatorPassword.PasswordValidatorPatternImpl
+import com.myblogtour.blogtour.utils.validatorUserName.LoginValidatorPatternImpl
 
 class RegistrationViewModel(
     private val liveData: MutableLiveData<AppStateUserRegistration> = MutableLiveData(),
     private val validEmailPattern: EmailValidatorPatternImpl = EmailValidatorPatternImpl(),
     private val validPasswordPattern: PasswordValidatorPatternImpl = PasswordValidatorPatternImpl(),
+    private val validNameValidatorPattern: LoginValidatorPatternImpl = LoginValidatorPatternImpl(),
 ) : ViewModel() {
 
-    private var nameUser = "User"
-    private var email: String? = null
-    private var password: String? = null
-    private var passwordConfirm: String? = null
-    private var flagCorrectEmail = false
+    private lateinit var userLogin: String
+    private lateinit var email: String
+    private lateinit var password: String
+
+    private val auth by lazy { Firebase.auth }
 
     fun getLiveData() = liveData
 
-    fun registerUser() {
-
+    fun registerUserFb(
+        loginUserRegister: Editable?,
+        emailRegister: Editable?,
+        passwordOneRegister: Editable?,
+        passwordTwoRegister: Editable?,
+    ) {
+        validNameValidatorPattern.afterTextUserName(loginUserRegister)
+        when {
+            validNameValidatorPattern.validUserLogin -> {
+                userLogin = loginUserRegister.toString()
+                emailValidator(emailRegister, passwordOneRegister, passwordTwoRegister)
+            }
+            validNameValidatorPattern.nullUserLogin == null -> {
+                liveData.postValue(AppStateUserRegistration.ErrorUserLogin("Введите логин"))
+            }
+            else -> {
+                liveData.postValue(AppStateUserRegistration.ErrorUserLogin("Некорректный логин"))
+            }
+        }
     }
 
-    private fun setPasswordValidator(passwordOne: Editable? = null, passwordTwo: Editable? = null) {
-        validPasswordPattern.afterText(passwordOne, passwordTwo)
+    private fun createAccount() {
+        auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener {
+            if (it.isSuccessful) {
+                val user = auth.currentUser
+                val profileUser = userProfileChangeRequest {
+                    displayName = userLogin
+                }
+                user!!.updateProfile(profileUser)
+                liveData.postValue(AppStateUserRegistration.SuccessUser(user))
+            } else {
+                liveData.postValue(AppStateUserRegistration.ErrorUser("Попробуйте позже"))
+            }
+        }
+    }
+
+    private fun passwordValidator(
+        passwordOneRegister: Editable?,
+        passwordTwoRegister: Editable?,
+    ) {
+        validPasswordPattern.afterText(passwordOneRegister, passwordTwoRegister)
         when {
             validPasswordPattern.validPassword -> {
                 if (validPasswordPattern.equalsPassword) {
-                    liveData.postValue(AppStateUserRegistration.SuccessPassword(true))
+                    password = passwordTwoRegister.toString()
+                    createAccount()
                 } else {
-                    liveData.postValue(AppStateUserRegistration.ErrorPassword("Пароли не совпадают"))
+                    liveData.postValue(AppStateUserRegistration.ErrorPasswordEquals("Пароли не совпадают"))
                 }
             }
             else -> {
                 liveData.postValue(AppStateUserRegistration.ErrorPassword("Легкий пароль"))
             }
         }
-
     }
 
-    fun setEmailValidator(
-        emailStr: Editable? = null,
-        passwordOne: Editable?,
-        passwordTwo: Editable?,
+    private fun emailValidator(
+        emailRegister: Editable?,
+        passwordOneRegister: Editable?,
+        passwordTwoRegister: Editable?,
     ) {
-        validEmailPattern.afterText(emailStr)
-
+        validEmailPattern.afterText(emailRegister)
         when {
             validEmailPattern.validEmail -> {
-                email = emailStr.toString()
-                setPasswordValidator(passwordOne, passwordTwo)
+                email = emailRegister.toString()
+                passwordValidator(passwordOneRegister, passwordTwoRegister)
             }
             validEmailPattern.textEmail == null -> {
                 liveData.postValue(AppStateUserRegistration.ErrorEmail("Введите email"))

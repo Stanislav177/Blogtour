@@ -27,13 +27,13 @@ class MainActivity : AppCompatActivity() {
             toFragment(HomeFragment())
             binding.navMenuBottom.selectedItemId = R.id.btn_home_menu
         }
-
         initBottomMenu()
     }
 
     override fun onStart() {
         super.onStart()
         currentUser = auth.currentUser
+
     }
 
     private fun toFragment(f: Fragment) {
@@ -63,7 +63,6 @@ class MainActivity : AppCompatActivity() {
                 }
                 else ->
                     true
-
             }
         }
     }

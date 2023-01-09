@@ -32,7 +32,7 @@ class EmailValidatorPatternImpl : EmailValidatorPattern {
         )
 
         fun isNullEmailPattern(email: String?): String? {
-            if (email.equals("")){
+            if (email.equals("")) {
                 return null
             }
             return email

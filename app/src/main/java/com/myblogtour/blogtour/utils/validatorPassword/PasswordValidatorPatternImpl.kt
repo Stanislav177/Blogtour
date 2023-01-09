@@ -13,7 +13,6 @@ class PasswordValidatorPatternImpl : PasswordValidatorPattern {
     }
 
     companion object {
-
         fun isPasswordValidate(passOne: String): Boolean {
             when {
                 passOne.length < 6 -> {
@@ -38,7 +37,5 @@ class PasswordValidatorPatternImpl : PasswordValidatorPattern {
             }
             return false
         }
-
-
     }
 }
