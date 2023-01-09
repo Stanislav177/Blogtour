@@ -68,10 +68,11 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun openFragmentUserProfileAuth() {
+        currentUser = auth.currentUser
         if (currentUser != null) {
             toFragment(ProfileFragment())
         } else {
-            toFragment(RegistrationUserFragment())
+            toFragment(AuthUserFragment())
         }
     }
 }
