@@ -14,4 +14,6 @@
     <string name="name_tabs_home_new">New</string>
     <string name="name_tabs_home_best">Best</string>
     <string name="name_tabs_home_subscriptions">Subscriptions</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
