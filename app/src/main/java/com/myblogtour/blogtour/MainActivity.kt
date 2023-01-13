@@ -33,7 +33,6 @@ class MainActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
         currentUser = auth.currentUser
-
     }
 
     private fun toFragment(f: Fragment) {
