@@ -16,4 +16,10 @@
     <string name="name_tabs_home_new">Новые</string>
     <string name="name_tabs_home_best">Лучшие</string>
     <string name="name_tabs_home_subscriptions">Подписки</string>
+    <string name="login_colon">логин:</string>
+    <string name="personal_data">Личные данные</string>
+    <string name="my_posts">Мои посты</string>
+    <string name="favorites">Избранное</string>
+    <string name="setting">Настройки</string>
+    <string name="sign_out">Выйти из аккаунта</string>
 </resources>

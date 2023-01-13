@@ -1,13 +1,129 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".ui.profile.ProfileFragment">
 
-    <TextView
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="0dp"
+        android:layout_weight="1">
 
-</FrameLayout>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/iconUserProfile"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_marginStart="25dp"
+                android:src="@drawable/ic_person"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/innerTextViewLogin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/login_colon"
+                android:textSize="10sp"
+                android:layout_marginTop="10dp"
+                app:layout_constraintBottom_toTopOf="@+id/userLogin"
+                app:layout_constraintStart_toStartOf="@+id/userLogin"
+                app:layout_constraintTop_toBottomOf="@+id/iconVerifiedUser" />
+
+            <TextView
+                android:id="@+id/userLogin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                app:layout_constraintStart_toEndOf="@+id/iconUserProfile"
+                app:layout_constraintTop_toBottomOf="@+id/innerTextViewLogin"
+                tools:text="@string/test_text" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/iconVerifiedUser"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:src="@drawable/ic_verified_user"
+                app:layout_constraintStart_toEndOf="@+id/iconUserProfile"
+                app:layout_constraintTop_toTopOf="@+id/iconUserProfile" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </FrameLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/black" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="2">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/personalDataUser"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/personal_data"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/postUser"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/my_posts"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                app:layout_constraintTop_toBottomOf="@+id/personalDataUser" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/favoritePost"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/favorites"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                app:layout_constraintTop_toBottomOf="@+id/postUser" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/setting"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/setting"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                app:layout_constraintTop_toBottomOf="@+id/favoritePost" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/singOut"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/sign_out"
+                android:textSize="20sp"
+                android:textColor="@color/black"
+                app:layout_constraintTop_toBottomOf="@+id/setting" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </FrameLayout>
+
+</LinearLayout>
