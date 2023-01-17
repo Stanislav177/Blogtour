@@ -1,11 +1,8 @@
 package com.myblogtour.airtable.domain.retrofit
 
 import com.google.gson.JsonObject
-import com.myblogtour.airtable.domain.CreatePost
 import com.myblogtour.airtable.domain.DTO
-import com.myblogtour.airtable.domain.Fields
 import com.myblogtour.airtable.domain.Record
-import okhttp3.RequestBody
 import retrofit2.Call
 import retrofit2.http.*
 

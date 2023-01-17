@@ -22,4 +22,6 @@
     <string name="favorites">Избранное</string>
     <string name="setting">Настройки</string>
     <string name="sign_out">Выйти из аккаунта</string>
+    <string name="publishPost">Опубликовать пост</string>
+    <string name="test_text">ТестТекст</string>
 </resources>

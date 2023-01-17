@@ -1,10 +1,9 @@
 package com.myblogtour.airtable.domain
 
 import com.google.gson.JsonObject
-import okhttp3.RequestBody
 import retrofit2.Callback
 
-interface RepoAirTablePosting {
+interface RepoAirTable {
 
     fun getPostingAirTable(callback: Callback<DTO>)
 

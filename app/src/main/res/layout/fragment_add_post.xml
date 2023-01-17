@@ -1,14 +1,79 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.addPost.AddPostFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/innerTextViewAddPost"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="Публикация поста"
+        android:textColor="@color/black"
+        android:textSize="25sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-</FrameLayout>
+    <View
+        android:id="@+id/innerLineAddPost"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/black"
+        app:layout_constraintTop_toBottomOf="@id/innerTextViewAddPost" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/innerEditTextAddPost"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="5dp"
+        android:hint="Введите описание"
+        app:layout_constraintTop_toBottomOf="@+id/innerLineAddPost">
+
+        <EditText
+            android:id="@+id/editTextPost"
+            android:layout_width="match_parent"
+            android:layout_height="350dp" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/innerEditTextLocationAddPost"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginStart="5dp"
+        android:hint="Введите место положение"
+        app:layout_constraintStart_toStartOf="@id/innerEditTextAddPost"
+        app:layout_constraintTop_toBottomOf="@id/innerEditTextAddPost">
+
+        <EditText
+            android:id="@+id/editTextLocation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/attachPhotoAddPost"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        app:layout_constraintStart_toStartOf="@+id/innerEditTextLocationAddPost"
+        app:layout_constraintTop_toBottomOf="@+id/innerEditTextLocationAddPost"
+        app:srcCompat="@drawable/ic_attach_file" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/publishBtnAddPost"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Опубликовать"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/attachPhotoAddPost" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

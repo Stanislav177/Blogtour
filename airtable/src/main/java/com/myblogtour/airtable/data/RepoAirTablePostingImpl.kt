@@ -3,16 +3,10 @@ package com.myblogtour.airtable.data
 import com.google.gson.JsonObject
 import com.myblogtour.airtable.BuildConfig
 import com.myblogtour.airtable.domain.*
-import com.myblogtour.airtable.domain.retrofit.API_KEY
 import com.myblogtour.airtable.domain.retrofit.RetrofitAirTable
-import com.myblogtour.airtable.domain.retrofit.URL_API_BASE
-import com.myblogtour.airtable.domain.retrofit.URL_API_END_POINT
-import okhttp3.OkHttpClient
-import okhttp3.Request
-import okhttp3.RequestBody
 import retrofit2.Callback
 
-class RepoAirTablePostingImpl : RepoAirTablePosting {
+class RepoAirTablePostingImpl : RepoAirTable {
 
     private val retrofitAirTable by lazy { RetrofitAirTable.startRetrofit() }
 

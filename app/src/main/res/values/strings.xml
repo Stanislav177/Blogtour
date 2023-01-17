@@ -14,7 +14,13 @@
     <string name="name_tabs_home_new">New</string>
     <string name="name_tabs_home_best">Best</string>
     <string name="name_tabs_home_subscriptions">Subscriptions</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+
     <string name="test_text">TestText</string>
+    <string name="login_colon">login:</string>
+    <string name="personal_data">Personal data</string>
+    <string name="my_posts">My publications</string>
+    <string name="favorites">Favorites</string>
+    <string name="setting">Setting</string>
+    <string name="sign_out">Sing out account</string>
+    <string name="publishPost">Publish a post</string>
 </resources>

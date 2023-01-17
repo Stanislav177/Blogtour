@@ -96,13 +96,22 @@
                 app:layout_constraintTop_toBottomOf="@+id/personalDataUser" />
 
             <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/publishPostProfile"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/publishPost"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                app:layout_constraintTop_toBottomOf="@+id/postUser" />
+
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/favoritePost"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/favorites"
                 android:textColor="@color/black"
                 android:textSize="20sp"
-                app:layout_constraintTop_toBottomOf="@+id/postUser" />
+                app:layout_constraintTop_toBottomOf="@+id/publishPostProfile" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/setting"
