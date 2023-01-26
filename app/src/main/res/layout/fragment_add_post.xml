@@ -75,6 +75,7 @@
         app:layout_constraintStart_toEndOf="@+id/attachPhotoAddPost"
         app:layout_constraintTop_toTopOf="@+id/attachPhotoAddPost" />
 
+
     <ProgressBar
         android:id="@+id/progressBarImagePostAddPost"
         android:layout_width="wrap_content"
@@ -84,6 +85,27 @@
         app:layout_constraintEnd_toEndOf="@+id/imagePostAddPost"
         app:layout_constraintStart_toStartOf="@+id/imagePostAddPost"
         app:layout_constraintTop_toTopOf="@+id/imagePostAddPost" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/textViewProgress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/imagePostAddPost"
+        app:layout_constraintEnd_toEndOf="@+id/imagePostAddPost"
+        app:layout_constraintStart_toStartOf="@+id/imagePostAddPost"
+        app:layout_constraintTop_toTopOf="@+id/imagePostAddPost"/>
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/cancelImage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/ic_cancel"
+        android:visibility="gone"
+        app:layout_constraintTop_toTopOf="@id/imagePostAddPost"
+        app:layout_constraintEnd_toEndOf="@id/imagePostAddPost"/>
+
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/publishBtnAddPost"

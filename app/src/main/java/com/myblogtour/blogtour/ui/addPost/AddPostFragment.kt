@@ -1,9 +1,6 @@
 package com.myblogtour.blogtour.ui.addPost
 
-import android.graphics.Bitmap
-import android.net.Uri
 import android.os.Bundle
-import android.provider.MediaStore
 import android.view.View
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
@@ -31,8 +28,26 @@ class AddPostFragment : BaseFragment<FragmentAddPostBinding>(FragmentAddPostBind
         viewModel.publishPostLiveData.observe(viewLifecycleOwner) {
             publishPost(it)
         }
-        viewModel.loadUri.observe(viewLifecycleOwner){
-            binding.imagePostAddPost.load(it)
+        viewModel.loadUri.observe(viewLifecycleOwner) {
+            with(binding) {
+                if (it != null) {
+                    progressBarImagePostAddPost.visibility = View.GONE
+                    textViewProgress.visibility = View.GONE
+                    imagePostAddPost.load(it)
+                    cancelImage.visibility = View.VISIBLE
+                } else{
+                    imagePostAddPost.load(null)
+                    cancelImage.visibility = View.GONE
+                }
+
+            }
+        }
+        viewModel.progressLoad.observe(viewLifecycleOwner) {
+            with(binding) {
+                progressBarImagePostAddPost.visibility = View.VISIBLE
+                textViewProgress.visibility = View.VISIBLE
+                textViewProgress.text = "$it%"
+            }
         }
         with(binding) {
             publishBtnAddPost.setOnClickListener {
@@ -40,6 +55,9 @@ class AddPostFragment : BaseFragment<FragmentAddPostBinding>(FragmentAddPostBind
             }
             attachPhotoAddPost.setOnClickListener {
                 resultLauncher.launch("image/*")
+            }
+            cancelImage.setOnClickListener {
+                viewModel.deleteImage()
             }
         }
     }

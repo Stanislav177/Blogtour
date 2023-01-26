@@ -37,7 +37,17 @@ class AddPostViewModel : ViewModel(), AddContract.ViewModel {
     private val currentUser = auth.currentUser
 
     override val publishPostLiveData: LiveData<Boolean> = MutableLiveData()
-    override val loadUri: LiveData<Uri> = MutableLiveData()
+    override val loadUri: LiveData<Uri?> = MutableLiveData()
+    override val progressLoad: LiveData<Int> = MutableLiveData()
+
+
+    fun deleteImage() {
+        nameFile!!.delete().addOnSuccessListener {
+            loadUri.mutable().postValue(null)
+        }.addOnFailureListener {
+            val er = it
+        }
+    }
 
     fun image(uri: Uri) {
         nameFile = storageRef.child("image/${uri.lastPathSegment}")
@@ -51,6 +61,9 @@ class AddPostViewModel : ViewModel(), AddContract.ViewModel {
                     val error = er
                 }.addOnSuccessListener {
                     getDownloadUrl()
+                }.addOnProgressListener {
+                    val progress = (100.0 * it.bytesTransferred) / it.totalByteCount
+                    progressLoad.mutable().postValue(progress.toInt())
                 }
             }
         }

@@ -7,7 +7,8 @@ interface AddContract {
 
     interface ViewModel {
         val publishPostLiveData: LiveData<Boolean>
-        val loadUri: LiveData<Uri>
+        val loadUri: LiveData<Uri?>
+        val progressLoad: LiveData<Int>
         fun dataPost(
             text: String,
             location: String,
