@@ -5,9 +5,8 @@ data class Post(
     val nickName: String, //nick
     val text: String, // текст
     val likeCount: Long, // количество лайков
-    val location: String, // адрес
-    val dateTour: String, // дата поездки
-    val dateAddition: String, // дата добавления поста
+    val location: String,
+    val createdTime: String, // дата добавления поста
     val urlImage: List<Image>? = null,
 )
 

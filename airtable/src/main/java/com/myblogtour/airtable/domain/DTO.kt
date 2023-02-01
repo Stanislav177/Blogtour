@@ -17,8 +17,6 @@ data class Record(
 
 data class Fields(
     @Expose
-    val dateTour: String,
-    @Expose
     val nickName: String,
     @Expose
     val id: Long,
@@ -28,8 +26,6 @@ data class Fields(
     val likeCount: Long,
     @Expose
     val text: String,
-    @Expose
-    val dateAddition: String,
     @Expose
     val urlImage: List<URLImage>? = null,
 )

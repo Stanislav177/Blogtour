@@ -1,5 +1,6 @@
 package com.myblogtour.blogtour.ui.addPost
 
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
@@ -15,6 +16,8 @@ class AddPostFragment : BaseFragment<FragmentAddPostBinding>(FragmentAddPostBind
         ViewModelProvider(this)[AddPostViewModel::class.java]
     }
 
+    lateinit var imageUri: Uri
+
     private val resultLauncher =
         registerForActivityResult(ActivityResultContracts.GetContent()) {
             it?.let {
@@ -29,18 +32,7 @@ class AddPostFragment : BaseFragment<FragmentAddPostBinding>(FragmentAddPostBind
             publishPost(it)
         }
         viewModel.loadUri.observe(viewLifecycleOwner) {
-            with(binding) {
-                if (it != null) {
-                    progressBarImagePostAddPost.visibility = View.GONE
-                    textViewProgress.visibility = View.GONE
-                    imagePostAddPost.load(it)
-                    cancelImage.visibility = View.VISIBLE
-                } else{
-                    imagePostAddPost.load(null)
-                    cancelImage.visibility = View.GONE
-                }
-
-            }
+            initImagePost(it)
         }
         viewModel.progressLoad.observe(viewLifecycleOwner) {
             with(binding) {
@@ -51,7 +43,7 @@ class AddPostFragment : BaseFragment<FragmentAddPostBinding>(FragmentAddPostBind
         }
         with(binding) {
             publishBtnAddPost.setOnClickListener {
-                //viewModel.dataPost(editTextPost.text.toString(), editTextLocation.text.toString())
+                viewModel.dataPost(editTextPost.text.toString(), editTextLocation.text.toString(), imageUri)
             }
             attachPhotoAddPost.setOnClickListener {
                 resultLauncher.launch("image/*")
@@ -62,11 +54,29 @@ class AddPostFragment : BaseFragment<FragmentAddPostBinding>(FragmentAddPostBind
         }
     }
 
+    private fun initImagePost(it: Uri?) {
+        with(binding) {
+            if (it != null) {
+                imageUri = it
+                progressBarImagePostAddPost.visibility = View.GONE
+                textViewProgress.visibility = View.GONE
+                imagePostAddPost.load(it)
+                cancelImage.visibility = View.VISIBLE
+            } else {
+                imagePostAddPost.load(null)
+                cancelImage.visibility = View.GONE
+            }
+        }
+    }
+
     private fun publishPost(it: Boolean) {
         if (it) {
             Toast.makeText(requireContext(), "Пост размещен", Toast.LENGTH_SHORT).show()
         }
-
     }
 
+    override fun onDetach() {
+        super.onDetach()
+        viewModel.deleteImageDetach()
+    }
 }

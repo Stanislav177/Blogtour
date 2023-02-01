@@ -15,13 +15,13 @@ fun converterFromDTOtoPost(dto: DTO): MutableList<Post> {
                 dto.records[i].fields.text,
                 dto.records[i].fields.likeCount,
                 dto.records[i].fields.location,
-                dto.records[i].fields.dateTour,
                 dto.records[i].createdTime,
                 converterDTOUrlToPost(dto.records[i].fields.urlImage))
         )
     return postListFromDTO
 }
 
+// переделать на map
 fun converterDTOUrlToPost(urlDtoImage: List<URLImage>?): MutableList<Image>? {
     val dtoUrlImage = urlDtoImage?.let { it.size }
     val postingImage: MutableList<Image> = mutableListOf()

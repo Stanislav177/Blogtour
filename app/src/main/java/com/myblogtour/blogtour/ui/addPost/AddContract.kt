@@ -12,6 +12,7 @@ interface AddContract {
         fun dataPost(
             text: String,
             location: String,
+            imageUri: Uri
         )
     }
 }

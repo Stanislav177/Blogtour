@@ -22,10 +22,6 @@ data class CreatePost(
     val likeCount: Int, // количество лайков
     @SerializedName("location")
     val location: String, // адрес
-    @SerializedName("date_tour")
-    val dateTour: String, // дата поездки
-    @SerializedName("date_addition")
-    val dateAddition: String, // дата добавления поста
     @SerializedName("url_image")
     val urlImage: List<Image>? = null,
 ) : Parcelable

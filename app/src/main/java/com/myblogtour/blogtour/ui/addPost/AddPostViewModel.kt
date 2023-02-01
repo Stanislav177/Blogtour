@@ -10,6 +10,7 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.UploadTask
+import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 import com.myblogtour.airtable.data.RepoAirTablePostingImpl
 import com.myblogtour.airtable.domain.Record
@@ -33,19 +34,23 @@ class AddPostViewModel : ViewModel(), AddContract.ViewModel {
 
     private var nameFile: StorageReference? = null
     private var uploadTask: UploadTask? = null
-
     private val currentUser = auth.currentUser
 
     override val publishPostLiveData: LiveData<Boolean> = MutableLiveData()
     override val loadUri: LiveData<Uri?> = MutableLiveData()
     override val progressLoad: LiveData<Int> = MutableLiveData()
 
-
     fun deleteImage() {
         nameFile!!.delete().addOnSuccessListener {
             loadUri.mutable().postValue(null)
         }.addOnFailureListener {
             val er = it
+        }
+    }
+
+    fun deleteImageDetach() {
+        nameFile?.let {
+            it.delete()
         }
     }
 
@@ -91,13 +96,22 @@ class AddPostViewModel : ViewModel(), AddContract.ViewModel {
     override fun dataPost(
         text: String,
         location: String,
+        imageUri: Uri,
     ) {
+        val urlImage = JsonArray()
+        val image = JsonObject()
         val post = JsonObject()
         val publishPost = JsonObject()
+
+        image.addProperty("url", imageUri.toString())
+        urlImage.add(image)
+
         with(post) {
             addProperty("nickName", currentUser!!.displayName)
             addProperty("text", text)
             addProperty("location", location)
+            addProperty("likeCount", 0)
+            add("urlImage", urlImage)
         }
         publishPost.add("fields", post)
 
