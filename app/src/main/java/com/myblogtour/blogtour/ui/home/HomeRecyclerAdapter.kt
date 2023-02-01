@@ -8,13 +8,13 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.myblogtour.blogtour.R
-import com.myblogtour.blogtour.domain.Post
+import com.myblogtour.blogtour.domain.PublicationEntity
 
 class HomeRecyclerAdapter : RecyclerView.Adapter<HomeRecyclerAdapter.PostViewHolder>() {
 
-    private var listPost: List<Post> = listOf()
+    private var listPost: List<PublicationEntity> = listOf()
 
-    fun setPostData(postData: List<Post>) {
+    fun setPostData(postData: List<PublicationEntity>) {
         this.listPost = postData
         notifyDataSetChanged()
     }
@@ -32,10 +32,11 @@ class HomeRecyclerAdapter : RecyclerView.Adapter<HomeRecyclerAdapter.PostViewHol
 
     inner class PostViewHolder(view: View) :
         RecyclerView.ViewHolder(view) {
-        fun bind(post: Post) {
+        fun bind(post: PublicationEntity) {
             val imageNUll = post.urlImage?.let { it.size }
+
             with(itemView) {
-                findViewById<TextView>(R.id.nickNameTextView).text = post.nickName
+                findViewById<TextView>(R.id.nickNameTextView).text = post.nickNameFromUserProfile
                 findViewById<TextView>(R.id.countLike).text = post.likeCount.toString()
                 findViewById<TextView>(R.id.dateAdditionsBlog).text = post.createdTime
                 findViewById<TextView>(R.id.textPostCard).text = post.text

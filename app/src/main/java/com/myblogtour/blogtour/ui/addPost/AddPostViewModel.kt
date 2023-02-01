@@ -13,7 +13,7 @@ import com.google.firebase.storage.UploadTask
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 import com.myblogtour.airtable.data.RepoAirTablePostingImpl
-import com.myblogtour.airtable.domain.Record
+import com.myblogtour.airtable.domain.Records
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -118,8 +118,8 @@ class AddPostViewModel : ViewModel(), AddContract.ViewModel {
         repoAirTable.createPostAirTable(publishPost, callback)
     }
 
-    private val callback = object : Callback<Record> {
-        override fun onResponse(call: Call<Record>, response: Response<Record>) {
+    private val callback = object : Callback<Records> {
+        override fun onResponse(call: Call<Records>, response: Response<Records>) {
             if (response.isSuccessful) {
                 response.body()?.let {
                     publishPostLiveData.mutable().postValue(true)
@@ -129,7 +129,7 @@ class AddPostViewModel : ViewModel(), AddContract.ViewModel {
             }
         }
 
-        override fun onFailure(call: Call<Record>, t: Throwable) {
+        override fun onFailure(call: Call<Records>, t: Throwable) {
             val tM = t.message
         }
     }
