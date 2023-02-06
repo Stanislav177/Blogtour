@@ -14,7 +14,9 @@ import com.google.firebase.storage.UploadTask
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 import com.myblogtour.airtable.data.RepoAirTableImpl
+import com.myblogtour.airtable.domain.RecordUserProfileDTO
 import com.myblogtour.blogtour.appState.AppStateUserRegistration
+import com.myblogtour.blogtour.utils.converterFromRegistrationProfileUserDtoToProfileUserEntity
 import com.myblogtour.blogtour.utils.validatorEmail.EmailValidatorPatternImpl
 import com.myblogtour.blogtour.utils.validatorPassword.PasswordValidatorPatternImpl
 import com.myblogtour.blogtour.utils.validatorUserName.LoginValidatorPatternImpl
@@ -77,6 +79,15 @@ class RegistrationViewModel(
                 liveData.postValue(AppStateUserRegistration.ErrorUser("Попробуйте позже"))
             }
         }
+    }
+
+    private fun setDisplayNameIdAirtable(idAirtable: String, icon: String) {
+        val profileUpdates = userProfileChangeRequest {
+            displayName = idAirtable
+            photoUri = Uri.parse(icon)
+        }
+        user.updateProfile(profileUpdates)
+        liveData.postValue(AppStateUserRegistration.SuccessUser(user))
     }
 
     private fun passwordValidator(
@@ -177,14 +188,20 @@ class RegistrationViewModel(
         repoAirTable.createUserProfile(fieldsJsonObject, callback)
     }
 
-    private val callback = object : Callback<Unit> {
-        override fun onResponse(call: Call<Unit>, response: Response<Unit>) {
+    private val callback = object : Callback<RecordUserProfileDTO> {
+        override fun onResponse(
+            call: Call<RecordUserProfileDTO>,
+            response: Response<RecordUserProfileDTO>,
+        ) {
             if (response.isSuccessful) {
-                liveData.postValue(AppStateUserRegistration.SuccessUser(user))
+                response.body()?.let {
+                    val userProfile = converterFromRegistrationProfileUserDtoToProfileUserEntity(it)
+                    setDisplayNameIdAirtable(userProfile.id, userProfile.icon)
+                }
             }
         }
 
-        override fun onFailure(call: Call<Unit>, t: Throwable) {
+        override fun onFailure(call: Call<RecordUserProfileDTO>, t: Throwable) {
             val ex = t.message
         }
     }

@@ -48,7 +48,7 @@ class AddPostFragment : BaseFragment<FragmentAddPostBinding>(FragmentAddPostBind
             attachPhotoAddPost.setOnClickListener {
                 resultLauncher.launch("image/*")
             }
-            cancelImage.setOnClickListener {
+            deleteImagePublication.setOnClickListener {
                 viewModel.deleteImage()
             }
         }
@@ -61,10 +61,10 @@ class AddPostFragment : BaseFragment<FragmentAddPostBinding>(FragmentAddPostBind
                 progressBarImagePostAddPost.visibility = View.GONE
                 textViewProgress.visibility = View.GONE
                 imagePostAddPost.load(it)
-                cancelImage.visibility = View.VISIBLE
+                deleteImagePublication.visibility = View.VISIBLE
             } else {
                 imagePostAddPost.load(null)
-                cancelImage.visibility = View.GONE
+                deleteImagePublication.visibility = View.GONE
             }
         }
     }

@@ -1,10 +1,12 @@
 package com.myblogtour.blogtour.utils
 
-import com.myblogtour.airtable.domain.ImageIconPublication
+import com.myblogtour.airtable.domain.IconUser
 import com.myblogtour.airtable.domain.ImagePublication
 import com.myblogtour.airtable.domain.PublicationDTO
+import com.myblogtour.airtable.domain.RecordUserProfileDTO
 import com.myblogtour.blogtour.domain.ImageEntity
 import com.myblogtour.blogtour.domain.PublicationEntity
+import com.myblogtour.blogtour.domain.UserProfileEntity
 
 fun converterFromDtoToPublicationEntity(publicationDTO: PublicationDTO): List<PublicationEntity> {
     val publicationSize = publicationDTO.records.size
@@ -27,7 +29,7 @@ fun converterFromDtoToPublicationEntity(publicationDTO: PublicationDTO): List<Pu
     return publicationList
 }
 
-fun converterNickNameUserDto(nickNameFromUserProfile: List<String>): String {
+private fun converterNickNameUserDto(nickNameFromUserProfile: List<String>): String {
     val nickNameFromUserProfileSize = nickNameFromUserProfile.size
     var nickNameUser = ""
     for (i in 0 until nickNameFromUserProfileSize) {
@@ -36,25 +38,25 @@ fun converterNickNameUserDto(nickNameFromUserProfile: List<String>): String {
     return nickNameUser
 }
 
-private fun converterIconUserDto(iconFromUserProfile: List<ImageIconPublication>): String {
-    val iconFromUserProfileSize = iconFromUserProfile.size
+private fun converterIconUserDto(iconUserProfileDTO: List<IconUser>): String {
+    val iconFromUserProfileSize = iconUserProfileDTO.size
     var iconUser = ""
     for (i in 0 until iconFromUserProfileSize) {
-        iconUser = iconFromUserProfile[i].url
+        iconUser = iconUserProfileDTO[i].url
     }
     return iconUser
 }
 
 private fun converterUserProfileIdDto(userProfile: List<String>): String {
     val userIdSize = userProfile.size
-    var idUser: String = ""
+    var idUser = ""
     for (i in 0 until userIdSize) {
         idUser = userProfile[i]
     }
     return idUser
 }
 
-fun converterUrlImageDto(urlDtoImage: List<ImagePublication>): MutableList<ImageEntity> {
+private fun converterUrlImageDto(urlDtoImage: List<ImagePublication>): MutableList<ImageEntity> {
     val urlDtoImageSize = urlDtoImage?.let { it.size }
     val publicationImage: MutableList<ImageEntity> = mutableListOf()
     urlDtoImageSize?.let {
@@ -66,6 +68,16 @@ fun converterUrlImageDto(urlDtoImage: List<ImagePublication>): MutableList<Image
     }
     return publicationImage
 }
+
+
+fun converterFromRegistrationProfileUserDtoToProfileUserEntity(
+    recordUserProfileDTO: RecordUserProfileDTO,
+) = UserProfileEntity(
+        recordUserProfileDTO.id,
+        recordUserProfileDTO.fields.nickname,
+        null,
+        converterIconUserDto(recordUserProfileDTO.fields.icon)
+    )
 
 
 //fun converterFromDTOtoPost(dto: DTO): MutableList<PublicationEntity> {

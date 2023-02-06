@@ -4,27 +4,6 @@ import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 
-data class UserProfileDTO(
-    val records: List<RecordUserProfile>,
-)
-
-data class RecordUserProfile(
-    val id: String,
-    val createdTime: String,
-    val fields: FieldsUserProfile,
-)
-
-data class FieldsUserProfile(
-    val nickName: String,
-    val publication: List<String>,
-    val uid: String,
-    val icon: List<Icon>,
-)
-
-data class Icon(
-    val url: String,
-)
-
 @Parcelize
 data class PublicationDTO(
     val records: List<RecordPublication>,
@@ -46,13 +25,13 @@ data class FieldsPublication(
     val userprofile: List<String>,
     val image: List<ImagePublication>,
     @SerializedName("icon (from userprofile)")
-    val iconFromUserProfile: List<ImageIconPublication>,
+    val iconFromUserProfile: List<IconUser>,
     @SerializedName("nickname (from userprofile)")
     val nickNameFromUserProfile: List<String>,
 ) : Parcelable
 
 @Parcelize
-data class ImageIconPublication(
+data class IconUser(
     val url: String,
 ) : Parcelable
 
@@ -60,6 +39,22 @@ data class ImageIconPublication(
 data class ImagePublication(
     val url: String,
 ) : Parcelable
+
+data class UserProfileDTO (
+    val records: List<RecordUserProfileDTO>
+)
+
+data class RecordUserProfileDTO (
+    val id: String,
+    val fields: FieldsUserProfileDTO
+)
+
+data class FieldsUserProfileDTO (
+    val nickname: String,
+    val uid: String,
+    val icon: List<IconUser>,
+    val publication: List<String>
+)
 
 data class Record(
     val id: String,

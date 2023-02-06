@@ -3,6 +3,7 @@ package com.myblogtour.airtable.domain.retrofit
 import com.google.gson.JsonObject
 import com.myblogtour.airtable.domain.PublicationDTO
 import com.myblogtour.airtable.domain.Record
+import com.myblogtour.airtable.domain.RecordUserProfileDTO
 import retrofit2.Call
 import retrofit2.http.*
 
@@ -15,7 +16,7 @@ interface RequestAPI {
 
     @Headers("Content-Type: application/json")
     @POST(URL_API_END_POINT)
-    fun createPost(
+    fun createPublication(
         @Query(API_KEY) apikey: String,
         @Body post: JsonObject,
     ): Call<Record>
@@ -30,5 +31,5 @@ interface RequestAPI {
     fun createUserProfile(
         @Query(API_KEY) apikey: String,
         @Body post: JsonObject,
-    ): Call<Unit>
+    ): Call<RecordUserProfileDTO>
 }
