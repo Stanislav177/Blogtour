@@ -12,26 +12,23 @@ import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.UploadTask
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
-import com.myblogtour.airtable.data.RepoAirTablePostingImpl
-import com.myblogtour.airtable.domain.Records
+import com.myblogtour.airtable.data.RepoAirTableImpl
+import com.myblogtour.airtable.domain.Record
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 class AddPostViewModel : ViewModel(), AddContract.ViewModel {
 
-    private val repoAirTable: RepoAirTablePostingImpl by lazy {
-        RepoAirTablePostingImpl()
+    private val repoAirTable: RepoAirTableImpl by lazy {
+        RepoAirTableImpl()
     }
-
     private val auth: FirebaseAuth by lazy {
         Firebase.auth
     }
-
     private val storageRef: StorageReference by lazy {
         FirebaseStorage.getInstance().reference
     }
-
     private var nameFile: StorageReference? = null
     private var uploadTask: UploadTask? = null
     private val currentUser = auth.currentUser
@@ -118,8 +115,8 @@ class AddPostViewModel : ViewModel(), AddContract.ViewModel {
         repoAirTable.createPostAirTable(publishPost, callback)
     }
 
-    private val callback = object : Callback<Records> {
-        override fun onResponse(call: Call<Records>, response: Response<Records>) {
+    private val callback = object : Callback<Record> {
+        override fun onResponse(call: Call<Record>, response: Response<Record>) {
             if (response.isSuccessful) {
                 response.body()?.let {
                     publishPostLiveData.mutable().postValue(true)
@@ -129,7 +126,7 @@ class AddPostViewModel : ViewModel(), AddContract.ViewModel {
             }
         }
 
-        override fun onFailure(call: Call<Records>, t: Throwable) {
+        override fun onFailure(call: Call<Record>, t: Throwable) {
             val tM = t.message
         }
     }

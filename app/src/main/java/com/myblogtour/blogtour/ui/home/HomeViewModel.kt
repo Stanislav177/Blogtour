@@ -2,7 +2,7 @@ package com.myblogtour.blogtour.ui.home
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.myblogtour.airtable.data.RepoAirTablePostingImpl
+import com.myblogtour.airtable.data.RepoAirTableImpl
 import com.myblogtour.airtable.domain.PublicationDTO
 import com.myblogtour.blogtour.appState.AppStateListBlog
 import com.myblogtour.blogtour.utils.converterFromDtoToPublicationEntity
@@ -14,8 +14,8 @@ import retrofit2.Response
 class HomeViewModel(private val liveData: MutableLiveData<AppStateListBlog> = MutableLiveData()) :
     ViewModel() {
 
-    private val repoAirTable: RepoAirTablePostingImpl by lazy {
-        RepoAirTablePostingImpl()
+    private val repoAirTable: RepoAirTableImpl by lazy {
+        RepoAirTableImpl()
     }
 
     fun getLiveData() = liveData

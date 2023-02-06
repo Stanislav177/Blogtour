@@ -12,18 +12,22 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
+        <ImageView
+            android:id="@+id/iconUserProfile"
+            android:layout_width="38dp"
+            android:layout_height="38dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
+
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/nickNameTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_nickname_more_item"
-            android:layout_marginTop="@dimen/margin_nickname_more_item"
+            android:layout_marginTop="4dp"
             android:layout_marginEnd="@dimen/margin_nickname_more_item"
             android:textSize="@dimen/text_size_nickname_item"
-            app:layout_constraintEnd_toStartOf="@+id/moreCard"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintHorizontal_chainStyle="spread_inside"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toEndOf="@id/iconUserProfile"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="NickName" />
 
@@ -36,18 +40,15 @@
             android:layout_marginEnd="@dimen/margin_nickname_more_item"
             android:background="@drawable/ic_more"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintHorizontal_chainStyle="spread_inside"
-            app:layout_constraintStart_toEndOf="@+id/nickNameTextView"
             app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/imagePost"
             android:layout_width="match_parent"
             android:layout_height="320dp"
-            android:layout_marginTop="@dimen/margin_image_item"
+            android:layout_marginTop="5dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/nickNameTextView" />
+            app:layout_constraintTop_toBottomOf="@+id/iconUserProfile" />
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/likePost"

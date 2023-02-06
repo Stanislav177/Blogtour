@@ -40,6 +40,7 @@ class HomeRecyclerAdapter : RecyclerView.Adapter<HomeRecyclerAdapter.PostViewHol
                 findViewById<TextView>(R.id.countLike).text = post.likeCount.toString()
                 findViewById<TextView>(R.id.dateAdditionsBlog).text = post.createdTime
                 findViewById<TextView>(R.id.textPostCard).text = post.text
+                findViewById<ImageView>(R.id.iconUserProfile).load(post.iconFromUserProfile)
 
                 if (imageNUll != 0) {
                     findViewById<ImageView>(R.id.imagePost).load(post.urlImage!![0].url)

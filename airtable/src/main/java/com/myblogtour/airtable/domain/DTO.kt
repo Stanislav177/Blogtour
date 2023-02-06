@@ -1,44 +1,44 @@
 package com.myblogtour.airtable.domain
 
 import android.os.Parcelable
-import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 
-data class UserProfileDTO (
-    val records: List<RecordUserProfile>
+data class UserProfileDTO(
+    val records: List<RecordUserProfile>,
 )
 
-data class RecordUserProfile (
+data class RecordUserProfile(
     val id: String,
     val createdTime: String,
-    val fields: FieldsUserProfile
+    val fields: FieldsUserProfile,
 )
 
-data class FieldsUserProfile (
+data class FieldsUserProfile(
     val nickName: String,
     val publication: List<String>,
     val uid: String,
-    val icon: List<Icon>
+    val icon: List<Icon>,
 )
 
-data class Icon (
+data class Icon(
     val url: String,
 )
+
 @Parcelize
-data class PublicationDTO (
-    val records: List<RecordPublication>
+data class PublicationDTO(
+    val records: List<RecordPublication>,
 ) : Parcelable
 
 @Parcelize
-data class RecordPublication (
+data class RecordPublication(
     val id: String,
     val createdTime: String,
-    val fields: Fields
+    val fields: FieldsPublication,
 ) : Parcelable
 
 @Parcelize
-data class Fields (
+data class FieldsPublication(
     val id: Long,
     val like: Long,
     val text: String,
@@ -46,50 +46,36 @@ data class Fields (
     val userprofile: List<String>,
     val image: List<ImagePublication>,
     @SerializedName("icon (from userprofile)")
-    val iconFromUserProfile: List<ImageIcon>,
+    val iconFromUserProfile: List<ImageIconPublication>,
     @SerializedName("nickname (from userprofile)")
-    val nickNameFromUserProfile: List<String>
+    val nickNameFromUserProfile: List<String>,
 ) : Parcelable
 
 @Parcelize
-data class ImageIcon (
+data class ImageIconPublication(
     val url: String,
 ) : Parcelable
 
 @Parcelize
-data class ImagePublication (
+data class ImagePublication(
     val url: String,
 ) : Parcelable
 
-data class DTO(
-    val records: List<Records>,
-)
-
-data class Records(
-    @Expose
+data class Record(
     val id: String,
-    @Expose
     val createdTime: String,
-    @Expose
-    val fields: Fieldsss,
+    val fields: Fields,
 )
 
-data class Fieldsss(
-    @Expose
+data class Fields(
     val nickName: String,
-    @Expose
     val id: Long,
-    @Expose
     val location: String,
-    @Expose
     val likeCount: Long,
-    @Expose
     val text: String,
-    @Expose
     val urlImage: List<URLImage>? = null,
 )
 
 data class URLImage(
-    @Expose
     val url: String,
 )

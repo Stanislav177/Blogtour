@@ -1,6 +1,6 @@
 package com.myblogtour.blogtour.utils
 
-import com.myblogtour.airtable.domain.ImageIcon
+import com.myblogtour.airtable.domain.ImageIconPublication
 import com.myblogtour.airtable.domain.ImagePublication
 import com.myblogtour.airtable.domain.PublicationDTO
 import com.myblogtour.blogtour.domain.ImageEntity
@@ -36,7 +36,7 @@ fun converterNickNameUserDto(nickNameFromUserProfile: List<String>): String {
     return nickNameUser
 }
 
-private fun converterIconUserDto(iconFromUserProfile: List<ImageIcon>): String {
+private fun converterIconUserDto(iconFromUserProfile: List<ImageIconPublication>): String {
     val iconFromUserProfileSize = iconFromUserProfile.size
     var iconUser = ""
     for (i in 0 until iconFromUserProfileSize) {
