@@ -9,4 +9,5 @@ interface RepoAirTable {
     fun createPostAirTable(createPost: JsonObject, callback: Callback<Record>)
 
     fun getPublication(callback: Callback<PublicationDTO>)
+    fun getUserProfile(uid: String, callback: Callback<UserProfileDTO>)
 }

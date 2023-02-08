@@ -18,7 +18,7 @@ interface RetrofitAirTable {
 
         fun startRetrofit(): RequestAPI {
             val retrofit = Retrofit.Builder().baseUrl(URL_API_BASE)
-                .addConverterFactory(GsonConverterFactory.create()).client(client)
+                .addConverterFactory(GsonConverterFactory.create())
                 .build()
             return retrofit.create(RequestAPI::class.java)
         }
