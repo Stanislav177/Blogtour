@@ -16,7 +16,7 @@ import com.google.gson.JsonObject
 import com.myblogtour.airtable.data.RepoAirTableImpl
 import com.myblogtour.airtable.domain.RecordUserProfileDTO
 import com.myblogtour.blogtour.appState.AppStateUserRegistration
-import com.myblogtour.blogtour.utils.converterFromRegistrationProfileUserDtoToProfileUserEntity
+import com.myblogtour.blogtour.utils.converterFromRegisterUserAirtableToUserEntity
 import com.myblogtour.blogtour.utils.validatorEmail.EmailValidatorPatternImpl
 import com.myblogtour.blogtour.utils.validatorPassword.PasswordValidatorPatternImpl
 import com.myblogtour.blogtour.utils.validatorUserName.LoginValidatorPatternImpl
@@ -195,7 +195,7 @@ class RegistrationViewModel(
         ) {
             if (response.isSuccessful) {
                 response.body()?.let {
-                    val userProfile = converterFromRegistrationProfileUserDtoToProfileUserEntity(it)
+                    val userProfile = converterFromRegisterUserAirtableToUserEntity(it)
                     setDisplayNameIdAirtable(userProfile.id, userProfile.icon)
                 }
             }

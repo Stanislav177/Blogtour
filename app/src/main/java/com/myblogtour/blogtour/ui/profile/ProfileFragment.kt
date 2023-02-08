@@ -4,9 +4,10 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.google.firebase.auth.FirebaseUser
+import coil.load
 import com.myblogtour.blogtour.R
 import com.myblogtour.blogtour.databinding.FragmentProfileBinding
+import com.myblogtour.blogtour.domain.UserProfileEntity
 import com.myblogtour.blogtour.ui.addPost.AddPostFragment
 import com.myblogtour.blogtour.ui.authUser.AuthUserFragment
 import com.myblogtour.blogtour.utils.BaseFragment
@@ -52,7 +53,11 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(FragmentProfileBind
             .commit()
     }
 
-    private fun renderData(user: FirebaseUser?) {
-        binding.userLogin.text = user!!.displayName
+    private fun renderData(user: UserProfileEntity) {
+        with(binding) {
+            userLogin.text = user.nickname
+            iconUserProfile.load(user.icon)
+            progressBarProfileUser.visibility = View.GONE
+        }
     }
 }

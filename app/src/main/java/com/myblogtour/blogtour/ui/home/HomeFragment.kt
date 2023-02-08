@@ -13,9 +13,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
         ViewModelProvider(this)[HomeViewModel::class.java]
     }
 
-    private val adapter: HomeRecyclerAdapter by lazy {
-        HomeRecyclerAdapter()
-    }
+    private val adapter: HomeRecyclerAdapter by lazy { HomeRecyclerAdapter() }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -39,5 +37,4 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
             }
         }
     }
-
 }

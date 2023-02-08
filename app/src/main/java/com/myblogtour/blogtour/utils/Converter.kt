@@ -1,9 +1,6 @@
 package com.myblogtour.blogtour.utils
 
-import com.myblogtour.airtable.domain.IconUser
-import com.myblogtour.airtable.domain.ImagePublication
-import com.myblogtour.airtable.domain.PublicationDTO
-import com.myblogtour.airtable.domain.RecordUserProfileDTO
+import com.myblogtour.airtable.domain.*
 import com.myblogtour.blogtour.domain.ImageEntity
 import com.myblogtour.blogtour.domain.PublicationEntity
 import com.myblogtour.blogtour.domain.UserProfileEntity
@@ -16,13 +13,14 @@ fun converterFromDtoToPublicationEntity(publicationDTO: PublicationDTO): List<Pu
             PublicationEntity(
                 publicationDTO.records[i].id,
                 publicationDTO.records[i].fields.text,
-                publicationDTO.records[i].fields.like,
                 publicationDTO.records[i].fields.location,
-                publicationDTO.records[i].createdTime,
                 converterUrlImageDto(publicationDTO.records[i].fields.image),
                 converterUserProfileIdDto(publicationDTO.records[i].fields.userprofile),
                 converterIconUserDto(publicationDTO.records[i].fields.iconFromUserProfile),
                 converterNickNameUserDto(publicationDTO.records[i].fields.nickNameFromUserProfile),
+                publicationDTO.records[i].fields.nicknameFromUserprofileFromCounterLike,
+                converterCounterLike(publicationDTO.records[i].fields.counterLikeFromCounterLike),
+                publicationDTO.records[i].fields.date
             )
         )
     }
@@ -47,6 +45,15 @@ private fun converterIconUserDto(iconUserProfileDTO: List<IconUser>): String {
     return iconUser
 }
 
+private fun converterCounterLike(counterLikeAirtable: List<Long>): Long {
+    val counterLikeSize = counterLikeAirtable.size
+    var counterLike = 0L
+    for (i in 0 until counterLikeSize) {
+        counterLike = counterLikeAirtable[i]
+    }
+    return counterLike
+}
+
 private fun converterUserProfileIdDto(userProfile: List<String>): String {
     val userIdSize = userProfile.size
     var idUser = ""
@@ -69,13 +76,31 @@ private fun converterUrlImageDto(urlDtoImage: List<ImagePublication>): MutableLi
     return publicationImage
 }
 
+fun converterFromProfileUserDtoToProfileUserEntity(
+    userProfileDTO: UserProfileDTO,
+): UserProfileEntity? {
+    val userProfileDToSize = userProfileDTO.records.size
+    var profileUser: UserProfileEntity? = null
+    if (userProfileDToSize != 0) {
+        userProfileDToSize.let {
+            for (i in 0 until it) {
+                profileUser = UserProfileEntity(
+                    userProfileDTO.records[i].id,
+                    userProfileDTO.records[i].fields.nickname,
+                    userProfileDTO.records[i].fields.publication,
+                    converterIconUserDto(userProfileDTO.records[i].fields.icon)
+                )
 
-fun converterFromRegistrationProfileUserDtoToProfileUserEntity(
-    recordUserProfileDTO: RecordUserProfileDTO,
-) = UserProfileEntity(
-        recordUserProfileDTO.id,
+            }
+        }
+    }
+    return profileUser
+}
+
+fun converterFromRegisterUserAirtableToUserEntity(recordUserProfileDTO: RecordUserProfileDTO) =
+    UserProfileEntity(recordUserProfileDTO.id,
         recordUserProfileDTO.fields.nickname,
-        null,
+        recordUserProfileDTO.fields.publication,
         converterIconUserDto(recordUserProfileDTO.fields.icon)
     )
 

@@ -26,7 +26,7 @@ class RepoAirTableImpl : RepoAirTable {
     }
 
     override fun getUserProfile(id: String, callback: Callback<UserProfileDTO>) {
-        retrofitAirTable.getProfileUser(BuildConfig.API_KEY, id)
+         retrofitAirTable.getProfileUser(BuildConfig.API_KEY, id)
             .enqueue(callback)
     }
 }

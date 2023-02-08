@@ -37,13 +37,14 @@ class HomeRecyclerAdapter : RecyclerView.Adapter<HomeRecyclerAdapter.PostViewHol
 
             with(itemView) {
                 findViewById<TextView>(R.id.nickNameTextView).text = post.nickNameFromUserProfile
-                findViewById<TextView>(R.id.countLike).text = post.likeCount.toString()
-                findViewById<TextView>(R.id.dateAdditionsBlog).text = post.createdTime
+                findViewById<TextView>(R.id.countLike).text =
+                    post.counterLikeFromCounterLike.toString()
+                findViewById<TextView>(R.id.dateAdditionsBlog).text = post.date
                 findViewById<TextView>(R.id.textPostCard).text = post.text
                 findViewById<ImageView>(R.id.iconUserProfile).load(post.iconFromUserProfile)
 
                 if (imageNUll != 0) {
-                    findViewById<ImageView>(R.id.imagePost).load(post.urlImage!![0].url)
+                    findViewById<ImageView>(R.id.imagePost).load(post.urlImage[0].url)
                 }
             }
 

@@ -19,7 +19,6 @@ data class RecordPublication(
 @Parcelize
 data class FieldsPublication(
     val id: Long,
-    val like: Long,
     val text: String,
     val location: String,
     val userprofile: List<String>,
@@ -28,6 +27,13 @@ data class FieldsPublication(
     val iconFromUserProfile: List<IconUser>,
     @SerializedName("nickname (from userprofile)")
     val nickNameFromUserProfile: List<String>,
+
+    @SerializedName("nickname (from userprofile) (from CounterLike)")
+    val nicknameFromUserprofileFromCounterLike: List<String>,
+    @SerializedName("countlike (from CounterLike)")
+    val counterLikeFromCounterLike: List<Long>,
+    val date: String
+
 ) : Parcelable
 
 @Parcelize
