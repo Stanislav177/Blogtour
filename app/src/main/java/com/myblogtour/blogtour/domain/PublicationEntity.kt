@@ -5,12 +5,14 @@ data class PublicationEntity(
     val text: String, // текст
     val location: String, // city
     val urlImage: List<ImageEntity>, // картинка
-    val userProfile: String, // id
+    val userProfile: String, // id пользователя
     val iconFromUserProfile: String, //icon
-    val nickNameFromUserProfile: String, // nickname
-    val nicknameFromUserprofileFromCounterLike: List<String>,
-    val counterLikeFromCounterLike: Long,
-    val date: String,
+    val nickNameUserProfile: String, // nickname
+    val nicknameUserProfileFromCounterLike: List<String>,
+    val counterLikeFromCounterLike: Long, // количество лайков
+    val date: String, // дата публикации
+    val clickLikePublication: Boolean, // стоит лайк или нет
+    val idcounterlike: String, // id таблицы с лайками
 )
 
 data class ImageEntity(

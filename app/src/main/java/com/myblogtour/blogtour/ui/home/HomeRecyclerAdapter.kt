@@ -10,7 +10,8 @@ import coil.load
 import com.myblogtour.blogtour.R
 import com.myblogtour.blogtour.domain.PublicationEntity
 
-class HomeRecyclerAdapter : RecyclerView.Adapter<HomeRecyclerAdapter.PostViewHolder>() {
+class HomeRecyclerAdapter(private var myOnClickListener: MyOnClickListener) :
+    RecyclerView.Adapter<HomeRecyclerAdapter.PostViewHolder>() {
 
     private var listPost: List<PublicationEntity> = listOf()
 
@@ -36,18 +37,26 @@ class HomeRecyclerAdapter : RecyclerView.Adapter<HomeRecyclerAdapter.PostViewHol
             val imageNUll = post.urlImage?.let { it.size }
 
             with(itemView) {
-                findViewById<TextView>(R.id.nickNameTextView).text = post.nickNameFromUserProfile
+                findViewById<TextView>(R.id.nickNameTextView).text = post.nickNameUserProfile
                 findViewById<TextView>(R.id.countLike).text =
                     post.counterLikeFromCounterLike.toString()
                 findViewById<TextView>(R.id.dateAdditionsBlog).text = post.date
                 findViewById<TextView>(R.id.textPostCard).text = post.text
                 findViewById<ImageView>(R.id.iconUserProfile).load(post.iconFromUserProfile)
+                findViewById<TextView>(R.id.nickNameUserLike).text =
+                    post.nicknameUserProfileFromCounterLike.toString()
 
                 if (imageNUll != 0) {
                     findViewById<ImageView>(R.id.imagePost).load(post.urlImage[0].url)
                 }
-            }
+                if (post.clickLikePublication) {
+                    findViewById<ImageView>(R.id.likePost).setImageResource(R.drawable.ic_like_on)
+                }
 
+                findViewById<ImageView>(R.id.likePost).setOnClickListener {
+                    myOnClickListener.onItemClick(post.idcounterlike,post.clickLikePublication)
+                }
+            }
         }
     }
 }

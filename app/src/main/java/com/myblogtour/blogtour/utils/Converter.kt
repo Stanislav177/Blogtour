@@ -5,7 +5,10 @@ import com.myblogtour.blogtour.domain.ImageEntity
 import com.myblogtour.blogtour.domain.PublicationEntity
 import com.myblogtour.blogtour.domain.UserProfileEntity
 
-fun converterFromDtoToPublicationEntity(publicationDTO: PublicationDTO): List<PublicationEntity> {
+fun converterFromDtoToPublicationEntity(
+    id: String,
+    publicationDTO: PublicationDTO,
+): List<PublicationEntity> {
     val publicationSize = publicationDTO.records.size
     val publicationList: MutableList<PublicationEntity> = mutableListOf()
     for (i in 0 until publicationSize) {
@@ -16,22 +19,53 @@ fun converterFromDtoToPublicationEntity(publicationDTO: PublicationDTO): List<Pu
                 publicationDTO.records[i].fields.location,
                 converterUrlImageDto(publicationDTO.records[i].fields.image),
                 converterUserProfileIdDto(publicationDTO.records[i].fields.userprofile),
-                converterIconUserDto(publicationDTO.records[i].fields.iconFromUserProfile),
-                converterNickNameUserDto(publicationDTO.records[i].fields.nickNameFromUserProfile),
-                publicationDTO.records[i].fields.nicknameFromUserprofileFromCounterLike,
-                converterCounterLike(publicationDTO.records[i].fields.counterLikeFromCounterLike),
-                publicationDTO.records[i].fields.date
+                converterIconUserDto(publicationDTO.records[i].fields.iconprofile),
+                converterNickNameUserDto(publicationDTO.records[i].fields.nicknamepublication),
+                checkListForNull(publicationDTO.records[i].fields.nicknamelike),
+                converterCounterLike(publicationDTO.records[i].fields.countlike),
+                publicationDTO.records[i].fields.date,
+                searchUserLikePublication(id, publicationDTO.records[i].fields.iduserprofile),
+                converterIdTableCounterLike(publicationDTO.records[i].fields.idcounterlike),
             )
         )
     }
     return publicationList
 }
 
-private fun converterNickNameUserDto(nickNameFromUserProfile: List<String>): String {
-    val nickNameFromUserProfileSize = nickNameFromUserProfile.size
-    var nickNameUser = ""
-    for (i in 0 until nickNameFromUserProfileSize) {
-        nickNameUser = nickNameFromUserProfile[i]
+private fun checkListForNull(nickNameLikeDto: List<String>): List<String> {
+    nickNameLikeDto?.let {
+        return it
+    }
+    val list: List<String> = listOf("")
+    return list
+}
+
+private fun converterIdTableCounterLike(idCounterLike: List<String>): String {
+    val idCounterTableLikeSize = idCounterLike.size
+    var idTable = ""
+    for (i in 0 until idCounterTableLikeSize) {
+        idTable = idCounterLike[i]
+    }
+    return idTable
+}
+
+private fun searchUserLikePublication(id: String, userListLike: List<String>?): Boolean {
+    userListLike?.let {
+        val searchUser = userListLike.binarySearch(id)
+        if (searchUser >= 0) {
+            return true
+        }
+    }
+    return false
+}
+
+private fun converterNickNameUserDto(nickNameFromUserProfileDto: List<String>?): String {
+    var nickNameUser = " "
+    nickNameFromUserProfileDto?.let { listDto ->
+        val nickNameFromUserProfileSize = listDto.size
+        for (i in 0 until nickNameFromUserProfileSize) {
+            nickNameUser = nickNameFromUserProfileDto[i]
+        }
     }
     return nickNameUser
 }
@@ -88,9 +122,9 @@ fun converterFromProfileUserDtoToProfileUserEntity(
                     userProfileDTO.records[i].id,
                     userProfileDTO.records[i].fields.nickname,
                     userProfileDTO.records[i].fields.publication,
-                    converterIconUserDto(userProfileDTO.records[i].fields.icon)
+                    converterIconUserDto(userProfileDTO.records[i].fields.icon),
+                    userProfileDTO.records[i].fields.likePublication
                 )
-
             }
         }
     }
@@ -101,7 +135,8 @@ fun converterFromRegisterUserAirtableToUserEntity(recordUserProfileDTO: RecordUs
     UserProfileEntity(recordUserProfileDTO.id,
         recordUserProfileDTO.fields.nickname,
         recordUserProfileDTO.fields.publication,
-        converterIconUserDto(recordUserProfileDTO.fields.icon)
+        converterIconUserDto(recordUserProfileDTO.fields.icon),
+        recordUserProfileDTO.fields.likePublication
     )
 
 

@@ -32,7 +32,7 @@ class AddPostFragment : BaseFragment<FragmentAddPostBinding>(FragmentAddPostBind
             publishPost(it)
         }
         viewModel.loadUri.observe(viewLifecycleOwner) {
-            initImagePost(it)
+            initImagePublication(it)
         }
         viewModel.progressLoad.observe(viewLifecycleOwner) {
             with(binding) {
@@ -54,7 +54,7 @@ class AddPostFragment : BaseFragment<FragmentAddPostBinding>(FragmentAddPostBind
         }
     }
 
-    private fun initImagePost(it: Uri?) {
+    private fun initImagePublication(it: Uri?) {
         with(binding) {
             if (it != null) {
                 imageUri = it

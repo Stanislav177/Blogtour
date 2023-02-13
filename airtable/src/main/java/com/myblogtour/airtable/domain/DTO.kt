@@ -23,17 +23,13 @@ data class FieldsPublication(
     val location: String,
     val userprofile: List<String>,
     val image: List<ImagePublication>,
-    @SerializedName("icon (from userprofile)")
-    val iconFromUserProfile: List<IconUser>,
-    @SerializedName("nickname (from userprofile)")
-    val nickNameFromUserProfile: List<String>,
-
-    @SerializedName("nickname (from userprofile) (from CounterLike)")
-    val nicknameFromUserprofileFromCounterLike: List<String>,
-    @SerializedName("countlike (from CounterLike)")
-    val counterLikeFromCounterLike: List<Long>,
-    val date: String
-
+    val iconprofile: List<IconUser>,
+    val nicknamepublication: List<String>,
+    val nicknamelike: List<String>,
+    val countlike: List<Long>,
+    val iduserprofile: List<String>,
+    val date: String,
+    val idcounterlike: List<String>
 ) : Parcelable
 
 @Parcelize
@@ -59,7 +55,9 @@ data class FieldsUserProfileDTO (
     val nickname: String,
     val uid: String,
     val icon: List<IconUser>,
-    val publication: List<String>
+    val publication: List<String>,
+    @SerializedName("likepublication")
+    val likePublication: List<String>
 )
 
 data class Record(

@@ -131,22 +131,6 @@ class AddPostViewModel : ViewModel(), AddContract.ViewModel {
         }
     }
 
-    private fun converterJsonObject(
-        nickName: String,
-        text: String,
-        location: String,
-    ): JsonObject {
-        val post = JsonObject()
-        val publishPost = JsonObject()
-        with(post) {
-            addProperty("nickName", nickName)
-            addProperty("text", text)
-            addProperty("location", location)
-        }
-        publishPost.add("field", post)
-        return publishPost
-    }
-
     private fun <T> LiveData<T>.mutable(): MutableLiveData<T> {
         return this as? MutableLiveData<T> ?: throw IllegalStateException("Error LiveData")
     }
