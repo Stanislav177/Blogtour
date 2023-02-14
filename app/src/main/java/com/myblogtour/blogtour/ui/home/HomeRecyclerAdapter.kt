@@ -44,7 +44,7 @@ class HomeRecyclerAdapter(private var myOnClickListener: MyOnClickListener) :
                 findViewById<TextView>(R.id.textPostCard).text = post.text
                 findViewById<ImageView>(R.id.iconUserProfile).load(post.iconFromUserProfile)
                 findViewById<TextView>(R.id.nickNameUserLike).text =
-                    post.nicknameUserProfileFromCounterLike.toString()
+                    post.nickNameUserLike.toString()
 
                 if (imageNUll != 0) {
                     findViewById<ImageView>(R.id.imagePost).load(post.urlImage[0].url)

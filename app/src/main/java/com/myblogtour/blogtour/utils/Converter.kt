@@ -4,6 +4,7 @@ import com.myblogtour.airtable.domain.*
 import com.myblogtour.blogtour.domain.ImageEntity
 import com.myblogtour.blogtour.domain.PublicationEntity
 import com.myblogtour.blogtour.domain.UserProfileEntity
+import java.time.format.DateTimeFormatter
 
 fun converterFromDtoToPublicationEntity(
     id: String,
@@ -23,7 +24,7 @@ fun converterFromDtoToPublicationEntity(
                 converterNickNameUserDto(publicationDTO.records[i].fields.nicknamepublication),
                 checkListForNull(publicationDTO.records[i].fields.nicknamelike),
                 converterCounterLike(publicationDTO.records[i].fields.countlike),
-                publicationDTO.records[i].fields.date,
+                converterDateFormat(publicationDTO.records[i].fields.date),
                 searchUserLikePublication(id, publicationDTO.records[i].fields.iduserprofile),
                 converterIdTableCounterLike(publicationDTO.records[i].fields.idcounterlike),
             )
@@ -32,12 +33,18 @@ fun converterFromDtoToPublicationEntity(
     return publicationList
 }
 
-private fun checkListForNull(nickNameLikeDto: List<String>): List<String> {
+private fun converterDateFormat(datePublication: String): String {
+    val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
+    val parserDate = formatter.parse(datePublication)
+    val displayFormatter = DateTimeFormatter.ofPattern("HH:mm dd MMMM yyyy")
+    return displayFormatter.format(parserDate)
+}
+
+private fun checkListForNull(nickNameLikeDto: List<String>?): String {
     nickNameLikeDto?.let {
-        return it
+        return it.joinToString()
     }
-    val list: List<String> = listOf("")
-    return list
+    return ""
 }
 
 private fun converterIdTableCounterLike(idCounterLike: List<String>): String {

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Blog tour</string>
+    <string name="app_name">BlogTour</string>
     <string name="profile_bottom_menu">Profile</string>
     <string name="search_bottom_menu">Search</string>
     <string name="home_bottom_menu">Home</string>
