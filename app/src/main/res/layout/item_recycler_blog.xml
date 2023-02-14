@@ -95,7 +95,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/margin_text_item"
-            android:lines="4"
+            android:lines="3"
             android:textSize="@dimen/text_size_text_item"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/nickNameUserLike"
@@ -107,6 +107,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_date_add_post_item"
             android:layout_marginEnd="@dimen/margin_date_add_post_item"
+            android:layout_marginBottom="@dimen/margin_date_add_post_item"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/textPostCard"
             tools:text="@string/tools_data_item" />
