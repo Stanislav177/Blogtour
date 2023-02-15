@@ -27,6 +27,7 @@ fun converterFromDtoToPublicationEntity(
                 converterDateFormat(publicationDTO.records[i].fields.date),
                 searchUserLikePublication(id, publicationDTO.records[i].fields.iduserprofile),
                 converterIdTableCounterLike(publicationDTO.records[i].fields.idcounterlike),
+                false
             )
         )
     }

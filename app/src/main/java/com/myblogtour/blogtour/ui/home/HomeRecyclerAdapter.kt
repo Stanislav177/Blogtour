@@ -36,22 +36,35 @@ class HomeRecyclerAdapter(private var myOnClickListener: MyOnClickListener) :
         RecyclerView.ViewHolder(view) {
         fun bind(post: PublicationEntity) {
             val imageNUll = post.urlImage?.let { it.size }
-
             ItemRecyclerBlogBinding.bind(itemView).apply {
                 nickNameTextView.text = post.nickNameUserProfile
-                countLike.text =
-                    post.counterLikeFromCounterLike.toString()
-
-                dateAdditionsBlog.text = post.date
-                textPostCard.text = post.text
+                countLike.text = post.counterLikeFromCounterLike.toString()
+                dateAdditionsPublication.text = post.date
+                textPublicationCard.text = post.text
                 iconUserProfile.load(post.iconFromUserProfile)
                 nickNameUserLike.text = post.nickNameUserLike
+                if (post.maxLinesText) {
+                    textPublicationCard.maxLines = 50
+                } else {
+                    textPublicationCard.maxLines = 3
+                }
 
                 if (imageNUll != 0) {
                     imagePost.load(post.urlImage[0].url)
                 }
                 if (post.clickLikePublication) {
                     likePost.setImageResource(R.drawable.ic_like_on)
+                }
+
+                textPublicationCard.setOnClickListener {
+                    if (!post.maxLinesText) {
+                        listPost[layoutPosition].maxLinesText = true
+                        notifyItemChanged(layoutPosition)
+                    } else {
+                        listPost[layoutPosition].maxLinesText = false
+                        notifyItemChanged(layoutPosition)
+                    }
+
                 }
 
                 likePost.setOnClickListener {

@@ -91,25 +91,26 @@
             tools:text="Nick" />
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/textPostCard"
+            android:id="@+id/textPublicationCard"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/margin_text_item"
-            android:lines="3"
+            android:maxLines="3"
+            android:ellipsize="end"
             android:textSize="@dimen/text_size_text_item"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/nickNameUserLike"
             tools:text="@string/tools_text_item" />
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/dateAdditionsBlog"
+            android:id="@+id/dateAdditionsPublication"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_date_add_post_item"
             android:layout_marginEnd="@dimen/margin_date_add_post_item"
             android:layout_marginBottom="@dimen/margin_date_add_post_item"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/textPostCard"
+            app:layout_constraintTop_toBottomOf="@id/textPublicationCard"
             tools:text="@string/tools_data_item" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
