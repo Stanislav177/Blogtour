@@ -1,6 +1,5 @@
 package com.myblogtour.airtable.domain.retrofit
 
-import com.google.gson.GsonBuilder
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -19,7 +18,7 @@ interface RetrofitAirTable {
 
         fun startRetrofit(): RequestAPI {
             val retrofit = Retrofit.Builder().baseUrl(URL_API_BASE)
-                .addConverterFactory(GsonConverterFactory.create()).client(client)
+                .addConverterFactory(GsonConverterFactory.create())
                 .build()
             return retrofit.create(RequestAPI::class.java)
         }

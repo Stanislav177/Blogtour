@@ -4,7 +4,7 @@ import com.myblogtour.blogtour.domain.repository.RepoRegistrationUserFb
 
 class RepoRegistrationUserImpl: RepoRegistrationUserFb {
 
-    override fun correctEmail(email: String?, password: String?) {
+    override fun registerUSer(email: String?, password: String?) {
 
     }
 

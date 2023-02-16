@@ -17,9 +17,9 @@ class LoginValidatorPatternImpl : LoginValidatorPattern {
                 strLogin.length < 5 -> {
                     return false
                 }
-                strLogin.matches(".*[A-Z].*".toRegex()) -> {
-                    return false
-                }
+//                strLogin.matches(".*[A-Z].*".toRegex()) -> {
+//                    return false
+//                }
                 strLogin.matches(".*[!@#$%^&*+=/?].*".toRegex()) -> {
                     return false
                 }

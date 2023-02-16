@@ -26,13 +26,22 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
+            <ProgressBar
+                android:id="@+id/progressBarProfileUser"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="@+id/iconUserProfile"
+                app:layout_constraintEnd_toEndOf="@+id/iconUserProfile"
+                app:layout_constraintStart_toStartOf="@+id/iconUserProfile"
+                app:layout_constraintTop_toTopOf="@+id/iconUserProfile" />
+
             <TextView
                 android:id="@+id/innerTextViewLogin"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
                 android:text="@string/login_colon"
                 android:textSize="10sp"
-                android:layout_marginTop="10dp"
                 app:layout_constraintBottom_toTopOf="@+id/userLogin"
                 app:layout_constraintStart_toStartOf="@+id/userLogin"
                 app:layout_constraintTop_toBottomOf="@+id/iconVerifiedUser" />
@@ -96,13 +105,23 @@
                 app:layout_constraintTop_toBottomOf="@+id/personalDataUser" />
 
             <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/publishPostProfile"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/publishPost"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                app:layout_constraintTop_toBottomOf="@+id/postUser" />
+
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/favoritePost"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/favorites"
                 android:textColor="@color/black"
                 android:textSize="20sp"
-                app:layout_constraintTop_toBottomOf="@+id/postUser" />
+                android:visibility="gone"
+                app:layout_constraintTop_toBottomOf="@+id/publishPostProfile" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/setting"
@@ -111,6 +130,7 @@
                 android:text="@string/setting"
                 android:textColor="@color/black"
                 android:textSize="20sp"
+                android:visibility="gone"
                 app:layout_constraintTop_toBottomOf="@+id/favoritePost" />
 
             <androidx.appcompat.widget.AppCompatTextView
@@ -118,8 +138,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/sign_out"
-                android:textSize="20sp"
                 android:textColor="@color/black"
+                android:textSize="20sp"
                 app:layout_constraintTop_toBottomOf="@+id/setting" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

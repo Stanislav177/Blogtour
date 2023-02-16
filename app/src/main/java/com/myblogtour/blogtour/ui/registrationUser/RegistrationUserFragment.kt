@@ -3,6 +3,7 @@ package com.myblogtour.blogtour.ui.registrationUser
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.ViewModelProvider
 import com.myblogtour.blogtour.R
 import com.myblogtour.blogtour.appState.AppStateUserRegistration
@@ -17,9 +18,15 @@ class RegistrationUserFragment :
         ViewModelProvider(this)[RegistrationViewModel::class.java]
     }
 
+    private val resultLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) {
+        it?.let {
+            binding.iconUserProfileRegistration.setImageURI(it)
+            viewModel.loadingIconUserProfile(it)
+        }
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         viewModel.getLiveData().observe(viewLifecycleOwner) {
             renderUser(it)
         }
@@ -38,6 +45,12 @@ class RegistrationUserFragment :
             btnClickOkRegister.setOnClickListener {
                 requireActivity().supportFragmentManager.beginTransaction()
                     .replace(R.id.containerFragment, AuthUserFragment()).commit()
+            }
+            addIconUserProfile.setOnClickListener {
+                resultLauncher.launch("image/*")
+            }
+            deleteIconRegisterUser.setOnClickListener {
+                viewModel.deleteImage()
             }
         }
     }
@@ -65,6 +78,27 @@ class RegistrationUserFragment :
                 is AppStateUserRegistration.ErrorUserLogin -> {
                     inputLoginReg.error = it.errorUserName
                 }
+                is AppStateUserRegistration.ProgressLoadingIconUser -> {
+                    with(binding) {
+                        addIconUserProfile.visibility = View.GONE
+                        progressLoadingIconUser.visibility = View.VISIBLE
+                        percentLoadingIcon.text = "${it.progress} %"
+                    }
+                }
+                is AppStateUserRegistration.SuccessIconUser -> {
+                    with(binding) {
+                        progressLoadingIconUser.visibility = View.GONE
+                        percentLoadingIcon.visibility = View.GONE
+                        deleteIconRegisterUser.visibility = View.VISIBLE
+                    }
+                }
+                is AppStateUserRegistration.DeleteIconUser -> {
+                    with(binding) {
+                        binding.iconUserProfileRegistration.setImageURI(null)
+                        deleteIconRegisterUser.visibility = View.GONE
+                        addIconUserProfile.visibility = View.VISIBLE
+                    }
+                }
             }
         }
     }
@@ -74,5 +108,10 @@ class RegistrationUserFragment :
             registerView.visibility = View.GONE
             successfulRegister.visibility = View.VISIBLE
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        viewModel.deleteImageDetach()
     }
 }

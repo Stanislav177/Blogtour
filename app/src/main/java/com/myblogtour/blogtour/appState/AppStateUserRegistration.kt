@@ -1,5 +1,6 @@
 package com.myblogtour.blogtour.appState
 
+import android.net.Uri
 import com.google.firebase.auth.FirebaseUser
 
 sealed class AppStateUserRegistration {
@@ -9,4 +10,7 @@ sealed class AppStateUserRegistration {
     data class ErrorPassword(val errorPassword: String) : AppStateUserRegistration()
     data class ErrorPasswordEquals(val errorPasswordEquals: String) : AppStateUserRegistration()
     data class ErrorUserLogin(val errorUserName: String) : AppStateUserRegistration()
+    data class ProgressLoadingIconUser(val progress: Int) : AppStateUserRegistration()
+    data class SuccessIconUser(val successIcon: Boolean) : AppStateUserRegistration()
+    data class DeleteIconUser(val deleteIcon: Boolean) : AppStateUserRegistration()
 }

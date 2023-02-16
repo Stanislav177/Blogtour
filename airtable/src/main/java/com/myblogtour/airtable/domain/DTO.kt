@@ -1,40 +1,80 @@
 package com.myblogtour.airtable.domain
 
-import com.google.gson.annotations.Expose
+import android.os.Parcelable
+import com.google.gson.annotations.SerializedName
+import kotlinx.android.parcel.Parcelize
 
-data class DTO(
-    val records: List<Record>,
+@Parcelize
+data class PublicationDTO(
+    val records: List<RecordPublication>,
+) : Parcelable
+
+@Parcelize
+data class RecordPublication(
+    val id: String,
+    val createdTime: String,
+    val fields: FieldsPublication,
+) : Parcelable
+
+@Parcelize
+data class FieldsPublication(
+    val id: Long,
+    val text: String,
+    val location: String,
+    val userprofile: List<String>,
+    val image: List<ImagePublication>,
+    val iconprofile: List<IconUser>,
+    val nicknamepublication: List<String>,
+    val nicknamelike: List<String>,
+    val countlike: List<Long>,
+    val iduserprofile: List<String>,
+    val date: String,
+    val idcounterlike: List<String>
+) : Parcelable
+
+@Parcelize
+data class IconUser(
+    val url: String,
+) : Parcelable
+
+@Parcelize
+data class ImagePublication(
+    val url: String,
+) : Parcelable
+
+data class UserProfileDTO (
+    val records: List<RecordUserProfileDTO>
+)
+
+data class RecordUserProfileDTO (
+    val id: String,
+    val fields: FieldsUserProfileDTO
+)
+
+data class FieldsUserProfileDTO (
+    val nickname: String,
+    val uid: String,
+    val icon: List<IconUser>,
+    val publication: List<String>,
+    @SerializedName("likepublication")
+    val likePublication: List<String>
 )
 
 data class Record(
-    @Expose
     val id: String,
-    @Expose
     val createdTime: String,
-    @Expose
     val fields: Fields,
 )
 
 data class Fields(
-    @Expose
-    val dateTour: String,
-    @Expose
     val nickName: String,
-    @Expose
     val id: Long,
-    @Expose
     val location: String,
-    @Expose
     val likeCount: Long,
-    @Expose
     val text: String,
-    @Expose
-    val dateAddition: String,
-    @Expose
     val urlImage: List<URLImage>? = null,
 )
 
 data class URLImage(
-    @Expose
     val url: String,
 )

@@ -21,11 +21,13 @@
         android:id="@+id/btn_more_menu"
         android:icon="@drawable/ic_more"
         android:orderInCategory="100"
-        android:title="@string/more_bottom_menu" />
+        android:title="@string/more_bottom_menu"
+        android:visible="false"/>
 
     <item
         android:id="@+id/btn_favorites_menu"
         android:icon="@drawable/ic_star"
         android:orderInCategory="10"
+        android:visible="false"
         android:title="@string/favorites_bottom_menu" />
 </menu>
