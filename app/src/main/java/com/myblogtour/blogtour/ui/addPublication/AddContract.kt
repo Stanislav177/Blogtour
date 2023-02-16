@@ -1,4 +1,4 @@
-package com.myblogtour.blogtour.ui.addPost
+package com.myblogtour.blogtour.ui.addPublication
 
 import android.net.Uri
 import androidx.lifecycle.LiveData
@@ -9,10 +9,11 @@ interface AddContract {
         val publishPostLiveData: LiveData<Boolean>
         val loadUri: LiveData<Uri?>
         val progressLoad: LiveData<Int>
-        fun dataPost(
-            text: String,
-            location: String,
-            imageUri: Uri
+        val errorMessage: LiveData<String>
+        fun dataPublication(
+                text: String,
+                location: String,
+                imageUri: Uri?
         )
     }
 }

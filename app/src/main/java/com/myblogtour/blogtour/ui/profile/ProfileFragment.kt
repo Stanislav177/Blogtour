@@ -8,7 +8,7 @@ import coil.load
 import com.myblogtour.blogtour.R
 import com.myblogtour.blogtour.databinding.FragmentProfileBinding
 import com.myblogtour.blogtour.domain.UserProfileEntity
-import com.myblogtour.blogtour.ui.addPost.AddPostFragment
+import com.myblogtour.blogtour.ui.addPublication.AddPublicationFragment
 import com.myblogtour.blogtour.ui.authUser.AuthUserFragment
 import com.myblogtour.blogtour.utils.BaseFragment
 
@@ -30,7 +30,7 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(FragmentProfileBind
                 viewModel.singInOut()
             }
             publishPostProfile.setOnClickListener {
-                toFragment(AddPostFragment())
+                toFragment(AddPublicationFragment())
             }
         }
     }

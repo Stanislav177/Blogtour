@@ -17,7 +17,7 @@ const val API_KEY = "api_key"
 interface RequestAPI {
 
     @Headers("Content-Type: application/json")
-    @POST(URL_API_END_POINT)
+    @POST(URL_API_END_POINT_TRAVEL_PUBLICATION)
     fun createPublication(
         @Query(API_KEY) apikey: String,
         @Body post: JsonObject,

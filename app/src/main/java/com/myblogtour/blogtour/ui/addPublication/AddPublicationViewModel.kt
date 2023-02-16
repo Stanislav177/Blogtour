@@ -1,4 +1,4 @@
-package com.myblogtour.blogtour.ui.addPost
+package com.myblogtour.blogtour.ui.addPublication
 
 import android.net.Uri
 import androidx.lifecycle.LiveData
@@ -18,7 +18,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class AddPostViewModel : ViewModel(), AddContract.ViewModel {
+class AddPublicationViewModel : ViewModel(), AddContract.ViewModel {
 
     private val repoAirTable: RepoAirTableImpl by lazy {
         RepoAirTableImpl()
@@ -36,6 +36,7 @@ class AddPostViewModel : ViewModel(), AddContract.ViewModel {
     override val publishPostLiveData: LiveData<Boolean> = MutableLiveData()
     override val loadUri: LiveData<Uri?> = MutableLiveData()
     override val progressLoad: LiveData<Int> = MutableLiveData()
+    override val errorMessage: LiveData<String> = MutableLiveData()
 
     fun deleteImage() {
         nameFile!!.delete().addOnSuccessListener {
@@ -90,29 +91,43 @@ class AddPostViewModel : ViewModel(), AddContract.ViewModel {
         }
     }
 
-    override fun dataPost(
-        text: String,
-        location: String,
-        imageUri: Uri,
+    override fun dataPublication(
+            text: String,
+            location: String,
+            imageUri: Uri?,
     ) {
+        val publishPost = converterJsonObject(imageUri, text, location)
+
+        repoAirTable.createPublication(publishPost, callback)
+    }
+
+    private fun converterJsonObject(imageUri: Uri?, text: String, location: String): JsonObject {
+        val userProfile = JsonArray()
+        val userIdProfile = JsonObject()
         val urlImage = JsonArray()
         val image = JsonObject()
-        val post = JsonObject()
-        val publishPost = JsonObject()
+        val publicationJson = JsonObject()
+        val fieldsJson = JsonObject()
 
-        image.addProperty("url", imageUri.toString())
-        urlImage.add(image)
+        if (imageUri != null) {
+            image.addProperty("url", imageUri.toString())
+            urlImage.add(image)
+        } else {
+            errorMessage.mutable().postValue("Добавьте изображение")
+        }
 
-        with(post) {
-            addProperty("nickName", currentUser!!.displayName)
+        userProfile.add(currentUser!!.displayName)
+
+
+
+        with(publicationJson) {
             addProperty("text", text)
             addProperty("location", location)
-            addProperty("likeCount", 0)
-            add("urlImage", urlImage)
+            add("image", urlImage)
+            add("userprofile",userProfile)
         }
-        publishPost.add("fields", post)
-
-        repoAirTable.createPostAirTable(publishPost, callback)
+        fieldsJson.add("fields", publicationJson)
+        return fieldsJson
     }
 
     private val callback = object : Callback<Record> {
