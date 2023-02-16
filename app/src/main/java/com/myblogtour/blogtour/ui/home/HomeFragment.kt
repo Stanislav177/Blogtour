@@ -40,4 +40,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
         postViewModel.likePublication(idTableLike,like)
         Toast.makeText(context, idTableLike, Toast.LENGTH_SHORT).show()
     }
+
+    override fun onItemClickComplaintPublication(id: String) {
+
+    }
 }

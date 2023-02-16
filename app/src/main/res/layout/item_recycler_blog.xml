@@ -4,9 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/margin_top_item"
+    android:background="#DDDDDD"
     app:cardCornerRadius="@dimen/margin_card_corner_radius_item"
-    app:cardElevation="@dimen/card_elevation_item"
-    android:layout_marginTop="@dimen/margin_top_item">
+    app:cardElevation="@dimen/card_elevation_item">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -16,15 +17,15 @@
             android:id="@+id/iconUserProfile"
             android:layout_width="38dp"
             android:layout_height="38dp"
-            android:layout_marginTop="3dp"
             android:layout_marginStart="3dp"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:shapeAppearanceOverlay="@style/roundedImageViewRounded"
-            app:strokeWidth="1dp"
+            android:layout_marginTop="3dp"
             android:scaleType="fitXY"
+            android:src="@drawable/ic_add_icon_profile"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:shapeAppearanceOverlay="@style/roundedImageViewRounded"
             app:strokeColor="@color/white"
-            android:src="@drawable/ic_add_icon_profile"/>
+            app:strokeWidth="1dp" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/nickNameTextView"
@@ -42,12 +43,12 @@
             android:id="@+id/moreCard"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_nickname_more_item"
             android:layout_marginTop="@dimen/margin_nickname_more_item"
             android:layout_marginEnd="@dimen/margin_nickname_more_item"
             android:background="@drawable/ic_more"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/imagePost"
@@ -56,6 +57,36 @@
             android:layout_marginTop="5dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/iconUserProfile" />
+
+        <LinearLayout
+            android:id="@+id/moreMenuPublication"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            app:layout_constraintEnd_toEndOf="@+id/moreCard"
+            app:layout_constraintTop_toTopOf="@+id/moreCard"
+            android:orientation="vertical">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/btnComplaintPublication"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clickable="false"
+                android:text="Пожаловаться"
+                android:textSize="17sp"
+                android:layout_marginBottom="2dp"
+                android:textColor="@color/black"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/addFavorites"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clickable="false"
+                android:text="Добавить в избранное"
+                android:textSize="17sp"
+                android:textColor="@color/black"/>
+
+        </LinearLayout>
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/likePost"
@@ -74,6 +105,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="3dp"
             android:text="@string/tools_count_like"
+            android:textColor="@color/black"
             android:textSize="@dimen/text_size_like_item"
             app:layout_constraintStart_toEndOf="@id/likePost"
             app:layout_constraintTop_toTopOf="@id/likePost" />
@@ -102,8 +134,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/margin_text_item"
-            android:maxLines="3"
             android:ellipsize="end"
+            android:maxLines="3"
+            android:textColor="@color/black"
             android:textSize="@dimen/text_size_text_item"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/nickNameUserLike"

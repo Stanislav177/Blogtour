@@ -1,5 +1,8 @@
 package com.myblogtour.blogtour.ui.home
 
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
+import android.animation.ObjectAnimator
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,6 +16,7 @@ class HomeRecyclerAdapter(private var myOnClickListener: MyOnClickListener) :
     RecyclerView.Adapter<HomeRecyclerAdapter.PostViewHolder>() {
 
     private var listPost: MutableList<PublicationEntity> = mutableListOf()
+    private var flag = false
 
     fun setPostData(postData: List<PublicationEntity>) {
         this.listPost = postData.toMutableList()
@@ -37,6 +41,7 @@ class HomeRecyclerAdapter(private var myOnClickListener: MyOnClickListener) :
         fun bind(post: PublicationEntity) {
             val imageNUll = post.urlImage?.let { it.size }
             ItemRecyclerBlogBinding.bind(itemView).apply {
+                moreMenuPublication.alpha = 0f
                 nickNameTextView.text = post.nickNameUserProfile
                 countLike.text = post.counterLikeFromCounterLike.toString()
                 dateAdditionsPublication.text = post.date
@@ -64,7 +69,6 @@ class HomeRecyclerAdapter(private var myOnClickListener: MyOnClickListener) :
                         listPost[layoutPosition].maxLinesText = false
                         notifyItemChanged(layoutPosition)
                     }
-
                 }
 
                 likePost.setOnClickListener {
@@ -80,6 +84,35 @@ class HomeRecyclerAdapter(private var myOnClickListener: MyOnClickListener) :
                         notifyItemChanged(layoutPosition)
                     }
                     myOnClickListener.onItemClick(post.idcounterlike, post.clickLikePublication)
+                }
+                moreCard.setOnClickListener {
+                    flag = !flag
+                    if (flag) {
+                        ObjectAnimator.ofFloat(moreMenuPublication, View.TRANSLATION_Y, 0f, 130f)
+                            .setDuration(1000).start()
+                        moreMenuPublication.animate().alpha(1f).setDuration(1000).setListener(
+                            object : AnimatorListenerAdapter() {
+                                override fun onAnimationEnd(animation: Animator) {
+                                    moreMenuPublication.isClickable = true
+                                    super.onAnimationEnd(animation)
+                                }
+                            }
+                        )
+                    } else {
+                        ObjectAnimator.ofFloat(moreMenuPublication, View.TRANSLATION_Y, 130f, 0f)
+                            .setDuration(1000).start()
+                        moreMenuPublication.animate().alpha(0f).setDuration(1000).setListener(
+                            object : AnimatorListenerAdapter() {
+                                override fun onAnimationEnd(animation: Animator) {
+                                    moreMenuPublication.isClickable = false
+                                    super.onAnimationEnd(animation)
+                                }
+                            }
+                        )
+                    }
+                }
+                btnComplaintPublication.setOnClickListener {
+                    myOnClickListener.onItemClickComplaintPublication(post.id)
                 }
             }
 //            with(itemView) {
