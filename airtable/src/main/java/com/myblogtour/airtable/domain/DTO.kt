@@ -67,12 +67,11 @@ data class Record(
 )
 
 data class Fields(
-    val nickName: String,
     val id: Long,
     val location: String,
     val likeCount: Long,
     val text: String,
-    val urlImage: List<URLImage>? = null,
+
 )
 
 data class URLImage(

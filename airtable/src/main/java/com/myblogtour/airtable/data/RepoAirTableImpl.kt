@@ -17,7 +17,7 @@ class RepoAirTableImpl : RepoAirTable {
         retrofitAirTable.createUserProfile(BuildConfig.API_KEY, createUserProfile).enqueue(callback)
     }
 
-    override fun createPostAirTable(createPost: JsonObject, callback: Callback<Record>) {
+    override fun createPublication(createPost: JsonObject, callback: Callback<Record>) {
         retrofitAirTable.createPublication(BuildConfig.API_KEY, createPost).enqueue(callback)
     }
 
