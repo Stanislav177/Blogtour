@@ -37,11 +37,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
     }
 
     override fun onItemClick(idTableLike: String, like: Boolean) {
-        postViewModel.likePublication(idTableLike,like)
+        postViewModel.likePublication(idTableLike )
         Toast.makeText(context, idTableLike, Toast.LENGTH_SHORT).show()
     }
 
     override fun onItemClickComplaintPublication(id: String) {
-
+postViewModel.updatePublicationComplaint(id,"recWOHgeC8AlH04cD")
     }
 }

@@ -21,6 +21,15 @@ class RepoAirTableImpl : RepoAirTable {
         retrofitAirTable.createPublication(BuildConfig.API_KEY, createPost).enqueue(callback)
     }
 
+    override fun updateComplaintPublication(
+        id: String,
+        complaint: JsonObject,
+        callback: Callback<Unit>
+    ) {
+        retrofitAirTable.updatePublicationComplaint(id, BuildConfig.API_KEY, complaint)
+            .enqueue(callback)
+    }
+
     override fun getPublication(callback: Callback<PublicationDTO>) {
         retrofitAirTable.getListPublication(BuildConfig.API_KEY).enqueue(callback)
     }

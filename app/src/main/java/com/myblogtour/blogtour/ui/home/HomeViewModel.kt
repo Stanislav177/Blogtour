@@ -38,8 +38,11 @@ class HomeViewModel(private val liveData: MutableLiveData<AppStateListBlog> = Mu
                     //Error
                 } else {
                     response.body()?.let {
-                        liveData.postValue(AppStateListBlog.Success(
-                            converterFromDtoToPublicationEntity(getIdUser(user), it)))
+                        liveData.postValue(
+                            AppStateListBlog.Success(
+                                converterFromDtoToPublicationEntity(getIdUser(user), it)
+                            )
+                        )
                     }
                 }
             }
@@ -57,7 +60,7 @@ class HomeViewModel(private val liveData: MutableLiveData<AppStateListBlog> = Mu
         return ""
     }
 
-    fun likePublication(idLike: String, like: Boolean) {
+    fun likePublication(idLike: String) {
         idLikeLocal = idLike
         loadListLikeUser()
     }
@@ -84,7 +87,6 @@ class HomeViewModel(private val liveData: MutableLiveData<AppStateListBlog> = Mu
         override fun onFailure(call: Call<UserProfileDTO>, t: Throwable) {
             val ex = t.message
         }
-
     }
 
     private fun listLikeUser(it: UserProfileDTO) {
@@ -141,5 +143,33 @@ class HomeViewModel(private val liveData: MutableLiveData<AppStateListBlog> = Mu
         override fun onFailure(call: Call<Unit>, t: Throwable) {
             val ex = t.message
         }
+    }
+
+    fun updatePublicationComplaint(idPublication: String, complaintId: String) {
+        val complaintIdArray = JsonArray()
+        complaintIdArray.add(complaintId)
+        val complaint = JsonObject()
+        complaint.add("Complaint", complaintIdArray)
+
+        val updateFieldsComplaint = JsonObject()
+        updateFieldsComplaint.add("fields", complaint)
+        repoAirTable.updateComplaintPublication(
+            idPublication,
+            updateFieldsComplaint,
+            callbackComplaint
+        )
+    }
+
+    private val callbackComplaint = object : Callback<Unit> {
+        override fun onResponse(call: Call<Unit>, response: Response<Unit>) {
+            if (response.isSuccessful) {
+                val res = response.body()
+            }
+        }
+
+        override fun onFailure(call: Call<Unit>, t: Throwable) {
+            val ex = t.message
+        }
+
     }
 }

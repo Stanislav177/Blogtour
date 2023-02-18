@@ -8,10 +8,10 @@ import com.myblogtour.airtable.domain.UserProfileDTO
 import retrofit2.Call
 import retrofit2.http.*
 
-const val URL_API_END_POINT = "v0/apppipNa4ediQvkED/Table%201/?"
 const val URL_API_END_POINT_TRAVEL_USER_PROFILE = "v0/appQW6UhhbjRHa0vs/UserProfile/?"
 const val URL_API_END_POINT_TRAVEL_USER_PROFILE_LIKE = "v0/appQW6UhhbjRHa0vs/UserProfile"
 const val URL_API_END_POINT_TRAVEL_PUBLICATION = "v0/appQW6UhhbjRHa0vs/Publication/?"
+const val URL_API_END_POINT_TRAVEL_COMPLAINT_PUBLICATION = "v0/appQW6UhhbjRHa0vs/Publication/"
 const val API_KEY = "api_key"
 
 interface RequestAPI {
@@ -27,6 +27,14 @@ interface RequestAPI {
     fun getListPublication(
         @Query(API_KEY) apikey: String,
     ): Call<PublicationDTO>
+
+    @Headers("Content-Type: application/json")
+    @PATCH("$URL_API_END_POINT_TRAVEL_COMPLAINT_PUBLICATION{id}")
+    fun updatePublicationComplaint(
+        @Path("id") idPublication: String,
+        @Query(API_KEY) apikey: String,
+        @Body complaint: JsonObject
+    ): Call<Unit>
 
     @Headers("Content-Type: application/json")
     @POST(URL_API_END_POINT_TRAVEL_USER_PROFILE)
