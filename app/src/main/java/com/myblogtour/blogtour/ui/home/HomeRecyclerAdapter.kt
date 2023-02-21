@@ -92,7 +92,7 @@ class HomeRecyclerAdapter(private var myOnClickListener: MyOnClickListener) :
                 btnComplaintPublication.setOnClickListener {
                     //moreMenuPublication(ItemRecyclerBlogBinding.bind(itemView).apply { this })
                     myOnClickListener.onItemClickComplaintPublication(post.id)
-                    myOnClickListener.onItemClickMore(ItemRecyclerBlogBinding.bind(itemView).apply { this })
+                        myOnClickListener.onItemClickMore(ItemRecyclerBlogBinding.bind(itemView).apply { this })
                 }
             }
         }
