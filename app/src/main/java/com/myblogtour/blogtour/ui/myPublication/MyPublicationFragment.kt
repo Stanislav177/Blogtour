@@ -1,32 +1,41 @@
 package com.myblogtour.blogtour.ui.myPublication
 
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import com.myblogtour.blogtour.R
+import androidx.lifecycle.ViewModelProvider
+import com.myblogtour.blogtour.databinding.FragmentMyPublicationBinding
+import com.myblogtour.blogtour.domain.PublicationEntity
+import com.myblogtour.blogtour.utils.BaseFragment
 
-class MyPublicationFragment : Fragment() {
+class MyPublicationFragment(private val uidUser: String) :
+    BaseFragment<FragmentMyPublicationBinding>(FragmentMyPublicationBinding::inflate),
+    MyOnItemClickListener {
 
-    companion object {
-        fun newInstance() = MyPublicationFragment()
+    private val viewModel: MyPublicationViewModel by lazy {
+        ViewModelProvider(this)[MyPublicationViewModel::class.java]
     }
 
-    private lateinit var viewModel: MyPublicationViewModel
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_my_publication, container, false)
+    private val recyclerViewMyPublication: MyPublicationRecyclerView by lazy {
+        MyPublicationRecyclerView(this)
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(MyPublicationViewModel::class.java)
-        // TODO: Use the ViewModel
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        viewModel.listPublication.observe(viewLifecycleOwner) {
+            renderData(it)
+        }
+        binding.recyclerViewMyPublication.adapter = recyclerViewMyPublication
+        viewModel.getMyPublication(uidUser)
+    }
+
+    private fun renderData(it: List<PublicationEntity>?) {
+        it?.let {
+            recyclerViewMyPublication.setMyPublicationList(it)
+        }
+    }
+
+    override fun onClickDeletePublication(idPublication: String) {
+        val id = idPublication
     }
 
 }

@@ -3,7 +3,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="5dp"
+    android:background="#DDDDDD"
+    app:cardCornerRadius="10dp"
+    app:cardElevation="15dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -16,8 +20,7 @@
             android:layout_margin="5dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:src="@drawable/ic_person" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/datePublicationLocal"
@@ -26,51 +29,68 @@
             android:layout_marginStart="5dp"
             android:text="Дата публикации: "
             android:textSize="10sp"
-            app:layout_constraintStart_toEndOf="@+id/imageMyPublication"
+            app:layout_constraintStart_toStartOf="@+id/barrierMyPublication"
             app:layout_constraintTop_toTopOf="@+id/imageMyPublication" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/textViewDatePublication"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="@color/black"
             android:textSize="10sp"
             app:layout_constraintStart_toEndOf="@+id/datePublicationLocal"
             app:layout_constraintTop_toTopOf="@+id/datePublicationLocal"
             tools:text="10.12.1993" />
 
+        <androidx.constraintlayout.widget.Barrier
+            android:id="@+id/barrierMyPublication"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:barrierDirection="end"
+            app:constraint_referenced_ids="imageMyPublication" />
+
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/textViewMyPublication"
+            android:id="@+id/textLocalPublication"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
+            android:text="Описание публикации:"
+            android:textSize="10sp"
+            app:layout_constraintStart_toStartOf="@+id/datePublicationLocal"
+            app:layout_constraintTop_toBottomOf="@+id/datePublicationLocal" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/textViewMyPublication"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="5dp"
             android:ellipsize="end"
             android:maxLines="4"
             android:textColor="@color/black"
-            app:layout_constraintStart_toStartOf="@+id/datePublicationLocal"
-            app:layout_constraintTop_toBottomOf="@+id/datePublicationLocal"
-            tools:text="Текст" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1"
+            app:layout_constraintStart_toStartOf="@+id/textLocalPublication"
+            app:layout_constraintTop_toBottomOf="@+id/textLocalPublication"
+            tools:text="@string/tools_text_item" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/imageLikeLocal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            app:layout_constraintStart_toStartOf="@id/textViewMyPublication"
+            app:layout_constraintTop_toBottomOf="@id/textViewMyPublication"
+            app:srcCompat="@drawable/ic_like_on" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/textViewCounterLikeMyPublication"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
             android:textColor="@color/black"
-            app:layout_constraintEnd_toStartOf="@id/textViewLocalLikeText"
-            app:layout_constraintStart_toStartOf="@id/textViewMyPublication"
-            app:layout_constraintTop_toBottomOf="@id/textViewMyPublication"
+            app:layout_constraintBottom_toBottomOf="@+id/imageLikeLocal"
+            app:layout_constraintStart_toEndOf="@id/imageLikeLocal"
+            app:layout_constraintTop_toTopOf="@+id/imageLikeLocal"
             tools:text="150" />
-
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/textViewLocalLikeText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
-            android:text="@string/tools_like_item"
-            app:layout_constraintStart_toEndOf="@+id/textViewCounterLikeMyPublication"
-            app:layout_constraintTop_toTopOf="@+id/textViewCounterLikeMyPublication"
-            android:textColor="@color/black"/>
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/btnDeletePublication"

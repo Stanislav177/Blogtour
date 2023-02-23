@@ -5,11 +5,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewMyPublication"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        tools:listitem="@layout/item_recycler_view_my_publication"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:listitem="@layout/item_recycler_view_my_publication" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

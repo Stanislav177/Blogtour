@@ -34,6 +34,10 @@ class RepoAirTableImpl : RepoAirTable {
         retrofitAirTable.getListPublication(BuildConfig.API_KEY).enqueue(callback)
     }
 
+    override fun getMyPublication(id: String, callback: Callback<PublicationDTO>) {
+        retrofitAirTable.getMyPublication(BuildConfig.API_KEY, id).enqueue(callback)
+    }
+
     override fun getUserProfile(id: String, callback: Callback<UserProfileDTO>) {
         retrofitAirTable.getProfileUser(BuildConfig.API_KEY, id)
             .enqueue(callback)

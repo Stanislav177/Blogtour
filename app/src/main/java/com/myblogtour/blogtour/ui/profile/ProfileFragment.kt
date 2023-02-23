@@ -10,6 +10,7 @@ import com.myblogtour.blogtour.databinding.FragmentProfileBinding
 import com.myblogtour.blogtour.domain.UserProfileEntity
 import com.myblogtour.blogtour.ui.addPublication.AddPublicationFragment
 import com.myblogtour.blogtour.ui.authUser.AuthUserFragment
+import com.myblogtour.blogtour.ui.myPublication.MyPublicationFragment
 import com.myblogtour.blogtour.utils.BaseFragment
 
 class ProfileFragment : BaseFragment<FragmentProfileBinding>(FragmentProfileBinding::inflate) {
@@ -17,6 +18,7 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(FragmentProfileBind
     private val viewModel: ProfileViewModel by lazy {
         ViewModelProvider(this)[ProfileViewModel::class.java]
     }
+    private lateinit var uidUser: String
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -31,6 +33,9 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(FragmentProfileBind
             }
             publishPostProfile.setOnClickListener {
                 toFragment(AddPublicationFragment())
+            }
+            myPublication.setOnClickListener {
+                toFragment(MyPublicationFragment(uidUser))
             }
         }
     }
@@ -55,6 +60,7 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(FragmentProfileBind
 
     private fun renderData(user: UserProfileEntity) {
         with(binding) {
+            uidUser = user.uid
             userLogin.text = user.nickname
             iconUserProfile.load(user.icon)
             progressBarProfileUser.visibility = View.GONE

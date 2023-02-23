@@ -9,7 +9,7 @@ data class PublicationEntity(
     val iconFromUserProfile: String, //icon
     val nickNameUserProfile: String, // nickname
     val nickNameUserLike: String,
-    var counterLikeFromCounterLike: Long, // количество лайков
+    var counterLike: Long, // количество лайков
     val date: String, // дата публикации
     var clickLikePublication: Boolean, // стоит лайк или нет
     val idcounterlike: String, // id таблицы с лайками

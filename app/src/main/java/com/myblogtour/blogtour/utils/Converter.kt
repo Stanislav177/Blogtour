@@ -128,6 +128,7 @@ fun converterFromProfileUserDtoToProfileUserEntity(
             for (i in 0 until it) {
                 profileUser = UserProfileEntity(
                     userProfileDTO.records[i].id,
+                    userProfileDTO.records[i].fields.uid,
                     userProfileDTO.records[i].fields.nickname,
                     userProfileDTO.records[i].fields.publication,
                     converterIconUserDto(userProfileDTO.records[i].fields.icon),
@@ -140,30 +141,12 @@ fun converterFromProfileUserDtoToProfileUserEntity(
 }
 
 fun converterFromRegisterUserAirtableToUserEntity(recordUserProfileDTO: RecordUserProfileDTO) =
-    UserProfileEntity(recordUserProfileDTO.id,
+    UserProfileEntity(
+        recordUserProfileDTO.id,
+        recordUserProfileDTO.fields.uid,
         recordUserProfileDTO.fields.nickname,
         recordUserProfileDTO.fields.publication,
         converterIconUserDto(recordUserProfileDTO.fields.icon),
         recordUserProfileDTO.fields.likePublication
     )
-
-
-//fun converterFromDTOtoPost(dto: DTO): MutableList<PublicationEntity> {
-//
-//    val dtoSize = dto.records.size
-//    val postListFromDTO: MutableList<PublicationEntity> = mutableListOf()
-//    for (i in 0 until dtoSize)
-//        postListFromDTO.add(
-//            PublicationEntity(dto.records[i].id,
-//                dto.records[i].fields.nickName,
-//                dto.records[i].fields.text,
-//                dto.records[i].fields.likeCount,
-//                dto.records[i].fields.location,
-//                dto.records[i].createdTime,
-//                converterDTOUrlToPost(dto.records[i].fields.urlImage))
-//        )
-//    return postListFromDTO
-//}
-
-// переделать на map
 

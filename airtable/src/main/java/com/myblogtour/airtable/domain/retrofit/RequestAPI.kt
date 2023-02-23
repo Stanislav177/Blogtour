@@ -6,6 +6,7 @@ import com.myblogtour.airtable.domain.Record
 import com.myblogtour.airtable.domain.RecordUserProfileDTO
 import com.myblogtour.airtable.domain.UserProfileDTO
 import retrofit2.Call
+import retrofit2.Callback
 import retrofit2.http.*
 
 const val URL_API_END_POINT_TRAVEL_USER_PROFILE = "v0/appQW6UhhbjRHa0vs/UserProfile/?"
@@ -56,4 +57,10 @@ interface RequestAPI {
         @Query(API_KEY) apikey: String,
         @Body post: JsonObject,
     ): Call<Unit>
+
+    @GET(URL_API_END_POINT_TRAVEL_PUBLICATION)
+    fun getMyPublication(
+        @Query(API_KEY) apikey: String,
+        @Query("filterByFormula") id: String,
+    ): Call<PublicationDTO>
 }

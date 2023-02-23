@@ -39,11 +39,12 @@ class HomeRecyclerAdapter(private var myOnClickListener: MyOnClickListener) :
     inner class PostViewHolder(view: View) :
         RecyclerView.ViewHolder(view) {
         fun bind(post: PublicationEntity) {
-            val imageNUll = post.urlImage?.let { it.size }
+            val imageNUll = post.urlImage.size
+
             ItemRecyclerBlogBinding.bind(itemView).apply {
                 //moreMenuPublication.alpha = 0f
                 nickNameTextView.text = post.nickNameUserProfile
-                countLike.text = post.counterLikeFromCounterLike.toString()
+                countLike.text = post.counterLike.toString()
                 dateAdditionsPublication.text = post.date
                 textPublicationCard.text = post.text
                 iconUserProfile.load(post.iconFromUserProfile)
@@ -73,13 +74,13 @@ class HomeRecyclerAdapter(private var myOnClickListener: MyOnClickListener) :
 
                 likePost.setOnClickListener {
                     if (!post.clickLikePublication) {
-                        val interimCount = listPost[layoutPosition].counterLikeFromCounterLike
-                        listPost[layoutPosition].counterLikeFromCounterLike = interimCount + 1
+                        val interimCount = listPost[layoutPosition].counterLike
+                        listPost[layoutPosition].counterLike = interimCount + 1
                         listPost[layoutPosition].clickLikePublication = true
                         notifyItemChanged(layoutPosition)
                     } else {
-                        val interimCount = listPost[layoutPosition].counterLikeFromCounterLike
-                        listPost[layoutPosition].counterLikeFromCounterLike = interimCount - 1
+                        val interimCount = listPost[layoutPosition].counterLike
+                        listPost[layoutPosition].counterLike = interimCount - 1
                         listPost[layoutPosition].clickLikePublication = false
                         notifyItemChanged(layoutPosition)
                     }
