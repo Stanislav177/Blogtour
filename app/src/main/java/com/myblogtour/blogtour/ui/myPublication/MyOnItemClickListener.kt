@@ -2,5 +2,5 @@ package com.myblogtour.blogtour.ui.myPublication
 
 interface MyOnItemClickListener {
 
-    fun onClickDeletePublication(idPublication: String)
+    fun onClickDeletePublication(idPublication: String, idLike: String)
 }

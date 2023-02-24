@@ -34,8 +34,8 @@ class MyPublicationFragment(private val uidUser: String) :
         }
     }
 
-    override fun onClickDeletePublication(idPublication: String) {
-        val id = idPublication
+    override fun onClickDeletePublication(idPublication: String, idLike: String) {
+        viewModel.deletePublication(idPublication, idLike)
     }
 
 }

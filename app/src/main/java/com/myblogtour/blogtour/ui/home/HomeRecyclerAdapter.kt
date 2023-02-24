@@ -84,7 +84,7 @@ class HomeRecyclerAdapter(private var myOnClickListener: MyOnClickListener) :
                         listPost[layoutPosition].clickLikePublication = false
                         notifyItemChanged(layoutPosition)
                     }
-                    myOnClickListener.onItemClick(post.idcounterlike, post.clickLikePublication)
+                    myOnClickListener.onItemClick(post.idCounterLike, post.clickLikePublication)
                 }
                 moreCard.setOnClickListener {
                     myOnClickListener.onItemClickMore(ItemRecyclerBlogBinding.bind(itemView).apply { this })

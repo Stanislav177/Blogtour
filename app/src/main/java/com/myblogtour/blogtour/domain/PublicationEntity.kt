@@ -12,7 +12,7 @@ data class PublicationEntity(
     var counterLike: Long, // количество лайков
     val date: String, // дата публикации
     var clickLikePublication: Boolean, // стоит лайк или нет
-    val idcounterlike: String, // id таблицы с лайками
+    val idCounterLike: String, // id таблицы с лайками
     var maxLinesText: Boolean,
 )
 

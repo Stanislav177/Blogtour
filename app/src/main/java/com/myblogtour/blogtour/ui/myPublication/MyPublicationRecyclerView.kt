@@ -46,7 +46,7 @@ class MyPublicationRecyclerView(val myOnItemClickListener: MyOnItemClickListener
                 textViewMyPublication.text = publication.text
                 textViewCounterLikeMyPublication.text = " - ${publication.counterLike}"
                 btnDeletePublication.setOnClickListener {
-                    myOnItemClickListener.onClickDeletePublication(publication.id)
+                    myOnItemClickListener.onClickDeletePublication(publication.id, publication.idCounterLike)
                     myPublicationList.removeAt(layoutPosition)
                     notifyItemChanged(layoutPosition)
                 }

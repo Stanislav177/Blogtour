@@ -19,10 +19,45 @@ class MyPublicationViewModel : ViewModel(), MyPublicationContract.MyPublication 
         RepoAirTableImpl()
     }
     private lateinit var uid: String
+    private lateinit var idLikePublication: String
 
     fun getMyPublication(uidUser: String) {
         uid = uidUser
         repoAirTable.getMyPublication(getQueryUid(uid), callback)
+    }
+
+    fun deletePublication(idPublication: String, idLikePublication: String) {
+        this.idLikePublication = idLikePublication
+        repoAirTable.deletePublication(idPublication, callbackDeletePublication)
+    }
+
+    private val callbackDeletePublication = object : Callback<Unit> {
+        override fun onResponse(call: Call<Unit>, response: Response<Unit>) {
+            if (response.isSuccessful) {
+                response.body()?.let {
+                    val delete = "Публикация удалена"
+                    repoAirTable.deletePublicationLike(idLikePublication, callbackDeleteLikePublication)
+                }
+            }
+        }
+
+        override fun onFailure(call: Call<Unit>, t: Throwable) {
+            val ex = t.message
+        }
+    }
+
+    private val callbackDeleteLikePublication = object : Callback<Unit> {
+        override fun onResponse(call: Call<Unit>, response: Response<Unit>) {
+            if (response.isSuccessful){
+                response.body()?.let {
+                   val data = "Данные удалены"
+                }
+            }
+        }
+
+        override fun onFailure(call: Call<Unit>, t: Throwable) {
+            val ex = t.message
+        }
     }
 
     private val callback = object : Callback<PublicationDTO> {
@@ -40,7 +75,7 @@ class MyPublicationViewModel : ViewModel(), MyPublicationContract.MyPublication 
         }
 
         override fun onFailure(call: Call<PublicationDTO>, t: Throwable) {
-            TODO("Not yet implemented")
+            val ex = t.message
         }
 
     }

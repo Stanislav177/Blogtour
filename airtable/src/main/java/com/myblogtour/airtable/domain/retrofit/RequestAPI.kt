@@ -6,13 +6,13 @@ import com.myblogtour.airtable.domain.Record
 import com.myblogtour.airtable.domain.RecordUserProfileDTO
 import com.myblogtour.airtable.domain.UserProfileDTO
 import retrofit2.Call
-import retrofit2.Callback
 import retrofit2.http.*
 
 const val URL_API_END_POINT_TRAVEL_USER_PROFILE = "v0/appQW6UhhbjRHa0vs/UserProfile/?"
 const val URL_API_END_POINT_TRAVEL_USER_PROFILE_LIKE = "v0/appQW6UhhbjRHa0vs/UserProfile"
 const val URL_API_END_POINT_TRAVEL_PUBLICATION = "v0/appQW6UhhbjRHa0vs/Publication/?"
-const val URL_API_END_POINT_TRAVEL_COMPLAINT_PUBLICATION = "v0/appQW6UhhbjRHa0vs/Publication/"
+const val URL_API_END_POINT_TRAVEL_UPDATE_PUBLICATION = "v0/appQW6UhhbjRHa0vs/Publication/"
+const val URL_API_END_POINT_TRAVEL_DELETE_LIKE = "v0/appQW6UhhbjRHa0vs/CounterLike/"
 const val API_KEY = "api_key"
 
 interface RequestAPI {
@@ -30,7 +30,7 @@ interface RequestAPI {
     ): Call<PublicationDTO>
 
     @Headers("Content-Type: application/json")
-    @PATCH("$URL_API_END_POINT_TRAVEL_COMPLAINT_PUBLICATION{id}")
+    @PATCH("$URL_API_END_POINT_TRAVEL_UPDATE_PUBLICATION{id}")
     fun updatePublicationComplaint(
         @Path("id") idPublication: String,
         @Query(API_KEY) apikey: String,
@@ -63,4 +63,16 @@ interface RequestAPI {
         @Query(API_KEY) apikey: String,
         @Query("filterByFormula") id: String,
     ): Call<PublicationDTO>
+
+    @DELETE("$URL_API_END_POINT_TRAVEL_UPDATE_PUBLICATION{id}/")
+    fun deletePublication(
+        @Path("id") idPublication: String,
+        @Query(API_KEY) apikey: String
+    ): Call<Unit>
+
+    @DELETE("$URL_API_END_POINT_TRAVEL_DELETE_LIKE{id}")
+    fun deletePublicationLike(
+        @Path("id") idLike: String,
+        @Query(API_KEY) apikey: String
+    ): Call<Unit>
 }

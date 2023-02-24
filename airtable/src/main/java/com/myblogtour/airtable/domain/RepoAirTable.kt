@@ -12,4 +12,6 @@ interface RepoAirTable {
     fun getMyPublication(id: String, callback: Callback<PublicationDTO>)
     fun getUserProfile(uid: String, callback: Callback<UserProfileDTO>)
     fun updateUserProfileLikeCounter(id: String, update: JsonObject, callback: Callback<Unit>)
+    fun deletePublication(idPublication: String, callback: Callback<Unit>)
+    fun deletePublicationLike(idLike: String, callback: Callback<Unit>)
 }

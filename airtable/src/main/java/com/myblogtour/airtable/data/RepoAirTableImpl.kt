@@ -51,4 +51,12 @@ class RepoAirTableImpl : RepoAirTable {
         retrofitAirTable.updateUserProfileCounterLike(id, BuildConfig.API_KEY, update)
             .enqueue(callback)
     }
+
+    override fun deletePublication(idPublication: String, callback: Callback<Unit>) {
+        retrofitAirTable.deletePublication(idPublication, BuildConfig.API_KEY).enqueue(callback)
+    }
+
+    override fun deletePublicationLike(idLike: String, callback: Callback<Unit>) {
+        retrofitAirTable.deletePublicationLike(idLike,BuildConfig.API_KEY).enqueue(callback)
+    }
 }
