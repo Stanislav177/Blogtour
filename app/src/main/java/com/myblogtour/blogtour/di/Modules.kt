@@ -12,6 +12,7 @@ import com.myblogtour.blogtour.ui.home.HomeViewModel
 import com.myblogtour.blogtour.ui.main.MainViewModel
 import com.myblogtour.blogtour.ui.myPublication.MyPublicationViewModel
 import com.myblogtour.blogtour.ui.profile.ProfileViewModel
+import com.myblogtour.blogtour.ui.recoveryPassword.RecoveryPasswordViewModel
 import com.myblogtour.blogtour.ui.registrationUser.RegistrationViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.qualifier.named
@@ -87,6 +88,9 @@ object Modules {
             MainViewModel(
                 authFirebaseRepository = get()
             )
+        }
+        viewModel {
+            RecoveryPasswordViewModel(get())
         }
     }
 }

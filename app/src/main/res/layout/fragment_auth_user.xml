@@ -21,7 +21,8 @@
             android:layout_width="75dp"
             android:layout_height="75dp"
             android:layout_gravity="top|start"
-            android:layout_margin="25dp" />
+            android:layout_margin="25dp"
+            android:src="@mipmap/ic_app" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
@@ -79,6 +80,20 @@
                 android:layout_marginStart="5dp"
                 android:layout_weight="2"
                 android:text="Регистрация" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/btnRecoveryPassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/recovery_password"
+                android:gravity="center"/>
 
         </LinearLayout>
 
