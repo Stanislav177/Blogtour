@@ -73,27 +73,38 @@ class HomeRecyclerAdapter(private var myOnClickListener: MyOnClickListener) :
                 }
 
                 likePost.setOnClickListener {
-                    if (!post.clickLikePublication) {
-                        val interimCount = listPost[layoutPosition].counterLike
-                        listPost[layoutPosition].counterLike = interimCount + 1
-                        listPost[layoutPosition].clickLikePublication = true
-                        notifyItemChanged(layoutPosition)
+                    if (post.authUser) {
+                        if (!post.clickLikePublication) {
+                            val interimCount = listPost[layoutPosition].counterLike
+                            listPost[layoutPosition].counterLike = interimCount + 1
+                            listPost[layoutPosition].clickLikePublication = true
+                            notifyItemChanged(layoutPosition)
+                        } else {
+                            val interimCount = listPost[layoutPosition].counterLike
+                            listPost[layoutPosition].counterLike = interimCount - 1
+                            listPost[layoutPosition].clickLikePublication = false
+                            notifyItemChanged(layoutPosition)
+                        }
+                        myOnClickListener.onItemClickLike(
+                            post.idCounterLike,
+                            post.clickLikePublication
+                        )
                     } else {
-                        val interimCount = listPost[layoutPosition].counterLike
-                        listPost[layoutPosition].counterLike = interimCount - 1
-                        listPost[layoutPosition].clickLikePublication = false
-                        notifyItemChanged(layoutPosition)
+                        myOnClickListener.onItemClickLike(false)
                     }
-                    myOnClickListener.onItemClick(post.idCounterLike, post.clickLikePublication)
+
+
                 }
                 moreCard.setOnClickListener {
-                    myOnClickListener.onItemClickMore(ItemRecyclerBlogBinding.bind(itemView).apply { this })
+                    myOnClickListener.onItemClickMore(
+                        ItemRecyclerBlogBinding.bind(itemView).apply { this })
                     //moreMenuPublication(ItemRecyclerBlogBinding.bind(itemView).apply { this })
                 }
                 btnComplaintPublication.setOnClickListener {
                     //moreMenuPublication(ItemRecyclerBlogBinding.bind(itemView).apply { this })
                     myOnClickListener.onItemClickComplaintPublication(post.id)
-                        myOnClickListener.onItemClickMore(ItemRecyclerBlogBinding.bind(itemView).apply { this })
+                    myOnClickListener.onItemClickMore(
+                        ItemRecyclerBlogBinding.bind(itemView).apply { this })
                 }
             }
         }

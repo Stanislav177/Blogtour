@@ -5,26 +5,22 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.lifecycle.ViewModelProvider
 import coil.load
 import com.myblogtour.blogtour.databinding.FragmentAddPublicationBinding
 import com.myblogtour.blogtour.utils.BaseFragment
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class AddPublicationFragment :
-        BaseFragment<FragmentAddPublicationBinding>(FragmentAddPublicationBinding::inflate) {
+    BaseFragment<FragmentAddPublicationBinding>(FragmentAddPublicationBinding::inflate) {
 
-    private val viewModel: AddPublicationViewModel by lazy {
-        ViewModelProvider(this)[AddPublicationViewModel::class.java]
-    }
-
+    private val viewModel: AddPublicationViewModel by viewModel()
     private var imageUri: Uri? = null
-
     private val resultLauncher =
-            registerForActivityResult(ActivityResultContracts.GetContent()) {
-                it?.let {
-                    viewModel.image(it)
-                }
+        registerForActivityResult(ActivityResultContracts.GetContent()) {
+            it?.let {
+                viewModel.image(it)
             }
+        }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -48,9 +44,11 @@ class AddPublicationFragment :
         }
         with(binding) {
             publishBtnAddPost.setOnClickListener {
-                viewModel.dataPublication(editTextPost.text.toString(),
-                        editTextLocation.text.toString(),
-                        imageUri)
+                viewModel.dataPublication(
+                    editTextPost.text.toString(),
+                    editTextLocation.text.toString(),
+                    imageUri
+                )
             }
             attachPhotoAddPost.setOnClickListener {
                 resultLauncher.launch("image/*")
@@ -79,6 +77,13 @@ class AddPublicationFragment :
     private fun publishPost(it: Boolean) {
         if (it) {
             Toast.makeText(requireContext(), "Пост размещен", Toast.LENGTH_SHORT).show()
+            with(binding) {
+                editTextPost.text.clear()
+                editTextLocation.text.clear()
+                imagePostAddPost.load(null)
+            }
+        } else {
+            Toast.makeText(requireContext(), "Что-то пошло не так", Toast.LENGTH_SHORT).show()
         }
     }
 

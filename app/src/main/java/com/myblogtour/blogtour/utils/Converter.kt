@@ -7,7 +7,7 @@ import com.myblogtour.blogtour.domain.UserProfileEntity
 import java.time.format.DateTimeFormatter
 
 fun converterFromDtoToPublicationEntity(
-    id: String,
+    id: String?,
     publicationDTO: PublicationDTO,
 ): List<PublicationEntity> {
     val publicationSize = publicationDTO.records.size
@@ -27,11 +27,19 @@ fun converterFromDtoToPublicationEntity(
                 converterDateFormat(publicationDTO.records[i].fields.date),
                 searchUserLikePublication(id, publicationDTO.records[i].fields.iduserprofile),
                 converterIdTableCounterLike(publicationDTO.records[i].fields.idcounterlike),
-                false
+                false,
+                authUser(id)
             )
         )
     }
     return publicationList
+}
+
+private fun authUser(idUser: String?): Boolean {
+    idUser?.let {
+        return true
+    }
+    return false
 }
 
 private fun converterDateFormat(datePublication: String): String {
@@ -48,20 +56,24 @@ private fun checkListForNull(nickNameLikeDto: List<String>?): String {
     return ""
 }
 
-private fun converterIdTableCounterLike(idCounterLike: List<String>): String {
-    val idCounterTableLikeSize = idCounterLike.size
+private fun converterIdTableCounterLike(idCounterLike: List<String>?): String {
     var idTable = ""
-    for (i in 0 until idCounterTableLikeSize) {
-        idTable = idCounterLike[i]
+    if (idCounterLike != null) {
+        val idCounterTableLikeSize = idCounterLike.size
+        for (i in 0 until idCounterTableLikeSize) {
+            idTable = idCounterLike[i]
+        }
     }
     return idTable
 }
 
-private fun searchUserLikePublication(id: String, userListLike: List<String>?): Boolean {
-    userListLike?.let {
-        val searchUser = userListLike.binarySearch(id)
-        if (searchUser >= 0) {
-            return true
+private fun searchUserLikePublication(id: String?, userListLike: List<String>?): Boolean {
+    id?.let { idNotNull ->
+        userListLike?.let {
+            val searchUser = userListLike.binarySearch(idNotNull)
+            if (searchUser >= 0) {
+                return true
+            }
         }
     }
     return false
@@ -78,20 +90,24 @@ private fun converterNickNameUserDto(nickNameFromUserProfileDto: List<String>?):
     return nickNameUser
 }
 
-private fun converterIconUserDto(iconUserProfileDTO: List<IconUser>): String {
-    val iconFromUserProfileSize = iconUserProfileDTO.size
+private fun converterIconUserDto(iconUserProfileDTO: List<IconUser>?): String {
     var iconUser = ""
-    for (i in 0 until iconFromUserProfileSize) {
-        iconUser = iconUserProfileDTO[i].url
+    iconUserProfileDTO?.let {
+        val iconFromUserProfileSize = iconUserProfileDTO.size
+        for (i in 0 until iconFromUserProfileSize) {
+            iconUser = iconUserProfileDTO[i].url
+        }
     }
     return iconUser
 }
 
-private fun converterCounterLike(counterLikeAirtable: List<Long>): Long {
-    val counterLikeSize = counterLikeAirtable.size
+private fun converterCounterLike(counterLikeAirtable: List<Long>?): Long {
     var counterLike = 0L
-    for (i in 0 until counterLikeSize) {
-        counterLike = counterLikeAirtable[i]
+    if (counterLikeAirtable != null) {
+        val counterLikeSize = counterLikeAirtable!!.size
+        for (i in 0 until counterLikeSize) {
+            counterLike = counterLikeAirtable[i]
+        }
     }
     return counterLike
 }

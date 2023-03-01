@@ -10,13 +10,12 @@ import com.myblogtour.blogtour.appState.AppStateUserRegistration
 import com.myblogtour.blogtour.databinding.FragmentRegistrationUserBinding
 import com.myblogtour.blogtour.ui.authUser.AuthUserFragment
 import com.myblogtour.blogtour.utils.BaseFragment
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class RegistrationUserFragment :
     BaseFragment<FragmentRegistrationUserBinding>(FragmentRegistrationUserBinding::inflate) {
 
-    private val viewModel: RegistrationViewModel by lazy {
-        ViewModelProvider(this)[RegistrationViewModel::class.java]
-    }
+    private val viewModel: RegistrationViewModel by viewModel()
 
     private val resultLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) {
         it?.let {

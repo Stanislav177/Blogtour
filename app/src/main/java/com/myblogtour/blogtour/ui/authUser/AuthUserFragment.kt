@@ -4,19 +4,17 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import com.myblogtour.blogtour.R
 import com.myblogtour.blogtour.appState.AppStateUserAuth
 import com.myblogtour.blogtour.databinding.FragmentAuthUserBinding
 import com.myblogtour.blogtour.ui.profile.ProfileFragment
 import com.myblogtour.blogtour.ui.registrationUser.RegistrationUserFragment
 import com.myblogtour.blogtour.utils.BaseFragment
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class AuthUserFragment : BaseFragment<FragmentAuthUserBinding>(FragmentAuthUserBinding::inflate) {
 
-    private val viewModel: AuthUserViewModel by lazy {
-        ViewModelProvider(this)[AuthUserViewModel::class.java]
-    }
+    private val viewModel: AuthUserViewModel by viewModel()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

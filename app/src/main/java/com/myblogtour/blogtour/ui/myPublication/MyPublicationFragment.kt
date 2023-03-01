@@ -2,18 +2,16 @@ package com.myblogtour.blogtour.ui.myPublication
 
 import android.os.Bundle
 import android.view.View
-import androidx.lifecycle.ViewModelProvider
 import com.myblogtour.blogtour.databinding.FragmentMyPublicationBinding
 import com.myblogtour.blogtour.domain.PublicationEntity
 import com.myblogtour.blogtour.utils.BaseFragment
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MyPublicationFragment(private val uidUser: String) :
     BaseFragment<FragmentMyPublicationBinding>(FragmentMyPublicationBinding::inflate),
     MyOnItemClickListener {
 
-    private val viewModel: MyPublicationViewModel by lazy {
-        ViewModelProvider(this)[MyPublicationViewModel::class.java]
-    }
+    private val viewModelMyPublication: MyPublicationViewModel by viewModel()
 
     private val recyclerViewMyPublication: MyPublicationRecyclerView by lazy {
         MyPublicationRecyclerView(this)
@@ -21,11 +19,11 @@ class MyPublicationFragment(private val uidUser: String) :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.listPublication.observe(viewLifecycleOwner) {
+        viewModelMyPublication.listPublication.observe(viewLifecycleOwner) {
             renderData(it)
         }
         binding.recyclerViewMyPublication.adapter = recyclerViewMyPublication
-        viewModel.getMyPublication(uidUser)
+        viewModelMyPublication.getMyPublication(uidUser)
     }
 
     private fun renderData(it: List<PublicationEntity>?) {
@@ -35,7 +33,7 @@ class MyPublicationFragment(private val uidUser: String) :
     }
 
     override fun onClickDeletePublication(idPublication: String, idLike: String) {
-        viewModel.deletePublication(idPublication, idLike)
+        viewModelMyPublication.deletePublication(idPublication, idLike)
     }
 
 }

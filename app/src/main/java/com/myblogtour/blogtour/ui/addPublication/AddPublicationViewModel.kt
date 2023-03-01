@@ -4,34 +4,21 @@ import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
-import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.UploadTask
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
-import com.myblogtour.airtable.data.RepoAirTableImpl
-import com.myblogtour.airtable.domain.Record
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import com.myblogtour.blogtour.domain.repository.CreatePublicationRepository
 
-class AddPublicationViewModel : ViewModel(), AddContract.ViewModel {
+class AddPublicationViewModel(
+    private val user: FirebaseUser?,
+    private val storageRef: StorageReference,
+    private val createPublicationRepository: CreatePublicationRepository
+) : ViewModel(), AddContract.ViewModel {
 
-    private val repoAirTable: RepoAirTableImpl by lazy {
-        RepoAirTableImpl()
-    }
-    private val auth: FirebaseAuth by lazy {
-        Firebase.auth
-    }
-    private val storageRef: StorageReference by lazy {
-        FirebaseStorage.getInstance().reference
-    }
     private var nameFile: StorageReference? = null
     private var uploadTask: UploadTask? = null
-    private val currentUser = auth.currentUser
 
     override val publishPostLiveData: LiveData<Boolean> = MutableLiveData()
     override val loadUri: LiveData<Uri?> = MutableLiveData()
@@ -53,6 +40,7 @@ class AddPublicationViewModel : ViewModel(), AddContract.ViewModel {
     }
 
     fun image(uri: Uri) {
+        deleteImageDetach()
         nameFile = storageRef.child("image/${uri.lastPathSegment}")
         uploadTask = nameFile?.let {
             it.putFile(uri)
@@ -92,58 +80,48 @@ class AddPublicationViewModel : ViewModel(), AddContract.ViewModel {
     }
 
     override fun dataPublication(
-            text: String,
-            location: String,
-            imageUri: Uri?,
+        text: String,
+        location: String,
+        imageUri: Uri?,
     ) {
+        if (imageUri == null) {
+            errorMessage.mutable().postValue("Добавьте изображение")
+            return
+        }
         val publishPost = converterJsonObject(imageUri, text, location)
+        createPublicationRepository.createPublication(
+            onSuccess = {
+                publishPostLiveData.mutable().postValue(it)
+            },
+            onError = {
 
-        repoAirTable.createPublication(publishPost, callback)
+            },
+            publishPost
+        )
     }
 
     private fun converterJsonObject(imageUri: Uri?, text: String, location: String): JsonObject {
         val userProfile = JsonArray()
-        val userIdProfile = JsonObject()
+        var userIdProfile = ""
+        user?.let {
+            userIdProfile = it.displayName!!
+        }
         val urlImage = JsonArray()
         val image = JsonObject()
         val publicationJson = JsonObject()
         val fieldsJson = JsonObject()
 
-        if (imageUri != null) {
-            image.addProperty("url", imageUri.toString())
-            urlImage.add(image)
-        } else {
-            errorMessage.mutable().postValue("Добавьте изображение")
-        }
-
-        userProfile.add(currentUser!!.displayName)
-
-
-
+        image.addProperty("url", imageUri.toString())
+        urlImage.add(image)
+        userProfile.add(userIdProfile)
         with(publicationJson) {
             addProperty("text", text)
             addProperty("location", location)
             add("image", urlImage)
-            add("userprofile",userProfile)
+            add("userprofile", userProfile)
         }
         fieldsJson.add("fields", publicationJson)
         return fieldsJson
-    }
-
-    private val callback = object : Callback<Record> {
-        override fun onResponse(call: Call<Record>, response: Response<Record>) {
-            if (response.isSuccessful) {
-                response.body()?.let {
-                    publishPostLiveData.mutable().postValue(true)
-                }
-            } else {
-
-            }
-        }
-
-        override fun onFailure(call: Call<Record>, t: Throwable) {
-            val tM = t.message
-        }
     }
 
     private fun <T> LiveData<T>.mutable(): MutableLiveData<T> {

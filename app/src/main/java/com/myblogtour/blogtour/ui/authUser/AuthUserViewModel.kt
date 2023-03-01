@@ -3,19 +3,18 @@ package com.myblogtour.blogtour.ui.authUser
 import android.text.Editable
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
 import com.myblogtour.blogtour.appState.AppStateUserAuth
+import com.myblogtour.blogtour.domain.repository.AuthFirebaseRepository
 import com.myblogtour.blogtour.utils.validatorEmail.EmailValidatorPatternImpl
 
 class AuthUserViewModel(
     private val emailValidatorPattern: EmailValidatorPatternImpl = EmailValidatorPatternImpl(),
     private val liveData: MutableLiveData<AppStateUserAuth> = MutableLiveData(),
+    private val authFirebaseRepository: AuthFirebaseRepository
 ) : ViewModel() {
+
     private lateinit var emailAuth: String
     private lateinit var passwordAuth: String
-
-    private val auth by lazy { Firebase.auth }
 
     fun getLiveData() = liveData
 
@@ -36,7 +35,7 @@ class AuthUserViewModel(
             emailValidatorPattern.textEmail == null -> {
                 liveData.postValue(AppStateUserAuth.ErrorValidEmail("Введите емайл"))
             }
-            else ->{
+            else -> {
                 liveData.postValue(AppStateUserAuth.ErrorValidEmail("Некорректный емайл"))
             }
         }
@@ -51,15 +50,22 @@ class AuthUserViewModel(
         }
     }
 
-
     private fun singInUser() {
-        auth.signInWithEmailAndPassword(emailAuth, passwordAuth).addOnCompleteListener {
-            if (it.isSuccessful) {
-                liveData.postValue(AppStateUserAuth.SuccessUser(true))
-            } else {
-                liveData.postValue(AppStateUserAuth.ErrorUser("Ошибка авторизации"))
+        authFirebaseRepository.authUser(
+            emailAuth, passwordAuth,
+            onSuccess = {
+                liveData.postValue(AppStateUserAuth.SuccessUser(it))
+            },
+            onError = {
+                liveData.postValue(AppStateUserAuth.ErrorUser(it))
             }
-        }
+        )
+//        auth.signInWithEmailAndPassword(emailAuth, passwordAuth).addOnCompleteListener {
+//            if (it.isSuccessful) {
+//                liveData.postValue(AppStateUserAuth.SuccessUser(true))
+//            } else {
+//                liveData.postValue(AppStateUserAuth.ErrorUser("Ошибка авторизации"))
+//            }
+//        }
     }
-
 }
