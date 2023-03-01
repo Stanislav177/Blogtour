@@ -26,7 +26,7 @@ data class FieldsPublication(
     val iconprofile: List<IconUser>,
     val nicknamepublication: List<String>,
     val nicknamelike: List<String>,
-    val countlike: List<Long>,
+    val countlike: List<Long>?,
     val iduserprofile: List<String>,
     val date: String,
     val idcounterlike: List<String>

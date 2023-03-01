@@ -2,124 +2,106 @@ package com.myblogtour.blogtour.ui.home
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
-import com.myblogtour.airtable.data.RepoAirTableImpl
-import com.myblogtour.airtable.domain.PublicationDTO
-import com.myblogtour.airtable.domain.UserProfileDTO
 import com.myblogtour.blogtour.appState.AppStateListBlog
+import com.myblogtour.blogtour.domain.repository.AuthFirebaseRepository
+import com.myblogtour.blogtour.domain.repository.PublicationRepository
 import com.myblogtour.blogtour.utils.converterFromDtoToPublicationEntity
-import com.myblogtour.blogtour.utils.converterFromProfileUserDtoToProfileUserEntity
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 
-class HomeViewModel(private val liveData: MutableLiveData<AppStateListBlog> = MutableLiveData()) :
-    ViewModel() {
+class HomeViewModel(
+    private val publicationRepository: PublicationRepository,
+    private val authFirebaseRepository: AuthFirebaseRepository,
+    private val liveData: MutableLiveData<AppStateListBlog> = MutableLiveData()
+) : ViewModel() {
 
-    private val repoAirTable: RepoAirTableImpl by lazy { RepoAirTableImpl() }
-    private val user by lazy { Firebase.auth.currentUser }
-    private lateinit var idLikeLocal: String
+    private lateinit var idPublicationLocal: String
 
     fun getLiveData() = liveData
 
     fun getPostList() {
-        repoAirTable.getPublication(callback)
-    }
-
-    private val callback = object : Callback<PublicationDTO> {
-        override fun onResponse(call: Call<PublicationDTO>, response: Response<PublicationDTO>) {
-            if (response.isSuccessful) {
-                if (response.body() == null) {
-                    //Error
-                } else {
-                    response.body()?.let {
-                        liveData.postValue(
-                            AppStateListBlog.Success(
-                                converterFromDtoToPublicationEntity(getIdUser(user), it)
-                            )
-                        )
-                    }
-                }
+        publicationRepository.getPublication(
+            onSuccess = {
+                liveData.postValue(
+                    AppStateListBlog.Success(
+                        converterFromDtoToPublicationEntity(getIdUser(), it)
+                    )
+                )
+            },
+            onError = {
+                liveData.postValue(AppStateListBlog.Error(it))
             }
-        }
-
-        override fun onFailure(call: Call<PublicationDTO>, t: Throwable) {
-            val t = t.message
-        }
+        )
     }
 
-    private fun getIdUser(user: FirebaseUser?): String {
-        user?.let {
-            return it.displayName!!
-        }
-        return ""
+    private fun getIdUser(): String? {
+        var idUser: String? = null
+        authFirebaseRepository.userCurrent(
+            onSuccess = {
+                idUser = it.displayName
+            },
+            onError = {
+
+            }
+        )
+        return idUser
     }
 
-    fun likePublication(idLike: String) {
-        idLikeLocal = idLike
+    fun likePublication(idPublication: String) {
+        idPublicationLocal = idPublication
         loadListLikeUser()
     }
 
     private fun loadListLikeUser() {
-        val formulaUid = "uid="
-        val uid = user!!.uid
-        val requestProfile = "$formulaUid'$uid'"
-        repoAirTable.getUserProfile(requestProfile, callbackLoadingProfile)
+        publicationRepository.loadingUserProfile(
+            getIdUser(),
+            onSuccess = {
+                listLikeUser(it.fields.likePublication)
+            },
+            onError = {
+                liveData.postValue(AppStateListBlog.Error(it))
+            }
+        )
     }
 
-    private val callbackLoadingProfile = object : Callback<UserProfileDTO> {
-        override fun onResponse(
-            call: Call<UserProfileDTO>,
-            response: Response<UserProfileDTO>,
-        ) {
-            if (response.isSuccessful) {
-                response.body()?.let {
-                    listLikeUser(it)
+    private fun listLikeUser(list: List<String>?) {
+        var updateListLike: MutableList<String> = mutableListOf()
+        list?.let {
+            updateListLike = list.toMutableList()
+            if (updateListLike.isNullOrEmpty()) {
+                updateListLike.add(idPublicationLocal)
+            } else {
+                updateListLike.let { notNullListLike ->
+                    val search = notNullListLike.binarySearch(idPublicationLocal)
+
+                    if (search >= 0) {
+                        notNullListLike.apply {
+                            remove(idPublicationLocal)
+                            updateProfileListLike(updateListLike)
+                            return
+                        }
+                    } else if (updateListLike.size == 0) {
+                        notNullListLike.apply {
+                            add(idPublicationLocal)
+                            updateProfileListLike(updateListLike)
+                            return
+                        }
+                    } else {
+                        notNullListLike.apply {
+                            add(updateListLike.size, idPublicationLocal)
+                            updateProfileListLike(updateListLike)
+                            return
+                        }
+                    }
                 }
             }
         }
-
-        override fun onFailure(call: Call<UserProfileDTO>, t: Throwable) {
-            val ex = t.message
-        }
+        updateListLike.add(idPublicationLocal)
+        updateProfileListLike(updateListLike)
     }
 
-    private fun listLikeUser(it: UserProfileDTO) {
-        val user = converterFromProfileUserDtoToProfileUserEntity(it)
-        val idUserProfile = user!!.id
-        var listLike: MutableList<String> = mutableListOf()
-
-        user?.let {
-            it.likePublication?.let { list ->
-                listLike = list.toMutableList()
-            }
-        }
-        val search = listLike.binarySearch(idLikeLocal)
-
-        if (search >= 0) {
-            listLike.apply {
-                remove(idLikeLocal)
-                updateProfileListLike(idUserProfile, this)
-            }
-        } else if (listLike.size == 0) {
-            listLike.apply {
-                add(idLikeLocal)
-                updateProfileListLike(idUserProfile, this)
-            }
-        } else {
-            listLike.apply {
-                add(listLike.size, idLikeLocal)
-                updateProfileListLike(idUserProfile, this)
-            }
-        }
-    }
-
-    private fun updateProfileListLike(idUserProfile: String, listLike: MutableList<String>) {
+    private fun updateProfileListLike(listLike: MutableList<String>) {
         val listArray = JsonArray()
         val listFields = JsonObject()
         val listLikePublication = JsonObject()
@@ -130,18 +112,10 @@ class HomeViewModel(private val liveData: MutableLiveData<AppStateListBlog> = Mu
         listLikePublication.add("likepublication", listArray)
         listFields.add("fields", listLikePublication)
 
-        repoAirTable.updateUserProfileLikeCounter(idUserProfile, listFields, callbackUpdate)
-    }
-
-    private val callbackUpdate = object : Callback<Unit> {
-        override fun onResponse(call: Call<Unit>, response: Response<Unit>) {
-            if (response.isSuccessful) {
-                val res = response.body()
-            }
-        }
-
-        override fun onFailure(call: Call<Unit>, t: Throwable) {
-            val ex = t.message
+        try {
+            publicationRepository.clickCounterLikePublication(getIdUser()!!, listFields)
+        } catch (e: Throwable) {
+            liveData.postValue(AppStateListBlog.Error(IllegalStateException("Необходимо авторизоваться")))
         }
     }
 
@@ -150,26 +124,8 @@ class HomeViewModel(private val liveData: MutableLiveData<AppStateListBlog> = Mu
         complaintIdArray.add(complaintId)
         val complaint = JsonObject()
         complaint.add("Complaint", complaintIdArray)
-
         val updateFieldsComplaint = JsonObject()
         updateFieldsComplaint.add("fields", complaint)
-        repoAirTable.updateComplaintPublication(
-            idPublication,
-            updateFieldsComplaint,
-            callbackComplaint
-        )
-    }
-
-    private val callbackComplaint = object : Callback<Unit> {
-        override fun onResponse(call: Call<Unit>, response: Response<Unit>) {
-            if (response.isSuccessful) {
-                val res = response.body()
-            }
-        }
-
-        override fun onFailure(call: Call<Unit>, t: Throwable) {
-            val ex = t.message
-        }
-
+        publicationRepository.updateComplaintPublication(idPublication, updateFieldsComplaint)
     }
 }

@@ -6,55 +6,49 @@ import androidx.lifecycle.ViewModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
-import com.myblogtour.airtable.data.RepoAirTableImpl
 import com.myblogtour.airtable.domain.UserProfileDTO
 import com.myblogtour.blogtour.domain.UserProfileEntity
+import com.myblogtour.blogtour.domain.repository.AuthFirebaseRepository
+import com.myblogtour.blogtour.domain.repository.UserProfileRepository
 import com.myblogtour.blogtour.utils.converterFromProfileUserDtoToProfileUserEntity
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class ProfileViewModel : ViewModel(), ProfileContract.ProfileViewModel {
-
-    private val auth: FirebaseAuth by lazy { Firebase.auth }
-    private val userCurrent = auth.currentUser
-    private val repoAirTable: RepoAirTableImpl by lazy { RepoAirTableImpl() }
+class ProfileViewModel(
+    private val userProfileRepository: UserProfileRepository,
+    private val authFirebaseRepository: AuthFirebaseRepository
+) : ViewModel(),
+    ProfileContract.ProfileViewModel {
 
     override val userSuccess: LiveData<UserProfileEntity> = MutableLiveData()
     override val userError: LiveData<Throwable> = MutableLiveData()
     override val userSingOut: LiveData<Boolean> = MutableLiveData()
 
     override fun onRefresh() {
-        onLoadUserProfile()
+        authFirebaseRepository.userCurrent(
+            onSuccess = { fbUser ->
+                userProfileRepository.getUserProfile(
+                    fbUser.displayName!!,
+                    onSuccess = {
+                        userSuccess.mutable().postValue(it)
+                    },
+                    onError = {
+                        userError.mutable().postValue(it)
+                    }
+                )
+            },
+            onError = {
+                userError.mutable().postValue(IllegalStateException(it))
+            }
+        )
     }
 
     override fun singInOut() {
-        auth.signOut()
-        userSingOut.mutable().postValue(true)
-    }
-
-    private fun onLoadUserProfile() {
-        val formulaUid = "uid="
-        val uid = userCurrent!!.uid
-        val requestProfile = "$formulaUid'$uid'"
-        repoAirTable.getUserProfile(requestProfile, callback)
-    }
-
-    private val callback = object : Callback<UserProfileDTO> {
-        override fun onResponse(call: Call<UserProfileDTO>, response: Response<UserProfileDTO>) {
-            if (response.isSuccessful) {
-                response.body()?.let {
-                    if (it.records.isNotEmpty()) {
-                        userSuccess.mutable().postValue(converterFromProfileUserDtoToProfileUserEntity(it))
-                    } else {
-                        val ex = "данных нет"
-                    }
-                }
-            }
+        authFirebaseRepository.singInOut {
+            userSingOut.mutable().postValue(it)
         }
-        override fun onFailure(call: Call<UserProfileDTO>, t: Throwable) {
-            val ex = t.message
-        }
+
     }
 
     private fun <T> LiveData<T>.mutable(): MutableLiveData<T> {

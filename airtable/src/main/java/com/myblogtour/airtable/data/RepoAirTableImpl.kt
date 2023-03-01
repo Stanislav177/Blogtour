@@ -34,6 +34,10 @@ class RepoAirTableImpl : RepoAirTable {
         retrofitAirTable.getListPublication(BuildConfig.API_KEY).enqueue(callback)
     }
 
+    override fun getMyPublication(id: String, callback: Callback<PublicationDTO>) {
+        retrofitAirTable.getMyPublication(BuildConfig.API_KEY, id).enqueue(callback)
+    }
+
     override fun getUserProfile(id: String, callback: Callback<UserProfileDTO>) {
         retrofitAirTable.getProfileUser(BuildConfig.API_KEY, id)
             .enqueue(callback)
@@ -46,5 +50,13 @@ class RepoAirTableImpl : RepoAirTable {
     ) {
         retrofitAirTable.updateUserProfileCounterLike(id, BuildConfig.API_KEY, update)
             .enqueue(callback)
+    }
+
+    override fun deletePublication(idPublication: String, callback: Callback<Unit>) {
+        retrofitAirTable.deletePublication(idPublication, BuildConfig.API_KEY).enqueue(callback)
+    }
+
+    override fun deletePublicationLike(idLike: String, callback: Callback<Unit>) {
+        retrofitAirTable.deletePublicationLike(idLike,BuildConfig.API_KEY).enqueue(callback)
     }
 }

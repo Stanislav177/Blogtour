@@ -6,20 +6,19 @@ import android.animation.ObjectAnimator
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
-import androidx.lifecycle.ViewModelProvider
 import com.myblogtour.blogtour.appState.AppStateListBlog
 import com.myblogtour.blogtour.databinding.FragmentHomeBinding
 import com.myblogtour.blogtour.databinding.ItemRecyclerBlogBinding
 import com.myblogtour.blogtour.utils.BaseFragment
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::inflate),
     MyOnClickListener {
 
     private var flag = false
     private lateinit var itemOpenMenuMore: ItemRecyclerBlogBinding
-    private val postViewModel: HomeViewModel by lazy {
-        ViewModelProvider(this)[HomeViewModel::class.java]
-    }
+
+    private val postViewModel: HomeViewModel by viewModel()
 
     private val adapter: HomeRecyclerAdapter by lazy { HomeRecyclerAdapter(this) }
 
@@ -30,8 +29,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
         }
         binding.recyclerListBlog.adapter = adapter
 
-
-        binding.recyclerListBlog.setOnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY ->
+        binding.recyclerListBlog.setOnScrollChangeListener { _, _, scrollY, _, oldScrollY ->
             if (flag) {
                 if (scrollY > oldScrollY) {
                     moreMenuPublication(itemOpenMenuMore)
@@ -46,7 +44,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
     private fun renderData(it: AppStateListBlog) {
         when (it) {
             is AppStateListBlog.Error -> {
-
+                Toast.makeText(requireActivity(), it.error.message, Toast.LENGTH_SHORT).show()
             }
             is AppStateListBlog.Success -> {
                 adapter.setPostData(it.dataPost)
@@ -54,9 +52,12 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
         }
     }
 
-    override fun onItemClick(idTableLike: String, like: Boolean) {
+    override fun onItemClickLike(error: Boolean) {
+        Toast.makeText(requireActivity(), "Необходимо авторизоваться", Toast.LENGTH_SHORT).show()
+    }
+
+    override fun onItemClickLike(idTableLike: String, like: Boolean) {
         postViewModel.likePublication(idTableLike)
-        Toast.makeText(context, idTableLike, Toast.LENGTH_SHORT).show()
     }
 
     override fun onItemClickComplaintPublication(id: String) {

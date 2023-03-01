@@ -96,7 +96,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/postUser"
+                android:id="@+id/myPublication"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/my_posts"
@@ -111,7 +111,7 @@
                 android:text="@string/publishPost"
                 android:textColor="@color/black"
                 android:textSize="20sp"
-                app:layout_constraintTop_toBottomOf="@+id/postUser" />
+                app:layout_constraintTop_toBottomOf="@+id/myPublication" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/favoritePost"
