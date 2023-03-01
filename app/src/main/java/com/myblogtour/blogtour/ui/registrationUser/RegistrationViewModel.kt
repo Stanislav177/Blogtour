@@ -37,6 +37,12 @@ class RegistrationViewModel(
 
     fun getLiveData() = liveData
 
+    fun singOut(){
+        authFirebaseRepository.singInOut {
+
+        }
+    }
+
     fun registerUserFb(
         loginUserRegister: Editable?,
         emailRegister: Editable?,

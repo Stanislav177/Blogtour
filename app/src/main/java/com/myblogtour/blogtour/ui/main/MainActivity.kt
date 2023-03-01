@@ -1,21 +1,19 @@
-package com.myblogtour.blogtour
+package com.myblogtour.blogtour.ui.main
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
+import com.myblogtour.blogtour.R
+import com.myblogtour.blogtour.appState.AppStateMainActivity
 import com.myblogtour.blogtour.databinding.ActivityMainBinding
 import com.myblogtour.blogtour.ui.authUser.AuthUserFragment
 import com.myblogtour.blogtour.ui.home.HomeFragment
 import com.myblogtour.blogtour.ui.profile.ProfileFragment
-import com.myblogtour.blogtour.ui.registrationUser.RegistrationUserFragment
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : AppCompatActivity() {
 
-    private val auth by lazy { Firebase.auth }
-    private var currentUser: FirebaseUser? = null
+    private val viewModel: MainViewModel by viewModel()
     private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -27,12 +25,8 @@ class MainActivity : AppCompatActivity() {
             toFragment(HomeFragment())
             binding.navMenuBottom.selectedItemId = R.id.btn_home_menu
         }
-        initBottomMenu()
-    }
 
-    override fun onStart() {
-        super.onStart()
-        currentUser = auth.currentUser
+        initBottomMenu()
     }
 
     private fun toFragment(f: Fragment) {
@@ -67,11 +61,17 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun openFragmentUserProfileAuth() {
-        currentUser = auth.currentUser
-        if (currentUser != null) {
-            toFragment(ProfileFragment())
-        } else {
-            toFragment(AuthUserFragment())
+        viewModel.onRefresh()
+        viewModel.getLiveData().observe(this) {
+            when (it) {
+                is AppStateMainActivity.CurrentUser -> {
+                    if (it.currentUser) {
+                        toFragment(ProfileFragment())
+                    } else {
+                        toFragment(AuthUserFragment())
+                    }
+                }
+            }
         }
     }
 }

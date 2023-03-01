@@ -10,7 +10,8 @@
         android:id="@+id/btn_search_menu"
         android:icon="@drawable/ic_content_paste_search"
         android:orderInCategory="90"
-        android:title="@string/search_bottom_menu" />
+        android:title="@string/search_bottom_menu"
+        android:visible="false"/>
 
     <item
         android:id="@+id/btn_home_menu"
