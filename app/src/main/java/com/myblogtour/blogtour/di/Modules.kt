@@ -9,6 +9,7 @@ import com.myblogtour.blogtour.domain.repository.*
 import com.myblogtour.blogtour.ui.addPublication.AddPublicationViewModel
 import com.myblogtour.blogtour.ui.authUser.AuthUserViewModel
 import com.myblogtour.blogtour.ui.home.HomeViewModel
+import com.myblogtour.blogtour.ui.main.MainViewModel
 import com.myblogtour.blogtour.ui.myPublication.MyPublicationViewModel
 import com.myblogtour.blogtour.ui.profile.ProfileViewModel
 import com.myblogtour.blogtour.ui.registrationUser.RegistrationViewModel
@@ -47,7 +48,7 @@ object Modules {
         single<AuthFirebaseRepository> {
             AuthFirebaseRepositoryImpl(get(named("authFirebase")))
         }
-        single<UserRegistrationRepository>{
+        single<UserRegistrationRepository> {
             UserRegistrationRepositoryImpl(get(named("api")))
         }
     }
@@ -59,7 +60,7 @@ object Modules {
 
     val viewModelsModule = module {
         viewModel {
-            ProfileViewModel(get(),get())
+            ProfileViewModel(get(), get())
         }
         viewModel {
             HomeViewModel(publicationRepository = get(), authFirebaseRepository = get())
@@ -80,6 +81,11 @@ object Modules {
                 authFirebaseRepository = get(),
                 userRegistrationRepository = get(),
                 storageRef = get(named("storageRef"))
+            )
+        }
+        viewModel {
+            MainViewModel(
+                authFirebaseRepository = get()
             )
         }
     }

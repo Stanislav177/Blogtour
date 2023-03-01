@@ -42,6 +42,7 @@ class RegistrationUserFragment :
                     inputPasswordConfirmReg.text)
             }
             btnClickOkRegister.setOnClickListener {
+                viewModel.singOut()
                 requireActivity().supportFragmentManager.beginTransaction()
                     .replace(R.id.containerFragment, AuthUserFragment()).commit()
             }
