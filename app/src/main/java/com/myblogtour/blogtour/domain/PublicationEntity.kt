@@ -14,7 +14,7 @@ data class PublicationEntity(
     var clickLikePublication: Boolean, // стоит лайк или нет
     val idCounterLike: String, // id таблицы с лайками
     var maxLinesText: Boolean,
-    val authUser: Boolean
+    val currentUser: Boolean
 )
 
 data class ImageEntity(

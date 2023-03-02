@@ -1,14 +1,13 @@
 package com.myblogtour.blogtour.ui.registrationUser
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.lifecycle.ViewModelProvider
 import com.myblogtour.blogtour.R
 import com.myblogtour.blogtour.appState.AppStateUserRegistration
 import com.myblogtour.blogtour.databinding.FragmentRegistrationUserBinding
-import com.myblogtour.blogtour.ui.authUser.AuthUserFragment
 import com.myblogtour.blogtour.utils.BaseFragment
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -39,13 +38,10 @@ class RegistrationUserFragment :
                     inputLoginReg.text,
                     inputEmailReg.text,
                     inputPasswordReg.text,
-                    inputPasswordConfirmReg.text)
+                    inputPasswordConfirmReg.text
+                )
             }
-            btnClickOkRegister.setOnClickListener {
-                viewModel.singOut()
-                requireActivity().supportFragmentManager.beginTransaction()
-                    .replace(R.id.containerFragment, AuthUserFragment()).commit()
-            }
+
             addIconUserProfile.setOnClickListener {
                 resultLauncher.launch("image/*")
             }
@@ -65,7 +61,7 @@ class RegistrationUserFragment :
                     inputPasswordReg.error = it.errorPassword
                 }
                 is AppStateUserRegistration.SuccessUser -> {
-                    closeFragmentRegisterUser()
+                    openAlertDialog()
                 }
                 is AppStateUserRegistration.ErrorUser -> {
                     Toast.makeText(context, "Что-то пошло не так", Toast.LENGTH_SHORT).show()
@@ -103,11 +99,13 @@ class RegistrationUserFragment :
         }
     }
 
-    private fun closeFragmentRegisterUser() {
-        with(binding) {
-            registerView.visibility = View.GONE
-            successfulRegister.visibility = View.VISIBLE
-        }
+    private fun openAlertDialog() {
+        val builder = AlertDialog.Builder(requireActivity())
+        builder.setTitle("Регистрация прошла успешно")
+            .setPositiveButton("OK") { dialogInterface, i ->
+                viewModel.singOut()
+                requireActivity().supportFragmentManager.popBackStack()
+            }.create().show()
     }
 
     override fun onDestroy() {

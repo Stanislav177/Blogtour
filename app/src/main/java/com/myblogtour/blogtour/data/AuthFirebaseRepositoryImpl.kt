@@ -12,7 +12,7 @@ class AuthFirebaseRepositoryImpl(private val userAuth: FirebaseAuth) : AuthFireb
             onSuccess.invoke(it)
             return
         }
-        onError.invoke("Необходимо авторизоваться")
+        onError.invoke("Необходимо!!!! авторизоваться")
     }
 
     override fun authUser(

@@ -14,8 +14,6 @@ import com.myblogtour.blogtour.ui.myPublication.MyPublicationViewModel
 import com.myblogtour.blogtour.ui.profile.ProfileViewModel
 import com.myblogtour.blogtour.ui.recoveryPassword.RecoveryPasswordViewModel
 import com.myblogtour.blogtour.ui.registrationUser.RegistrationViewModel
-import com.myblogtour.blogtour.utils.validatorEmail.EmailValidatorPattern
-import com.myblogtour.blogtour.utils.validatorEmail.EmailValidatorPatternImpl
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
@@ -73,7 +71,9 @@ object Modules {
         }
         viewModel {
             AddPublicationViewModel(
-                get(named("userFirebase")), get(named("storageRef")), get()
+                get(),
+                get(named("storageRef")),
+                get()
             )
         }
         viewModel {

@@ -4,15 +4,15 @@ import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.UploadTask
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
+import com.myblogtour.blogtour.domain.repository.AuthFirebaseRepository
 import com.myblogtour.blogtour.domain.repository.CreatePublicationRepository
 
 class AddPublicationViewModel(
-    private val user: FirebaseUser?,
+    private val authFirebaseRepository: AuthFirebaseRepository,
     private val storageRef: StorageReference,
     private val createPublicationRepository: CreatePublicationRepository
 ) : ViewModel(), AddContract.ViewModel {
@@ -103,9 +103,16 @@ class AddPublicationViewModel(
     private fun converterJsonObject(imageUri: Uri?, text: String, location: String): JsonObject {
         val userProfile = JsonArray()
         var userIdProfile = ""
-        user?.let {
-            userIdProfile = it.displayName!!
-        }
+        authFirebaseRepository.userCurrent(
+            onSuccess = {
+                it.let {
+                    userIdProfile = it.displayName!!
+                }
+            },
+            onError = {
+
+            }
+        )
         val urlImage = JsonArray()
         val image = JsonObject()
         val publicationJson = JsonObject()
