@@ -61,12 +61,13 @@ class AuthFirebaseRepositoryImpl(private val userAuth: FirebaseAuth) : AuthFireb
     override fun resetPassword(
         emailAccount: String,
         onSuccess: (Boolean) -> Unit,
-        onError: (String) -> Unit
     ) {
         userAuth.sendPasswordResetEmail(emailAccount).addOnCompleteListener {
-            onSuccess.invoke(true)
-        }.addOnFailureListener {
-            onError.invoke(it.message!!)
+            if (it.isSuccessful) {
+                onSuccess.invoke(true)
+            } else {
+                onSuccess.invoke(false)
+            }
         }
     }
 

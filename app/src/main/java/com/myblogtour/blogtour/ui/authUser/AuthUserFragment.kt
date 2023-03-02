@@ -41,7 +41,9 @@ class AuthUserFragment : BaseFragment<FragmentAuthUserBinding>(FragmentAuthUserB
 
     private fun toFragment(f: Fragment) {
         requireActivity().supportFragmentManager.beginTransaction()
-            .replace(R.id.containerFragment, f).commit()
+            .replace(R.id.containerFragment, f)
+            .addToBackStack("")
+            .commit()
     }
 
     private fun renderData(it: AppStateUserAuth) {

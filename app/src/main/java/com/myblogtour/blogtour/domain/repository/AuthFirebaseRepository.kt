@@ -27,7 +27,6 @@ interface AuthFirebaseRepository {
     fun resetPassword(
         emailAccount: String,
         onSuccess: (Boolean) -> Unit,
-        onError: (String) -> Unit
     )
 
     fun singInOut(
