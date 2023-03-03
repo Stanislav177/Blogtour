@@ -60,6 +60,8 @@ class HomeRecyclerAdapter(private var myOnClickListener: MyOnClickListener) :
                 }
                 if (post.clickLikePublication) {
                     likePost.setImageResource(R.drawable.ic_like_on)
+                } else {
+                    likePost.setImageResource(R.drawable.ic_like_off)
                 }
 
                 textPublicationCard.setOnClickListener {
@@ -73,7 +75,7 @@ class HomeRecyclerAdapter(private var myOnClickListener: MyOnClickListener) :
                 }
 
                 likePost.setOnClickListener {
-                    if (post.authUser) {
+                    if (post.currentUser) {
                         if (!post.clickLikePublication) {
                             val interimCount = listPost[layoutPosition].counterLike
                             listPost[layoutPosition].counterLike = interimCount + 1
@@ -86,15 +88,13 @@ class HomeRecyclerAdapter(private var myOnClickListener: MyOnClickListener) :
                             notifyItemChanged(layoutPosition)
                         }
                         myOnClickListener.onItemClickLike(
-                            post.idCounterLike,
-                            post.clickLikePublication
+                            post.idCounterLike
                         )
                     } else {
-                        myOnClickListener.onItemClickLike(false)
+                        myOnClickListener.onItemClickLikeError()
                     }
-
-
                 }
+
                 moreCard.setOnClickListener {
                     myOnClickListener.onItemClickMore(
                         ItemRecyclerBlogBinding.bind(itemView).apply { this })

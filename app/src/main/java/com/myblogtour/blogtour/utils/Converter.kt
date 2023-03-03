@@ -7,6 +7,7 @@ import com.myblogtour.blogtour.domain.UserProfileEntity
 import java.time.format.DateTimeFormatter
 
 fun converterFromDtoToPublicationEntity(
+    currentUser: Boolean,
     id: String?,
     publicationDTO: PublicationDTO,
 ): List<PublicationEntity> {
@@ -28,18 +29,11 @@ fun converterFromDtoToPublicationEntity(
                 searchUserLikePublication(id, publicationDTO.records[i].fields.iduserprofile),
                 converterIdTableCounterLike(publicationDTO.records[i].fields.idcounterlike),
                 false,
-                authUser(id)
+                currentUser
             )
         )
     }
     return publicationList
-}
-
-private fun authUser(idUser: String?): Boolean {
-    idUser?.let {
-        return true
-    }
-    return false
 }
 
 private fun converterDateFormat(datePublication: String): String {

@@ -52,12 +52,12 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
         }
     }
 
-    override fun onItemClickLike(error: Boolean) {
-        Toast.makeText(requireActivity(), "Необходимо авторизоваться", Toast.LENGTH_SHORT).show()
+    override fun onItemClickLike(idTableLike: String) {
+        postViewModel.likePublication(idTableLike)
     }
 
-    override fun onItemClickLike(idTableLike: String, like: Boolean) {
-        postViewModel.likePublication(idTableLike)
+    override fun onItemClickLikeError() {
+        Toast.makeText(requireActivity(), "Необходимо авторизоваться", Toast.LENGTH_SHORT).show()
     }
 
     override fun onItemClickComplaintPublication(id: String) {

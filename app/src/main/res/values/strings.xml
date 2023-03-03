@@ -23,4 +23,5 @@
     <string name="setting">Setting</string>
     <string name="sign_out">Sing out account</string>
     <string name="publishPost">Publish a post</string>
+    <string name="recovery_password"><u>Password recovery?</u>></string>
 </resources>

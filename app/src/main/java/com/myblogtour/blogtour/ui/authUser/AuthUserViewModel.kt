@@ -60,12 +60,5 @@ class AuthUserViewModel(
                 liveData.postValue(AppStateUserAuth.ErrorUser(it))
             }
         )
-//        auth.signInWithEmailAndPassword(emailAuth, passwordAuth).addOnCompleteListener {
-//            if (it.isSuccessful) {
-//                liveData.postValue(AppStateUserAuth.SuccessUser(true))
-//            } else {
-//                liveData.postValue(AppStateUserAuth.ErrorUser("Ошибка авторизации"))
-//            }
-//        }
     }
 }

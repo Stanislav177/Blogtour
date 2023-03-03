@@ -20,12 +20,25 @@ class HomeViewModel(
 
     fun getLiveData() = liveData
 
+    private fun checkAuthUser(): Boolean {
+        var userCurrent = false
+        authFirebaseRepository.userCurrent(
+            onSuccess = {
+                userCurrent = true
+            },
+            onError = {
+                userCurrent = false
+            }
+        )
+        return userCurrent
+    }
+
     fun getPostList() {
         publicationRepository.getPublication(
             onSuccess = {
                 liveData.postValue(
                     AppStateListBlog.Success(
-                        converterFromDtoToPublicationEntity(getIdUser(), it)
+                        converterFromDtoToPublicationEntity(checkAuthUser(), getIdUser(), it)
                     )
                 )
             },
@@ -49,6 +62,7 @@ class HomeViewModel(
     }
 
     fun likePublication(idPublication: String) {
+        checkAuthUser()
         idPublicationLocal = idPublication
         loadListLikeUser()
     }

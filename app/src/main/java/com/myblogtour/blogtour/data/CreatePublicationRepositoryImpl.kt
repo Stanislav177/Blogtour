@@ -22,7 +22,6 @@ class CreatePublicationRepositoryImpl(private val api: AirTableApi) : CreatePubl
                         response.body()?.let {
                             onSuccess.invoke(true)
                         }
-
                     } else {
                         onError.invoke(IllegalStateException("Что-то пошло не так"))
                     }
@@ -31,7 +30,6 @@ class CreatePublicationRepositoryImpl(private val api: AirTableApi) : CreatePubl
                 override fun onFailure(call: Call<Record>, t: Throwable) {
                     onError.invoke(t)
                 }
-
             }
         )
     }

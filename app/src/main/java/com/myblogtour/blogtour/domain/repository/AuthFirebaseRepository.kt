@@ -24,6 +24,11 @@ interface AuthFirebaseRepository {
         onSuccess: (Boolean) -> Unit,
     )
 
+    fun resetPassword(
+        emailAccount: String,
+        onSuccess: (Boolean) -> Unit,
+    )
+
     fun singInOut(
         onSuccess: (Boolean) -> Unit
     )

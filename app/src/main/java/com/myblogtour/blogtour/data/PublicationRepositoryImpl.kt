@@ -80,6 +80,5 @@ class PublicationRepositoryImpl(private val api: AirTableApi) : PublicationRepos
                 }
             )
         }
-        onError.invoke(IllegalStateException("Необходимо авторизоваться"))
     }
 }

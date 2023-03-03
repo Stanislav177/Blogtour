@@ -3,13 +3,9 @@ package com.myblogtour.blogtour.ui.myPublication
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.myblogtour.airtable.domain.PublicationDTO
 import com.myblogtour.blogtour.domain.PublicationEntity
 import com.myblogtour.blogtour.domain.repository.MyPublicationRepository
 import com.myblogtour.blogtour.utils.converterFromDtoToPublicationEntity
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 class MyPublicationViewModel(private val myPublicationRepository: MyPublicationRepository) :
     ViewModel(),
@@ -24,7 +20,8 @@ class MyPublicationViewModel(private val myPublicationRepository: MyPublicationR
         myPublicationRepository.getMyPublication(
             getQueryUid(uid),
             onSuccess = {
-                listPublication.mutable().postValue(converterFromDtoToPublicationEntity("", it))
+                listPublication.mutable()
+                    .postValue(converterFromDtoToPublicationEntity(true, "", it))
             },
             onError = {
 

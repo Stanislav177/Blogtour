@@ -6,30 +6,6 @@
     android:orientation="vertical">
 
     <LinearLayout
-        android:id="@+id/successfulRegister"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:orientation="vertical"
-        android:visibility="gone">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="Успешно!"
-            android:textSize="30dp"
-            android:textStyle="bold" />
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btnClickOkRegister"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="OK" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/registerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">

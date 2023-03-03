@@ -17,8 +17,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class ProfileFragment : BaseFragment<FragmentProfileBinding>(FragmentProfileBinding::inflate) {
 
-    val viewModel: ProfileViewModel by viewModel()
-
+    private val viewModel: ProfileViewModel by viewModel()
     private lateinit var uidUser: String
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -48,7 +47,6 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(FragmentProfileBind
         viewModel.userSingOut.observe(viewLifecycleOwner) {
             toFragment(AuthUserFragment())
         }
-
         viewModel.onRefresh()
     }
 
@@ -56,6 +54,7 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(FragmentProfileBind
         requireActivity().supportFragmentManager
             .beginTransaction()
             .replace(R.id.containerFragment, f)
+            .addToBackStack("")
             .commit()
     }
 

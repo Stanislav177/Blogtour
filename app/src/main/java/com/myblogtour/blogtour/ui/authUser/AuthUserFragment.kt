@@ -8,6 +8,7 @@ import com.myblogtour.blogtour.R
 import com.myblogtour.blogtour.appState.AppStateUserAuth
 import com.myblogtour.blogtour.databinding.FragmentAuthUserBinding
 import com.myblogtour.blogtour.ui.profile.ProfileFragment
+import com.myblogtour.blogtour.ui.recoveryPassword.RecoveryPasswordFragment
 import com.myblogtour.blogtour.ui.registrationUser.RegistrationUserFragment
 import com.myblogtour.blogtour.utils.BaseFragment
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -32,12 +33,17 @@ class AuthUserFragment : BaseFragment<FragmentAuthUserBinding>(FragmentAuthUserB
             btnClickRegister.setOnClickListener {
                 toFragment(RegistrationUserFragment())
             }
+            btnRecoveryPassword.setOnClickListener {
+                toFragment(RecoveryPasswordFragment())
+            }
         }
     }
 
     private fun toFragment(f: Fragment) {
         requireActivity().supportFragmentManager.beginTransaction()
-            .replace(R.id.containerFragment, f).commit()
+            .replace(R.id.containerFragment, f)
+            .addToBackStack("")
+            .commit()
     }
 
     private fun renderData(it: AppStateUserAuth) {
