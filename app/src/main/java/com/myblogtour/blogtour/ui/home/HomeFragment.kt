@@ -4,11 +4,16 @@ import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.animation.ObjectAnimator
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
+import com.myblogtour.blogtour.R
 import com.myblogtour.blogtour.appState.AppStateListBlog
 import com.myblogtour.blogtour.databinding.FragmentHomeBinding
 import com.myblogtour.blogtour.databinding.ItemRecyclerBlogBinding
+import com.myblogtour.blogtour.ui.main.BottomNavigationDrawerFragment
 import com.myblogtour.blogtour.utils.BaseFragment
 import org.koin.androidx.viewmodel.ext.android.viewModel
 

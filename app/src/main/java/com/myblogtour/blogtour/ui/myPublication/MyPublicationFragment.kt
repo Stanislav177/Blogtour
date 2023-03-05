@@ -4,10 +4,11 @@ import android.os.Bundle
 import android.view.View
 import com.myblogtour.blogtour.databinding.FragmentMyPublicationBinding
 import com.myblogtour.blogtour.domain.PublicationEntity
+import com.myblogtour.blogtour.domain.repository.AuthFirebaseRepository
 import com.myblogtour.blogtour.utils.BaseFragment
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class MyPublicationFragment(private val uidUser: String) :
+class MyPublicationFragment() :
     BaseFragment<FragmentMyPublicationBinding>(FragmentMyPublicationBinding::inflate),
     MyOnItemClickListener {
 
@@ -23,7 +24,7 @@ class MyPublicationFragment(private val uidUser: String) :
             renderData(it)
         }
         binding.recyclerViewMyPublication.adapter = recyclerViewMyPublication
-        viewModelMyPublication.getMyPublication(uidUser)
+        viewModelMyPublication.getMyPublication()
     }
 
     private fun renderData(it: List<PublicationEntity>?) {

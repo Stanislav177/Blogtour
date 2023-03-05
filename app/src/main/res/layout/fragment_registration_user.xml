@@ -26,6 +26,7 @@
             android:layout_marginTop="30dp"
             android:background="#40B8B8B8">
 
+
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/iconUserProfileRegistration"
                 android:layout_width="match_parent"

@@ -1,4 +1,4 @@
-package com.myblogtour.blogtour.ui.profile
+package com.myblogtour.blogtour.ui.profileUser
 
 import android.os.Bundle
 import android.view.View
@@ -7,12 +7,10 @@ import coil.load
 import com.myblogtour.blogtour.R
 import com.myblogtour.blogtour.databinding.FragmentProfileBinding
 import com.myblogtour.blogtour.domain.UserProfileEntity
-import com.myblogtour.blogtour.domain.repository.UserProfileRepository
 import com.myblogtour.blogtour.ui.addPublication.AddPublicationFragment
 import com.myblogtour.blogtour.ui.authUser.AuthUserFragment
 import com.myblogtour.blogtour.ui.myPublication.MyPublicationFragment
 import com.myblogtour.blogtour.utils.BaseFragment
-import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class ProfileFragment : BaseFragment<FragmentProfileBinding>(FragmentProfileBinding::inflate) {
@@ -35,7 +33,7 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(FragmentProfileBind
                 toFragment(AddPublicationFragment())
             }
             myPublication.setOnClickListener {
-                toFragment(MyPublicationFragment(uidUser))
+                toFragment(MyPublicationFragment())
             }
         }
     }
@@ -60,7 +58,6 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(FragmentProfileBind
 
     private fun renderData(user: UserProfileEntity) {
         with(binding) {
-            uidUser = user.uid
             userLogin.text = user.nickname
             iconUserProfile.load(user.icon)
             progressBarProfileUser.visibility = View.GONE

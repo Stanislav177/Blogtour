@@ -1,9 +1,7 @@
-package com.myblogtour.blogtour.ui.profile
+package com.myblogtour.blogtour.ui.profileUser
 
 import androidx.lifecycle.LiveData
-import com.myblogtour.blogtour.domain.PublicationEntity
 import com.myblogtour.blogtour.domain.UserProfileEntity
-import com.myblogtour.blogtour.domain.repository.UserProfileRepository
 
 interface ProfileContract {
 

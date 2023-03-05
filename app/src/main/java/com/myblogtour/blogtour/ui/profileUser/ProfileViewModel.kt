@@ -1,19 +1,11 @@
-package com.myblogtour.blogtour.ui.profile
+package com.myblogtour.blogtour.ui.profileUser
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
-import com.myblogtour.airtable.domain.UserProfileDTO
 import com.myblogtour.blogtour.domain.UserProfileEntity
 import com.myblogtour.blogtour.domain.repository.AuthFirebaseRepository
 import com.myblogtour.blogtour.domain.repository.UserProfileRepository
-import com.myblogtour.blogtour.utils.converterFromProfileUserDtoToProfileUserEntity
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 class ProfileViewModel(
     private val userProfileRepository: UserProfileRepository,

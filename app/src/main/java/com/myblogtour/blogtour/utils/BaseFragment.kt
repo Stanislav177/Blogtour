@@ -23,6 +23,7 @@ abstract class BaseFragment<T : ViewBinding>(
         savedInstanceState: Bundle?,
     ): View {
         _binding = inflaterBinding.invoke(inflater, container, false)
+        setHasOptionsMenu(true)
         return binding.root
     }
 

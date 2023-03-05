@@ -4,9 +4,7 @@ import com.google.gson.JsonObject
 import com.myblogtour.airtable.domain.PublicationDTO
 import com.myblogtour.airtable.domain.Record
 import com.myblogtour.airtable.domain.RecordUserProfileDTO
-import com.myblogtour.airtable.domain.retrofit.*
 import retrofit2.Call
-import retrofit2.Callback
 import retrofit2.http.*
 
 const val URL_API_END_POINT_USER_PROFILE = "v0/appQW6UhhbjRHa0vs/UserProfile"
