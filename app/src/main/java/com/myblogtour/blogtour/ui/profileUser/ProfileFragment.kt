@@ -16,7 +16,6 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 class ProfileFragment : BaseFragment<FragmentProfileBinding>(FragmentProfileBinding::inflate) {
 
     private val viewModel: ProfileViewModel by viewModel()
-    private lateinit var uidUser: String
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -28,12 +27,6 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(FragmentProfileBind
         with(binding) {
             singOut.setOnClickListener {
                 viewModel.singInOut()
-            }
-            publishPostProfile.setOnClickListener {
-                toFragment(AddPublicationFragment())
-            }
-            myPublication.setOnClickListener {
-                toFragment(MyPublicationFragment())
             }
         }
     }

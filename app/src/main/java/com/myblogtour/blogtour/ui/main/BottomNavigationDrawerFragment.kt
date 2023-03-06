@@ -11,6 +11,7 @@ import com.myblogtour.blogtour.R
 import com.myblogtour.blogtour.databinding.BottomNavigationLayoutBinding
 import com.myblogtour.blogtour.ui.addPublication.AddPublicationFragment
 import com.myblogtour.blogtour.ui.myPublication.MyPublicationFragment
+import com.myblogtour.blogtour.ui.profileUser.ProfileFragment
 
 class BottomNavigationDrawerFragment : BottomSheetDialogFragment() {
 
@@ -32,8 +33,7 @@ class BottomNavigationDrawerFragment : BottomSheetDialogFragment() {
         binding.navigationView.setNavigationItemSelectedListener {
             when (it.itemId) {
                 R.id.navBtnPersonalDataUserProfile -> {
-                    Toast.makeText(requireActivity(), "PersonalDataUserProfile", Toast.LENGTH_SHORT)
-                        .show()
+                    toFragment(ProfileFragment())
                     this.dismiss()
                 }
                 R.id.navBtnUserPublication -> {
