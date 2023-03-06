@@ -15,9 +15,11 @@ class AddPublicationFragment :
 
     private val viewModel: AddPublicationViewModel by viewModel()
     private var imageUri: Uri? = null
+    private var imageUriLocal: Uri? = null
     private val resultLauncher =
         registerForActivityResult(ActivityResultContracts.GetContent()) {
             it?.let {
+                imageUriLocal = it
                 viewModel.image(it)
             }
         }
@@ -65,7 +67,7 @@ class AddPublicationFragment :
                 imageUri = it
                 progressBarImagePostAddPost.visibility = View.GONE
                 textViewProgress.visibility = View.GONE
-                imagePostAddPost.load(it)
+                imagePostAddPost.load(imageUriLocal)
                 deleteImagePublication.visibility = View.VISIBLE
             } else {
                 imagePostAddPost.load(null)

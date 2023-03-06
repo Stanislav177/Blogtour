@@ -3,6 +3,7 @@ package com.myblogtour.blogtour.di
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
+import com.google.gson.GsonBuilder
 import com.myblogtour.blogtour.data.*
 import com.myblogtour.blogtour.data.retrofit.AirTableApi
 import com.myblogtour.blogtour.domain.repository.*
@@ -11,7 +12,7 @@ import com.myblogtour.blogtour.ui.authUser.AuthUserViewModel
 import com.myblogtour.blogtour.ui.home.HomeViewModel
 import com.myblogtour.blogtour.ui.main.MainViewModel
 import com.myblogtour.blogtour.ui.myPublication.MyPublicationViewModel
-import com.myblogtour.blogtour.ui.profile.ProfileViewModel
+import com.myblogtour.blogtour.ui.profileUser.ProfileViewModel
 import com.myblogtour.blogtour.ui.recoveryPassword.RecoveryPasswordViewModel
 import com.myblogtour.blogtour.ui.registrationUser.RegistrationViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -28,8 +29,11 @@ object Modules {
         single<Retrofit>(named("retrofit")) {
             Retrofit.Builder()
                 .baseUrl(base_url_api)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build()
+                .addConverterFactory(
+                    GsonConverterFactory.create(
+                        GsonBuilder().setLenient().create()
+                    )
+                ).build()
         }
         single<AirTableApi>(named("api")) {
             get<Retrofit>(named("retrofit")).create(AirTableApi::class.java)
@@ -67,7 +71,7 @@ object Modules {
             HomeViewModel(publicationRepository = get(), authFirebaseRepository = get())
         }
         viewModel {
-            MyPublicationViewModel(get())
+            MyPublicationViewModel(get(),get())
         }
         viewModel {
             AddPublicationViewModel(

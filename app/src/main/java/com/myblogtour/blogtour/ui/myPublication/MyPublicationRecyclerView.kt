@@ -48,7 +48,7 @@ class MyPublicationRecyclerView(val myOnItemClickListener: MyOnItemClickListener
                 btnDeletePublication.setOnClickListener {
                     myOnItemClickListener.onClickDeletePublication(publication.id, publication.idCounterLike)
                     myPublicationList.removeAt(layoutPosition)
-                    notifyItemChanged(layoutPosition)
+                    notifyItemRemoved(layoutPosition)
                 }
             }
         }

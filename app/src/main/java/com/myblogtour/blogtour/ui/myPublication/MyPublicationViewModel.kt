@@ -4,29 +4,39 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.myblogtour.blogtour.domain.PublicationEntity
+import com.myblogtour.blogtour.domain.repository.AuthFirebaseRepository
 import com.myblogtour.blogtour.domain.repository.MyPublicationRepository
 import com.myblogtour.blogtour.utils.converterFromDtoToPublicationEntity
 
-class MyPublicationViewModel(private val myPublicationRepository: MyPublicationRepository) :
-    ViewModel(),
-    MyPublicationContract.MyPublication {
+class MyPublicationViewModel(
+    private val myPublicationRepository: MyPublicationRepository,
+    private val authFirebaseRepository: AuthFirebaseRepository
+) :
+    ViewModel(), MyPublicationContract.MyPublication {
 
     override val listPublication: LiveData<List<PublicationEntity>> = MutableLiveData()
 
-    private lateinit var uid: String
-
-    fun getMyPublication(uidUser: String) {
-        uid = uidUser
-        myPublicationRepository.getMyPublication(
-            getQueryUid(uid),
+    fun getMyPublication() {
+        authFirebaseRepository.userCurrent(
             onSuccess = {
-                listPublication.mutable()
-                    .postValue(converterFromDtoToPublicationEntity(true, "", it))
+                val uid = it.uid
+                myPublicationRepository.getMyPublication(
+                    "userprofile='$uid'",
+                    onSuccess = {
+                        listPublication.mutable()
+                            .postValue(converterFromDtoToPublicationEntity(true, "", it))
+                    },
+                    onError = {
+
+                    }
+                )
             },
             onError = {
 
             }
         )
+
+
     }
 
     fun deletePublication(idPublication: String, idLikePublication: String) {
@@ -39,11 +49,6 @@ class MyPublicationViewModel(private val myPublicationRepository: MyPublicationR
 
             }
         )
-    }
-
-    private fun getQueryUid(uid: String): String {
-        val userprofile = "userprofile="
-        return "$userprofile'$uid'"
     }
 
     private fun <T> LiveData<T>.mutable(): MutableLiveData<T> {

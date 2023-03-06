@@ -7,7 +7,7 @@ import androidx.fragment.app.Fragment
 import com.myblogtour.blogtour.R
 import com.myblogtour.blogtour.appState.AppStateUserAuth
 import com.myblogtour.blogtour.databinding.FragmentAuthUserBinding
-import com.myblogtour.blogtour.ui.profile.ProfileFragment
+import com.myblogtour.blogtour.ui.profileUser.ProfileFragment
 import com.myblogtour.blogtour.ui.recoveryPassword.RecoveryPasswordFragment
 import com.myblogtour.blogtour.ui.registrationUser.RegistrationUserFragment
 import com.myblogtour.blogtour.utils.BaseFragment

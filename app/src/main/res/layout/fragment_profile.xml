@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".ui.profile.ProfileFragment">
+    tools:context=".ui.profileUser.ProfileFragment">
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -82,65 +82,35 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="5dp">
+            android:layout_height="wrap_content">
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/personalDataUser"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/personal_data"
-                android:textColor="@color/black"
-                android:textSize="20sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+<!--            <com.google.android.material.textfield.TextInputLayout-->
+<!--                android:id="@+id/textInputLayout"-->
+<!--                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                app:hint="Email"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintTop_toTopOf="parent">-->
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/myPublication"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/my_posts"
-                android:textColor="@color/black"
-                android:textSize="20sp"
-                app:layout_constraintTop_toBottomOf="@+id/personalDataUser" />
+<!--                <EditText-->
+<!--                    android:id="@+id/editTextPost"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:text="xxxxxx@xxxx.xx" />-->
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/publishPostProfile"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/publishPost"
-                android:textColor="@color/black"
-                android:textSize="20sp"
-                app:layout_constraintTop_toBottomOf="@+id/myPublication" />
+<!--            </com.google.android.material.textfield.TextInputLayout>-->
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/favoritePost"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/favorites"
-                android:textColor="@color/black"
-                android:textSize="20sp"
-                android:visibility="gone"
-                app:layout_constraintTop_toBottomOf="@+id/publishPostProfile" />
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/setting"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/setting"
-                android:textColor="@color/black"
-                android:textSize="20sp"
-                android:visibility="gone"
-                app:layout_constraintTop_toBottomOf="@+id/favoritePost" />
-
-            <androidx.appcompat.widget.AppCompatTextView
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/singOut"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/sign_out"
-                android:textColor="@color/black"
                 android:textSize="20sp"
-                app:layout_constraintTop_toBottomOf="@+id/setting" />
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

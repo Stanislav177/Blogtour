@@ -13,7 +13,7 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_app_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.BlogTour"
+        android:theme="@style/MyTheme"
         tools:targetApi="31">
         <activity
             android:screenOrientation="portrait"
