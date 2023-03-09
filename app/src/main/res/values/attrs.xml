@@ -3,5 +3,7 @@
 
     <attr name="colorPrimarySuper" format="color" />
     <attr name="colorSecondarySuper" format="color" />
+    <attr name="colorSurfaceSuperBottomBar" format="color" />
+    <attr name="colorFocusedTextInputLayout" format="color" />
 
 </resources>

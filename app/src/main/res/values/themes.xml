@@ -1,11 +1,12 @@
 <resources>
 
     <style name="MyTheme" parent="Theme.BlogTour">
-        <item name="colorPrimarySuper">#00BCD4</item>
-        <item name="colorSecondarySuper">#0097A7</item>
+        <item name="colorPrimarySuper">#F57C00</item>
+        <item name="colorSecondarySuper">#388E3C</item>
+        <item name="colorSurfaceSuperBottomBar">#CCCCCC</item>
+        <item name="colorFocusedTextInputLayout">#388E3C</item>
     </style>
 
-    <!-- Base application theme. -->
     <style name="Theme.BlogTour" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">?colorPrimarySuper</item>
@@ -16,12 +17,23 @@
         <item name="colorSecondaryVariant">?colorSecondarySuper</item>
         <item name="colorOnSecondary">@color/white</item>
         <!-- Status bar color. -->
-        <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
-        <item name="floatingActionButtonStyle">@style/MyFloatBtn</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="colorPrimaryDark">@color/white</item>
+        <item name="floatingActionButtonStyle">@style/MyFloatButton</item>
+        <item name="bottomAppBarStyle">@style/MyBottomBar</item>
+        <item name="materialButtonStyle">@style/MyButton</item>
     </style>
 
-    <style name="MyFloatBtn" parent="Widget.MaterialComponents.FloatingActionButton">
+    <style name="MyFloatButton" parent="Widget.MaterialComponents.FloatingActionButton">
         <item name="backgroundTint">#E64A19</item>
+    </style>
+
+    <style name="MyButton" parent="Widget.MaterialComponents.Button">
+        <item name="backgroundTint">#888888</item>
+    </style>
+
+    <style name="MyBottomBar" parent="Widget.MaterialComponents.BottomAppBar">
+        <item name="backgroundTint">?colorSurfaceSuperBottomBar</item>
     </style>
 
     <style name="roundedImageViewRounded">
