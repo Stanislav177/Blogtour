@@ -141,7 +141,8 @@
                 android:textSize="15sp" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
+            android:backgroundTint="#388E3C"
             android:id="@+id/btnClickRegisterUser"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

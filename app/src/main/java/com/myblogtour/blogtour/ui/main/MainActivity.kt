@@ -29,7 +29,7 @@ class MainActivity : AppCompatActivity() {
     private fun initAppBar() {
         with(binding) {
             btnHomeFab.setOnClickListener {
-                Toast.makeText(this@MainActivity, "Главный экран", Toast.LENGTH_SHORT).show()
+                toFragment(HomeFragment())
             }
             appBar.setOnMenuItemClickListener {
                 when (it.itemId) {
