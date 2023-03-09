@@ -6,5 +6,7 @@ data class UserProfileEntity(
     val nickname: String,
     val publication: List<String>?,
     val icon: String,
-    val likePublication: List<String>?
+    val likePublication: List<String>?,
+    val verification: Boolean,
+    val email: String
 )

@@ -4,7 +4,6 @@ import android.net.Uri
 import android.text.Editable
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.UploadTask
 import com.google.gson.JsonArray
@@ -13,18 +12,18 @@ import com.myblogtour.blogtour.appState.AppStateUserRegistration
 import com.myblogtour.blogtour.domain.repository.AuthFirebaseRepository
 import com.myblogtour.blogtour.domain.repository.UserRegistrationRepository
 import com.myblogtour.blogtour.utils.converterFromRegisterUserAirtableToUserEntity
-import com.myblogtour.blogtour.utils.validatorEmail.EmailValidatorPatternImpl
-import com.myblogtour.blogtour.utils.validatorPassword.PasswordValidatorPatternImpl
-import com.myblogtour.blogtour.utils.validatorUserName.LoginValidatorPatternImpl
+import com.myblogtour.blogtour.utils.validatorEmail.EmailValidatorPattern
+import com.myblogtour.blogtour.utils.validatorPassword.PasswordValidatorPattern
+import com.myblogtour.blogtour.utils.validatorUserName.LoginValidatorPattern
 
 class RegistrationViewModel(
     private val authFirebaseRepository: AuthFirebaseRepository,
     private val userRegistrationRepository: UserRegistrationRepository,
     private val storageRef: StorageReference,
+    private val validPasswordPattern: PasswordValidatorPattern,
+    private val validEmailPattern: EmailValidatorPattern,
+    private val validNameValidatorPattern: LoginValidatorPattern,
     private val liveData: MutableLiveData<AppStateUserRegistration> = MutableLiveData(),
-    private val validEmailPattern: EmailValidatorPatternImpl = EmailValidatorPatternImpl(),
-    private val validPasswordPattern: PasswordValidatorPatternImpl = PasswordValidatorPatternImpl(),
-    private val validNameValidatorPattern: LoginValidatorPatternImpl = LoginValidatorPatternImpl(),
 ) : ViewModel() {
 
     private lateinit var userLogin: String
@@ -37,7 +36,7 @@ class RegistrationViewModel(
 
     fun getLiveData() = liveData
 
-    fun singOut(){
+    fun singOut() {
         authFirebaseRepository.singInOut {
 
         }

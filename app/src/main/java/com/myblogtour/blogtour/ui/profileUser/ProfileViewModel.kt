@@ -16,6 +16,7 @@ class ProfileViewModel(
     override val userSuccess: LiveData<UserProfileEntity> = MutableLiveData()
     override val userError: LiveData<Throwable> = MutableLiveData()
     override val userSingOut: LiveData<Boolean> = MutableLiveData()
+    override val verificationEmail: LiveData<String> = MutableLiveData()
 
     override fun onRefresh() {
         authFirebaseRepository.userCurrent(
@@ -41,6 +42,16 @@ class ProfileViewModel(
             userSingOut.mutable().postValue(it)
         }
 
+    }
+
+    override fun verificationEmail() {
+        authFirebaseRepository.verificationEmail {
+            if (it) {
+                verificationEmail.mutable().postValue("Проверьте почту для подтверждения Email")
+            } else {
+                verificationEmail.mutable().postValue("Что-то пошло не так")
+            }
+        }
     }
 
     private fun <T> LiveData<T>.mutable(): MutableLiveData<T> {

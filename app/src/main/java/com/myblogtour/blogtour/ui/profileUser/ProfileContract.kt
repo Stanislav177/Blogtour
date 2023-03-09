@@ -9,7 +9,9 @@ interface ProfileContract {
         val userSuccess: LiveData<UserProfileEntity>
         val userError: LiveData<Throwable>
         val userSingOut: LiveData<Boolean>
+        val verificationEmail: LiveData<String>
         fun onRefresh()
         fun singInOut()
+        fun verificationEmail()
     }
 }

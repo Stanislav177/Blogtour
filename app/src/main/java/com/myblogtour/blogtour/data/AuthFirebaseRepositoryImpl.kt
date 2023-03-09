@@ -12,7 +12,7 @@ class AuthFirebaseRepositoryImpl(private val userAuth: FirebaseAuth) : AuthFireb
             onSuccess.invoke(it)
             return
         }
-        onError.invoke("Необходимо!!!! авторизоваться")
+        onError.invoke("Необходимо авторизоваться")
     }
 
     override fun authUser(
@@ -74,6 +74,18 @@ class AuthFirebaseRepositoryImpl(private val userAuth: FirebaseAuth) : AuthFireb
     override fun singInOut(onSuccess: (Boolean) -> Unit) {
         userAuth.signOut()
         onSuccess.invoke(true)
+    }
+
+    override fun verificationEmail(onSuccess: (Boolean) -> Unit) {
+        userAuth.currentUser?.let {
+            it.sendEmailVerification().addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    onSuccess.invoke(true)
+                } else {
+                    onSuccess.invoke(false)
+                }
+            }
+        }
     }
 
     override fun deleteAccountUser() {

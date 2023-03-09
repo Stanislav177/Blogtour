@@ -3,9 +3,8 @@ package com.myblogtour.blogtour.utils.validatorPassword
 import android.text.Editable
 
 class PasswordValidatorPatternImpl : PasswordValidatorPattern {
-
-    var validPassword = false
-    var equalsPassword = false
+    override var validPassword: Boolean = false
+    override var equalsPassword: Boolean = false
 
     override fun afterText(p0: Editable?, p0Confirm: Editable?) {
         validPassword = isPasswordValidate(p0.toString())

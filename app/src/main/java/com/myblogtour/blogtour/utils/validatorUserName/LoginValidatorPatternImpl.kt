@@ -3,8 +3,8 @@ package com.myblogtour.blogtour.utils.validatorUserName
 import android.text.Editable
 
 class LoginValidatorPatternImpl : LoginValidatorPattern {
-    var validUserLogin = false
-    var nullUserLogin: String? = null
+    override var validUserLogin: Boolean = false
+    override var nullUserLogin: String? = null
 
     override fun afterTextUserName(userLoginText: Editable?) {
         validUserLogin = isUserLoginValidate(userLoginText.toString())

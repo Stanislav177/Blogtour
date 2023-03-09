@@ -1,6 +1,9 @@
 package com.myblogtour.blogtour.utils
 
-import com.myblogtour.airtable.domain.*
+import com.myblogtour.airtable.domain.IconUser
+import com.myblogtour.airtable.domain.ImagePublication
+import com.myblogtour.airtable.domain.PublicationDTO
+import com.myblogtour.airtable.domain.RecordUserProfileDTO
 import com.myblogtour.blogtour.domain.ImageEntity
 import com.myblogtour.blogtour.domain.PublicationEntity
 import com.myblogtour.blogtour.domain.UserProfileEntity
@@ -128,35 +131,52 @@ private fun converterUrlImageDto(urlDtoImage: List<ImagePublication>): MutableLi
     return publicationImage
 }
 
-fun converterFromProfileUserDtoToProfileUserEntity(
-    userProfileDTO: UserProfileDTO,
-): UserProfileEntity? {
-    val userProfileDToSize = userProfileDTO.records.size
-    var profileUser: UserProfileEntity? = null
-    if (userProfileDToSize != 0) {
-        userProfileDToSize.let {
-            for (i in 0 until it) {
-                profileUser = UserProfileEntity(
-                    userProfileDTO.records[i].id,
-                    userProfileDTO.records[i].fields.uid,
-                    userProfileDTO.records[i].fields.nickname,
-                    userProfileDTO.records[i].fields.publication,
-                    converterIconUserDto(userProfileDTO.records[i].fields.icon),
-                    userProfileDTO.records[i].fields.likePublication
-                )
-            }
-        }
-    }
-    return profileUser
-}
+//fun converterFromProfileUserDtoToProfileUserEntity(
+//    userProfileDTO: UserProfileDTO,
+//): UserProfileEntity? {
+//    val userProfileDToSize = userProfileDTO.records.size
+//    var profileUser: UserProfileEntity? = null
+//    if (userProfileDToSize != 0) {
+//        userProfileDToSize.let {
+//            for (i in 0 until it) {
+//                profileUser = UserProfileEntity(
+//                    userProfileDTO.records[i].id,
+//                    userProfileDTO.records[i].fields.uid,
+//                    userProfileDTO.records[i].fields.nickname,
+//                    userProfileDTO.records[i].fields.publication,
+//                    converterIconUserDto(userProfileDTO.records[i].fields.icon),
+//                    userProfileDTO.records[i].fields.likePublication
+//                )
+//            }
+//        }
+//    }
+//    return profileUser
+//}
 
-fun converterFromRegisterUserAirtableToUserEntity(recordUserProfileDTO: RecordUserProfileDTO) =
-    UserProfileEntity(
-        recordUserProfileDTO.id,
-        recordUserProfileDTO.fields.uid,
-        recordUserProfileDTO.fields.nickname,
-        recordUserProfileDTO.fields.publication,
-        converterIconUserDto(recordUserProfileDTO.fields.icon),
-        recordUserProfileDTO.fields.likePublication
-    )
+fun converterFromRegisterUserAirtableToUserEntity(
+    recordUserProfileDTO: RecordUserProfileDTO
+) = UserProfileEntity(
+    recordUserProfileDTO.id,
+    recordUserProfileDTO.fields.uid,
+    recordUserProfileDTO.fields.nickname,
+    recordUserProfileDTO.fields.publication,
+    converterIconUserDto(recordUserProfileDTO.fields.icon),
+    recordUserProfileDTO.fields.likePublication,
+    false,
+    ""
+)
+fun converterFromProfileUserAirtableToUserEntity(
+    userVer: Boolean,
+    userMail: String,
+    recordUserProfileDTO: RecordUserProfileDTO
+) = UserProfileEntity(
+    recordUserProfileDTO.id,
+    recordUserProfileDTO.fields.uid,
+    recordUserProfileDTO.fields.nickname,
+    recordUserProfileDTO.fields.publication,
+    converterIconUserDto(recordUserProfileDTO.fields.icon),
+    recordUserProfileDTO.fields.likePublication,
+    userVer,
+    userMail
+)
 
