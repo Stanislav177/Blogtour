@@ -33,5 +33,9 @@ interface AuthFirebaseRepository {
         onSuccess: (Boolean) -> Unit
     )
 
+    fun verificationEmail(
+        onSuccess: (Boolean) -> Unit
+    )
+
     fun deleteAccountUser()
 }

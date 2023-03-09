@@ -33,7 +33,6 @@ class UserRegistrationRepositoryImpl(private val api: AirTableApi) : UserRegistr
                 override fun onFailure(call: Call<RecordUserProfileDTO>, t: Throwable) {
                     onError.invoke(t)
                 }
-
             }
         )
     }

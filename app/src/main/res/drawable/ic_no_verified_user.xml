@@ -3,7 +3,7 @@
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
     android:width="30dp"
     android:height="30dp"
-    android:tint="?attr/colorControlNormal"
+    android:tint="@color/red_like"
     android:viewportWidth="47"
     android:viewportHeight="47">
 

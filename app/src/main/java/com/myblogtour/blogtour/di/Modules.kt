@@ -13,8 +13,15 @@ import com.myblogtour.blogtour.ui.home.HomeViewModel
 import com.myblogtour.blogtour.ui.main.MainViewModel
 import com.myblogtour.blogtour.ui.myPublication.MyPublicationViewModel
 import com.myblogtour.blogtour.ui.profileUser.ProfileViewModel
+import com.myblogtour.blogtour.ui.profileUser.resetPassword.ViewModelResetPassword
 import com.myblogtour.blogtour.ui.recoveryPassword.RecoveryPasswordViewModel
 import com.myblogtour.blogtour.ui.registrationUser.RegistrationViewModel
+import com.myblogtour.blogtour.utils.validatorEmail.EmailValidatorPattern
+import com.myblogtour.blogtour.utils.validatorEmail.EmailValidatorPatternImpl
+import com.myblogtour.blogtour.utils.validatorPassword.PasswordValidatorPattern
+import com.myblogtour.blogtour.utils.validatorPassword.PasswordValidatorPatternImpl
+import com.myblogtour.blogtour.utils.validatorUserName.LoginValidatorPattern
+import com.myblogtour.blogtour.utils.validatorUserName.LoginValidatorPatternImpl
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
@@ -39,7 +46,7 @@ object Modules {
             get<Retrofit>(named("retrofit")).create(AirTableApi::class.java)
         }
         single<UserProfileRepository> {
-            UserProfileRepositoryImpl(get(named("api")))
+            UserProfileRepositoryImpl(get(named("api")), get(named("authFirebase")))
         }
         single<PublicationRepository> {
             PublicationRepositoryImpl(get(named("api")))
@@ -56,6 +63,15 @@ object Modules {
         single<UserRegistrationRepository> {
             UserRegistrationRepositoryImpl(get(named("api")))
         }
+        single<PasswordValidatorPattern> {
+            PasswordValidatorPatternImpl()
+        }
+        single<EmailValidatorPattern> {
+            EmailValidatorPatternImpl()
+        }
+        single<LoginValidatorPattern> {
+            LoginValidatorPatternImpl()
+        }
     }
 
     val firebase = module {
@@ -71,7 +87,7 @@ object Modules {
             HomeViewModel(publicationRepository = get(), authFirebaseRepository = get())
         }
         viewModel {
-            MyPublicationViewModel(get(),get())
+            MyPublicationViewModel(get(), get())
         }
         viewModel {
             AddPublicationViewModel(
@@ -87,7 +103,10 @@ object Modules {
             RegistrationViewModel(
                 authFirebaseRepository = get(),
                 userRegistrationRepository = get(),
-                storageRef = get(named("storageRef"))
+                storageRef = get(named("storageRef")),
+                get(),
+                get(),
+                get()
             )
         }
         viewModel {
@@ -97,6 +116,10 @@ object Modules {
         }
         viewModel {
             RecoveryPasswordViewModel(get())
+        }
+
+        viewModel {
+            ViewModelResetPassword(get(named("authFirebase")), get())
         }
     }
 }

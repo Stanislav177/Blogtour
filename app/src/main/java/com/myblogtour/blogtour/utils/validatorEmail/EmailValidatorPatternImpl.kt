@@ -4,8 +4,8 @@ import android.text.Editable
 import java.util.regex.Pattern
 
 class EmailValidatorPatternImpl : EmailValidatorPattern {
-    var textEmail: String? = null
-    var validEmail = false
+    override var textEmail: String? = null
+    override var validEmail: Boolean = false
 
     override fun isNullEmail(email: String?): String? {
         return isNullEmailPattern(email)

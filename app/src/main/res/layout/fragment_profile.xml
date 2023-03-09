@@ -61,10 +61,20 @@
                 android:id="@+id/iconVerifiedUser"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="15dp"
-                android:src="@drawable/ic_verified_user"
+                android:layout_marginStart="5dp"
+                android:src="@drawable/ic_no_verified_user"
                 app:layout_constraintStart_toEndOf="@+id/iconUserProfile"
                 app:layout_constraintTop_toTopOf="@+id/iconUserProfile" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/textBtnVerificationEmail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/confirm_email"
+                android:layout_marginStart="8dp"
+                app:layout_constraintBottom_toBottomOf="@+id/iconVerifiedUser"
+                app:layout_constraintStart_toEndOf="@+id/iconVerifiedUser"
+                app:layout_constraintTop_toTopOf="@+id/iconVerifiedUser" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -82,27 +92,39 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp">
 
-<!--            <com.google.android.material.textfield.TextInputLayout-->
-<!--                android:id="@+id/textInputLayout"-->
-<!--                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                app:hint="Email"-->
-<!--                app:layout_constraintStart_toStartOf="parent"-->
-<!--                app:layout_constraintTop_toTopOf="parent">-->
+            <TextView
+                android:id="@+id/emailLocalTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Email:"
+                app:layout_constraintBottom_toBottomOf="@+id/mailUser"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/mailUser" />
 
-<!--                <EditText-->
-<!--                    android:id="@+id/editTextPost"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:text="xxxxxx@xxxx.xx" />-->
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/mailUser"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:hint="xxxxxx@xxx.ru"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                app:layout_constraintStart_toEndOf="@+id/emailLocalTV"
+                app:layout_constraintTop_toTopOf="parent" />
 
-<!--            </com.google.android.material.textfield.TextInputLayout>-->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnUserProfileResetPassword"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Сменить пароль"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/mailUser" />
 
 
-            <androidx.appcompat.widget.AppCompatButton
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/singOut"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -110,7 +132,7 @@
                 android:textSize="20sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toBottomOf="@+id/btnUserProfileResetPassword" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
