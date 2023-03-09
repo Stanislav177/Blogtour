@@ -1,9 +1,10 @@
 <resources>
 
     <style name="MyTheme" parent="Theme.BlogTour">
-        <item name="colorPrimarySuper">@color/red_like</item>
-        <item name="colorSecondarySuper">@color/red_like</item>
+        <item name="colorPrimarySuper">#F57C00</item>
+        <item name="colorSecondarySuper">#388E3C</item>
         <item name="colorSurfaceSuperBottomBar">#CCCCCC</item>
+        <item name="colorFocusedTextInputLayout">#388E3C</item>
     </style>
 
     <style name="Theme.BlogTour" parent="Theme.MaterialComponents.DayNight.NoActionBar">
