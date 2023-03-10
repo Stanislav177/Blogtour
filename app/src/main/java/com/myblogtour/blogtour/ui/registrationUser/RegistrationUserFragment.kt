@@ -5,9 +5,9 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
-import com.myblogtour.blogtour.R
 import com.myblogtour.blogtour.appState.AppStateUserRegistration
 import com.myblogtour.blogtour.databinding.FragmentRegistrationUserBinding
+import com.myblogtour.blogtour.ui.privacyPolicy.DialogPrivacyPolicy
 import com.myblogtour.blogtour.utils.BaseFragment
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -47,6 +47,10 @@ class RegistrationUserFragment :
             }
             deleteIconRegisterUser.setOnClickListener {
                 viewModel.deleteImage()
+            }
+            btnPrivacyPolicy.setOnClickListener {
+                val dialog = DialogPrivacyPolicy()
+                dialog.show(requireActivity().supportFragmentManager, "")
             }
         }
     }
