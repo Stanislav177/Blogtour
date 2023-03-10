@@ -25,6 +25,24 @@ class AuthUserViewModel(
         validEmail(email, password.toString())
     }
 
+    fun sendEmailVerification() {
+        authFirebaseRepository.verificationEmail {
+            if (it) {
+                singOut()
+                liveData.postValue(AppStateUserAuth.SendVerification("Проверьте почту для подтверждения Email"))
+            } else {
+                singOut()
+                liveData.postValue(AppStateUserAuth.SendVerification("Что-то пошло не так"))
+            }
+        }
+    }
+
+    fun singOut() {
+        authFirebaseRepository.singInOut {
+
+        }
+    }
+
     private fun validEmail(email: Editable?, password: String) {
         emailValidatorPattern.afterText(email)
         when {
@@ -51,14 +69,23 @@ class AuthUserViewModel(
     }
 
     private fun singInUser() {
-        authFirebaseRepository.authUser(
-            emailAuth, passwordAuth,
+        authFirebaseRepository.authUser(emailAuth, passwordAuth,
             onSuccess = {
-                liveData.postValue(AppStateUserAuth.SuccessUser(it))
+                isEmailVerified()
             },
             onError = {
                 liveData.postValue(AppStateUserAuth.ErrorUser(it))
             }
         )
+    }
+
+    private fun isEmailVerified() {
+        authFirebaseRepository.isEmailVerified {
+            if (it) {
+                liveData.postValue(AppStateUserAuth.SuccessUser(it))
+            } else {
+                liveData.postValue(AppStateUserAuth.SuccessUserNoVerified(it))
+            }
+        }
     }
 }

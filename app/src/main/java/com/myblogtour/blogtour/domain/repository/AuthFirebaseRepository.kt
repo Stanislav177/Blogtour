@@ -4,6 +4,9 @@ import com.google.firebase.auth.FirebaseUser
 
 interface AuthFirebaseRepository {
     fun userCurrent(onSuccess: (FirebaseUser) -> Unit, onError: (String) -> Unit)
+
+    fun isEmailVerified(onSuccess: (Boolean) -> Unit)
+
     fun authUser(
         emailAuth: String,
         passwordAuth: String,

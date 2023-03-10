@@ -11,8 +11,10 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class UserProfileRepositoryImpl(private val api: AirTableApi, private val userAuth: FirebaseAuth) :
-    UserProfileRepository {
+class UserProfileRepositoryImpl(
+    private val api: AirTableApi,
+    private val userAuth: FirebaseAuth
+    ) :  UserProfileRepository {
 
     override fun getUserProfile(
         id: String,
@@ -51,11 +53,10 @@ class UserProfileRepositoryImpl(private val api: AirTableApi, private val userAu
         userAuth.currentUser?.let {
             verification = it.isEmailVerified
         }
-        userAuth.addAuthStateListener {auth->
-            auth.currentUser?.let {
-                verification = it.isEmailVerified
-            }
-        }
+//        userAuth.addAuthStateListener { auth->
+//            auth.currentUser?.let {
+//                verification = it.isEmailVerified
+//            }
         return verification
     }
 

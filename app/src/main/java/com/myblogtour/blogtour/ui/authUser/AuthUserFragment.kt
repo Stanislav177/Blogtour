@@ -3,6 +3,7 @@ package com.myblogtour.blogtour.ui.authUser
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import com.myblogtour.blogtour.R
 import com.myblogtour.blogtour.appState.AppStateUserAuth
@@ -62,6 +63,23 @@ class AuthUserFragment : BaseFragment<FragmentAuthUserBinding>(FragmentAuthUserB
                 }
                 is AppStateUserAuth.SuccessUser -> {
                     toFragment(ProfileFragment())
+                }
+                is AppStateUserAuth.SuccessUserNoVerified -> {
+                    val builder = AlertDialog.Builder(requireActivity())
+                    builder.setTitle("Для авторизации необходимо, подтвердить email.")
+                        .setMessage("Отправить повторно электронное письмо с подтверждением email?")
+                        .setPositiveButton("Да") { _, _ ->
+                            viewModel.sendEmailVerification()
+                        }
+                        .setNegativeButton("Нет") { _, _ ->
+                            viewModel.singOut()
+                        }.create().show()
+                }
+                is AppStateUserAuth.SendVerification -> {
+                    val builder = AlertDialog.Builder(requireActivity())
+                    builder.setTitle(it.verification).setPositiveButton("Закрыть") { _, _ ->
+
+                    }.create().show()
                 }
             }
         }

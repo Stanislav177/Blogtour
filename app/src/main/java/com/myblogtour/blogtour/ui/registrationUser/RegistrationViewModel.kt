@@ -42,6 +42,12 @@ class RegistrationViewModel(
         }
     }
 
+    private fun verificationEmail() {
+        authFirebaseRepository.verificationEmail{
+
+        }
+    }
+
     fun registerUserFb(
         loginUserRegister: Editable?,
         emailRegister: Editable?,
@@ -68,6 +74,7 @@ class RegistrationViewModel(
         authFirebaseRepository.registrationUser(email, password,
             onSuccess = {
                 createProfileUserAirtable(it)
+                verificationEmail()
             },
             onError = {
                 liveData.postValue(AppStateUserRegistration.ErrorUser(it))

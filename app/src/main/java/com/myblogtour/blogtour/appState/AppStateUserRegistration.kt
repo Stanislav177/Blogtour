@@ -1,8 +1,5 @@
 package com.myblogtour.blogtour.appState
 
-import android.net.Uri
-import com.google.firebase.auth.FirebaseUser
-
 sealed class AppStateUserRegistration {
     data class ErrorEmail(val errorEmail: String) : AppStateUserRegistration()
     data class SuccessUser(val userCurrent: Boolean) : AppStateUserRegistration()
