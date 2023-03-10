@@ -105,8 +105,10 @@ class RegistrationUserFragment :
 
     private fun openAlertDialog() {
         val builder = AlertDialog.Builder(requireActivity())
-        builder.setTitle("Регистрация прошла успешно")
-            .setPositiveButton("OK") { dialogInterface, i ->
+        builder
+            .setTitle("Регистрация прошла успешно.")
+            .setMessage(" Для подтверждения Email, на почту отправлено письмо")
+            .setPositiveButton("OK") { _, _ ->
                 viewModel.singOut()
                 requireActivity().supportFragmentManager.popBackStack()
             }.create().show()

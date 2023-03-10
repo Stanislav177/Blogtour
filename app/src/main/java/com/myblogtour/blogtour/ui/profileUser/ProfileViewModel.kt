@@ -41,7 +41,6 @@ class ProfileViewModel(
         authFirebaseRepository.singInOut {
             userSingOut.mutable().postValue(it)
         }
-
     }
 
     override fun verificationEmail() {
