@@ -26,5 +26,6 @@
     <string name="recovery_password"><u>Password recovery?</u>></string>
     <string name="confirm_email"><u>Confirm email</u></string>
     <string name="reset_password"><u>Change password</u></string>
-    <string name="privacy_policy">By clicking register, you agree to the <u>privacy policy</u></string>
+    <string name="privacy_policy">By clicking register, you agree to the \n<u>privacy policy</u></string>
+    <string name="privacy_policy_auth">By clicking log in, you agree to the \n<u>privacy policy</u></string>
 </resources>

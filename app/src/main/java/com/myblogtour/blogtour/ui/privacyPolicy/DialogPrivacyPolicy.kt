@@ -31,4 +31,9 @@ class DialogPrivacyPolicy : DialogFragment() {
             dismiss()
         }
     }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
+    }
 }
