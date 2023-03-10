@@ -26,5 +26,7 @@
     <string name="test_text">ТестТекст</string>
     <string name="recovery_password"><u>Забыли пароль?</u></string>
     <string name="confirm_email"><u>Подтвердить email</u></string>
-
+    <string name="reset_password"><u>Сменить пароль</u></string>
+    <string name="privacy_policy">Нажимая зарегистрироваться, вы соглашаетесь \n<u>с политикой конфиденциальности</u></string>
+    <string name="privacy_policy_auth">Нажимая авторизоваться, вы соглашаетесь \n <u>с политикой конфиденциальности</u></string>
 </resources>
