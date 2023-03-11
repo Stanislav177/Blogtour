@@ -28,6 +28,7 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(FragmentProfileBind
         with(binding) {
             singOut.setOnClickListener {
                 viewModel.singInOut()
+                toFragment(AuthUserFragment())
             }
             textBtnVerificationEmail.setOnClickListener {
                 viewModel.verificationEmail()

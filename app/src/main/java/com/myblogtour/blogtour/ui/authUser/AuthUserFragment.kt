@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import com.myblogtour.blogtour.R
 import com.myblogtour.blogtour.appState.AppStateUserAuth
 import com.myblogtour.blogtour.databinding.FragmentAuthUserBinding
+import com.myblogtour.blogtour.ui.privacyPolicy.DialogPrivacyPolicy
 import com.myblogtour.blogtour.ui.profileUser.ProfileFragment
 import com.myblogtour.blogtour.ui.recoveryPassword.RecoveryPasswordFragment
 import com.myblogtour.blogtour.ui.registrationUser.RegistrationUserFragment
@@ -36,6 +37,10 @@ class AuthUserFragment : BaseFragment<FragmentAuthUserBinding>(FragmentAuthUserB
             }
             btnRecoveryPassword.setOnClickListener {
                 toFragment(RecoveryPasswordFragment())
+            }
+            btnPrivacyPolicy.setOnClickListener {
+                val openDialog = DialogPrivacyPolicy()
+                openDialog.show(requireActivity().supportFragmentManager, "")
             }
         }
     }
@@ -78,7 +83,6 @@ class AuthUserFragment : BaseFragment<FragmentAuthUserBinding>(FragmentAuthUserB
                 is AppStateUserAuth.SendVerification -> {
                     val builder = AlertDialog.Builder(requireActivity())
                     builder.setTitle(it.verification).setPositiveButton("Закрыть") { _, _ ->
-
                     }.create().show()
                 }
             }
