@@ -29,7 +29,7 @@ class AuthUserViewModel(
         authFirebaseRepository.verificationEmail {
             if (it) {
                 singOut()
-                liveData.postValue(AppStateUserAuth.SendVerification("Проверьте почту для подтверждения Email"))
+                liveData.postValue(AppStateUserAuth.SendVerification("Письмо отправлено"))
             } else {
                 singOut()
                 liveData.postValue(AppStateUserAuth.SendVerification("Что-то пошло не так"))

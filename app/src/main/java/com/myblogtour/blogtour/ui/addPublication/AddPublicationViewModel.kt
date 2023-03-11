@@ -23,7 +23,9 @@ class AddPublicationViewModel(
     override val publishPostLiveData: LiveData<Boolean> = MutableLiveData()
     override val loadUri: LiveData<Uri?> = MutableLiveData()
     override val progressLoad: LiveData<Int> = MutableLiveData()
-    override val errorMessage: LiveData<String> = MutableLiveData()
+    override val errorMessageImage: LiveData<String> = MutableLiveData()
+    override val errorMessageText: LiveData<String> = MutableLiveData()
+    override val errorMessageLocation: LiveData<String> = MutableLiveData()
 
     fun deleteImage() {
         nameFile!!.delete().addOnSuccessListener {
@@ -84,20 +86,33 @@ class AddPublicationViewModel(
         location: String,
         imageUri: Uri?,
     ) {
-        if (imageUri == null) {
-            errorMessage.mutable().postValue("Добавьте изображение")
-            return
-        }
-        val publishPost = converterJsonObject(imageUri, text, location)
-        createPublicationRepository.createPublication(
-            onSuccess = {
-                publishPostLiveData.mutable().postValue(it)
-            },
-            onError = {
 
-            },
-            publishPost
-        )
+        when {
+            imageUri == null -> {
+                errorMessageImage.mutable().postValue("Добавьте изображение")
+                return
+            }
+            text.isEmpty() -> {
+                errorMessageImage.mutable().postValue("Добавьте текст")
+                return
+            }
+            location.isEmpty() -> {
+                errorMessageImage.mutable().postValue("Добавьте местоположение")
+                return
+            }
+            else -> {
+                val publishPost = converterJsonObject(imageUri, text, location)
+                createPublicationRepository.createPublication(
+                    onSuccess = {
+                        publishPostLiveData.mutable().postValue(it)
+                    },
+                    onError = {
+
+                    },
+                    publishPost
+                )
+            }
+        }
     }
 
     private fun converterJsonObject(imageUri: Uri?, text: String, location: String): JsonObject {

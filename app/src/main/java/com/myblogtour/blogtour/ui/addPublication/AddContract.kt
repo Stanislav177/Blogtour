@@ -9,7 +9,9 @@ interface AddContract {
         val publishPostLiveData: LiveData<Boolean>
         val loadUri: LiveData<Uri?>
         val progressLoad: LiveData<Int>
-        val errorMessage: LiveData<String>
+        val errorMessageImage: LiveData<String>
+        val errorMessageText: LiveData<String>
+        val errorMessageLocation: LiveData<String>
         fun dataPublication(
                 text: String,
                 location: String,
