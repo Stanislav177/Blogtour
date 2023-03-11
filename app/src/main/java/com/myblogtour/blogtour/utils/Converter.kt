@@ -1,5 +1,8 @@
 package com.myblogtour.blogtour.utils
 
+import android.icu.text.FormattedValue
+import android.icu.text.SimpleDateFormat
+import android.util.Log
 import com.myblogtour.airtable.domain.IconUser
 import com.myblogtour.airtable.domain.ImagePublication
 import com.myblogtour.airtable.domain.PublicationDTO
@@ -40,8 +43,10 @@ fun converterFromDtoToPublicationEntity(
 }
 
 private fun converterDateFormat(datePublication: String): String {
+    val sdf = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
+    val date = sdf.parse(datePublication)
     val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
-    val parserDate = formatter.parse(datePublication)
+    val parserDate = formatter.parse(sdf.format(date))
     val displayFormatter = DateTimeFormatter.ofPattern("HH:mm dd MMMM yyyy")
     return displayFormatter.format(parserDate)
 }

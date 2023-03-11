@@ -21,7 +21,7 @@ interface AirTableApi {
         @Body publication: JsonObject,
     ): Call<Record>
 
-    @GET("$URL_API_END_POINT_PUBLICATION/?")
+    @GET("$URL_API_END_POINT_PUBLICATION/?sort[0][field]=date&sort[0][direction]=desc")
     fun getPublication(
         @Query(API_KEY) apikey: String,
     ): Call<PublicationDTO>
