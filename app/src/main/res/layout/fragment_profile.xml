@@ -62,7 +62,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
-                android:src="@drawable/ic_no_verified_user"
+                android:src="@drawable/ic_verified_user"
                 app:layout_constraintStart_toEndOf="@+id/iconUserProfile"
                 app:layout_constraintTop_toTopOf="@+id/iconUserProfile" />
 
@@ -71,6 +71,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="3dp"
+                android:textSize="10sp"
                 android:text="@string/confirm_email"
                 app:layout_constraintBottom_toBottomOf="@+id/iconVerifiedUser"
                 app:layout_constraintStart_toEndOf="@+id/iconVerifiedUser"

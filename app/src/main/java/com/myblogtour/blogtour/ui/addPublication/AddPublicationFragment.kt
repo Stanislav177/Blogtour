@@ -27,23 +27,8 @@ class AddPublicationFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.publishPostLiveData.observe(viewLifecycleOwner) {
-            publishPost(it)
-        }
-        viewModel.loadUri.observe(viewLifecycleOwner) {
-            initImagePublication(it)
-        }
-        viewModel.progressLoad.observe(viewLifecycleOwner) {
-            with(binding) {
-                progressBarImagePostAddPost.visibility = View.VISIBLE
-                textViewProgress.visibility = View.VISIBLE
-                textViewProgress.text = "$it%"
-            }
-        }
+        viewModelObserve()
 
-        viewModel.errorMessage.observe(viewLifecycleOwner) {
-            Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
-        }
         with(binding) {
             publishBtnAddPost.setOnClickListener {
                 viewModel.dataPublication(
@@ -57,6 +42,33 @@ class AddPublicationFragment :
             }
             deleteImagePublication.setOnClickListener {
                 viewModel.deleteImage()
+            }
+        }
+    }
+
+    private fun viewModelObserve() {
+        with(viewModel) {
+            publishPostLiveData.observe(viewLifecycleOwner) {
+                publishPost(it)
+            }
+            loadUri.observe(viewLifecycleOwner) {
+                initImagePublication(it)
+            }
+            progressLoad.observe(viewLifecycleOwner) {
+                with(binding) {
+                    progressBarImagePostAddPost.visibility = View.VISIBLE
+                    textViewProgress.visibility = View.VISIBLE
+                    textViewProgress.text = "$it%"
+                }
+            }
+            errorMessageImage.observe(viewLifecycleOwner) {
+                Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
+            }
+            errorMessageLocation.observe(viewLifecycleOwner) {
+                Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
+            }
+            errorMessageText.observe(viewLifecycleOwner) {
+                Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
             }
         }
     }

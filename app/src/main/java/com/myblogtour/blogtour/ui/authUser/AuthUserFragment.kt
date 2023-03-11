@@ -66,8 +66,8 @@ class AuthUserFragment : BaseFragment<FragmentAuthUserBinding>(FragmentAuthUserB
                 }
                 is AppStateUserAuth.SuccessUserNoVerified -> {
                     val builder = AlertDialog.Builder(requireActivity())
-                    builder.setTitle("Для авторизации необходимо, подтвердить email.")
-                        .setMessage("Отправить повторно электронное письмо с подтверждением email?")
+                    builder.setTitle("Необходимо подтвердить email.")
+                        .setMessage("Отправить повторно электронное письмо с подтверждением?")
                         .setPositiveButton("Да") { _, _ ->
                             viewModel.sendEmailVerification()
                         }
