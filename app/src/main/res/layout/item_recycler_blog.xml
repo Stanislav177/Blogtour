@@ -35,9 +35,19 @@
             android:layout_marginTop="4dp"
             android:layout_marginEnd="@dimen/margin_nickname_more_item"
             android:textSize="@dimen/text_size_nickname_item"
+            android:textColor="@color/black"
             app:layout_constraintStart_toEndOf="@id/iconUserProfile"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="NickName" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="Москва"
+            android:textColor="@color/black"
+            app:layout_constraintStart_toStartOf="@+id/nickNameTextView"
+            app:layout_constraintTop_toBottomOf="@+id/nickNameTextView" />
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/moreCard"
@@ -54,31 +64,31 @@
             android:id="@+id/imagePost"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="3dp"
             android:scaleType="centerCrop"
-            android:layout_marginTop="5dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/iconUserProfile" />
+            app:layout_constraintTop_toBottomOf="@+id/location" />
 
         <LinearLayout
             android:id="@+id/moreMenuPublication"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@color/white"
-            app:layout_constraintEnd_toEndOf="@+id/moreCard"
-            app:layout_constraintTop_toTopOf="@+id/moreCard"
-            android:orientation="vertical"
             android:alpha="0"
-            android:visibility="gone">
+            android:background="@color/white"
+            android:orientation="vertical"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="@+id/moreCard"
+            app:layout_constraintTop_toTopOf="@+id/moreCard">
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/btnComplaintPublication"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="2dp"
                 android:clickable="false"
                 android:text="Пожаловаться"
-                android:textSize="20sp"
-                android:layout_marginBottom="2dp"
-                android:textColor="@color/black"/>
+                android:textColor="@color/black"
+                android:textSize="20sp" />
 
         </LinearLayout>
 

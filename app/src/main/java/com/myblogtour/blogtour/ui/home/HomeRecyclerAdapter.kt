@@ -44,6 +44,7 @@ class HomeRecyclerAdapter(private var myOnClickListener: MyOnClickListener) :
             ItemRecyclerBlogBinding.bind(itemView).apply {
                 //moreMenuPublication.alpha = 0f
                 nickNameTextView.text = post.nickNameUserProfile
+                location.text = post.location
                 countLike.text = post.counterLike.toString()
                 dateAdditionsPublication.text = post.date
                 textPublicationCard.text = post.text
