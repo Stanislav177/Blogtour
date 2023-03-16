@@ -35,7 +35,6 @@
             android:layout_marginTop="4dp"
             android:layout_marginEnd="@dimen/margin_nickname_more_item"
             android:textSize="@dimen/text_size_nickname_item"
-            android:textColor="@color/black"
             app:layout_constraintStart_toEndOf="@id/iconUserProfile"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="NickName" />
@@ -45,7 +44,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             tools:text="Москва"
-            android:textColor="@color/black"
             app:layout_constraintStart_toStartOf="@+id/nickNameTextView"
             app:layout_constraintTop_toBottomOf="@+id/nickNameTextView" />
 
@@ -109,7 +107,6 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="3dp"
             android:text="@string/tools_count_like"
-            android:textColor="@color/black"
             android:textSize="@dimen/text_size_like_item"
             app:layout_constraintStart_toEndOf="@id/likePost"
             app:layout_constraintTop_toTopOf="@id/likePost" />
@@ -140,7 +137,6 @@
             android:layout_margin="@dimen/margin_text_item"
             android:ellipsize="end"
             android:maxLines="3"
-            android:textColor="@color/black"
             android:textSize="@dimen/text_size_text_item"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/nickNameUserLike"

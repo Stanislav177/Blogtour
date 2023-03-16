@@ -12,6 +12,7 @@ import com.myblogtour.blogtour.databinding.BottomNavigationLayoutBinding
 import com.myblogtour.blogtour.ui.addPublication.AddPublicationFragment
 import com.myblogtour.blogtour.ui.myPublication.MyPublicationFragment
 import com.myblogtour.blogtour.ui.profileUser.ProfileFragment
+import com.myblogtour.blogtour.ui.setting.SettingFragment
 
 class BottomNavigationDrawerFragment : BottomSheetDialogFragment() {
 
@@ -51,7 +52,7 @@ class BottomNavigationDrawerFragment : BottomSheetDialogFragment() {
                     this.dismiss()
                 }
                 R.id.navBtnSetting -> {
-                    Toast.makeText(requireActivity(), "Setting", Toast.LENGTH_SHORT).show()
+                    toFragment(SettingFragment())
                     this.dismiss()
                 }
                 R.id.navBtnLoadPublication -> {

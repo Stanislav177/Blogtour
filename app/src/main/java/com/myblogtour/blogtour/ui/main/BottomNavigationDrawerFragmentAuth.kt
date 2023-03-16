@@ -4,10 +4,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.myblogtour.blogtour.R
 import com.myblogtour.blogtour.databinding.BottomNavigationLayoutAuthBinding
 import com.myblogtour.blogtour.ui.authUser.AuthUserFragment
+import com.myblogtour.blogtour.ui.setting.SettingFragment
 
 class BottomNavigationDrawerFragmentAuth : BottomSheetDialogFragment() {
 
@@ -34,17 +36,23 @@ class BottomNavigationDrawerFragmentAuth : BottomSheetDialogFragment() {
         binding.navigationViewAuth.setNavigationItemSelectedListener {
             when (it.itemId) {
                 R.id.navBtnAuthProfile -> {
-                    requireActivity().supportFragmentManager
-                        .beginTransaction()
-                        .replace(R.id.containerFragment, AuthUserFragment())
-                        .commit()
+                    toFragment(AuthUserFragment())
                     this.dismiss()
                 }
                 R.id.navBtnSetting -> {
+                    toFragment(SettingFragment())
                     this.dismiss()
                 }
             }
             true
         }
+    }
+
+    private fun toFragment(f: Fragment) {
+        requireActivity().supportFragmentManager
+            .beginTransaction()
+            .replace(R.id.containerFragment, f)
+            .addToBackStack("")
+            .commit()
     }
 }
