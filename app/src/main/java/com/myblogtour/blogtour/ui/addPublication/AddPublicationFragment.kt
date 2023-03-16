@@ -28,9 +28,7 @@ class AddPublicationFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         viewModelObserve()
-
         with(binding) {
             publishBtnAddPost.setOnClickListener {
                 viewModel.dataPublication(
@@ -49,7 +47,6 @@ class AddPublicationFragment :
     }
 
     private fun exifInter() {
-
         val exif =
             ExifInterface(requireContext().contentResolver.openInputStream(imageUriLocal!!)!!)
         val locationImage = FloatArray(2)
