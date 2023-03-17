@@ -27,8 +27,23 @@ android {
         viewBinding true
     }
 
+    signingConfigs {
+        release{
+            Properties properties = new Properties()
+            properties.load(rootProject.file("password.properties").newDataInputStream())
+            def password = properties.getProperty("password")
+            def storeF = properties.getProperty("storeF")
+            def keyA = properties.getProperty("keyA")
+            storeFile file(storeF)
+            storePassword = password
+            keyAlias keyA
+            keyPassword = password
+        }
+    }
+
     buildTypes {
         release {
+            signingConfig signingConfigs.release
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
