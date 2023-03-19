@@ -126,7 +126,7 @@ object Modules {
             ViewModelResetPassword(get(named("authFirebase")), get())
         }
         viewModel {
-            ResultSearchViewModel(get())
+            ResultSearchViewModel(get(),get())
         }
     }
 }

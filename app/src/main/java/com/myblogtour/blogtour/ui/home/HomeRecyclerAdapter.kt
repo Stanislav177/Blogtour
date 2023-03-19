@@ -42,7 +42,6 @@ class HomeRecyclerAdapter(private var myOnClickListener: MyOnClickListener) :
             val imageNUll = post.urlImage.size
 
             ItemRecyclerBlogBinding.bind(itemView).apply {
-                //moreMenuPublication.alpha = 0f
                 nickNameTextView.text = post.nickNameUserProfile
                 location.text = post.location
                 countLike.text = post.counterLike.toString()

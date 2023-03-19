@@ -8,7 +8,7 @@ import com.myblogtour.blogtour.R
 import com.myblogtour.blogtour.appState.AppStateMainActivity
 import com.myblogtour.blogtour.databinding.ActivityMainBinding
 import com.myblogtour.blogtour.ui.home.HomeFragment
-import com.myblogtour.blogtour.ui.search.BottomSheetSearch
+import com.myblogtour.blogtour.ui.search.ResultSearchFragment
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 const val SYSTEM_THEME = 0
@@ -41,9 +41,10 @@ class MainActivity : AppCompatActivity() {
             appBar.setOnMenuItemClickListener {
                 when (it.itemId) {
                     R.id.btn_search_menu -> {
-                        BottomSheetSearch().show(
-                            this@MainActivity.supportFragmentManager,"search"
-                        )
+                        supportFragmentManager
+                            .beginTransaction()
+                            .replace(R.id.containerFragment, ResultSearchFragment())
+                            .addToBackStack("").commit()
                     }
                 }
                 true
