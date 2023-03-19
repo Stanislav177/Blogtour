@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.myblogtour.blogtour.databinding.BottomSheetSearchBinding
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class BottomSheetSearch : BottomSheetDialogFragment() {
 
@@ -15,6 +16,8 @@ class BottomSheetSearch : BottomSheetDialogFragment() {
         get() {
             return _binding!!
         }
+
+    private val viewModel: ResultSearchViewModel by viewModel()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -28,6 +31,7 @@ class BottomSheetSearch : BottomSheetDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.textInputLayout.setEndIconOnClickListener {
+            viewModel.getSearchPublication("location=\"Ногинск\"")
             Toast.makeText(requireActivity(), "Не найдено", Toast.LENGTH_SHORT).show()
         }
     }

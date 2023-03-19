@@ -4,7 +4,7 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.gson.GsonBuilder
-import com.myblogtour.blogtour.data.*
+import com.myblogtour.blogtour.data.repositoryImpl.*
 import com.myblogtour.blogtour.data.retrofit.AirTableApi
 import com.myblogtour.blogtour.domain.repository.*
 import com.myblogtour.blogtour.ui.addPublication.AddPublicationViewModel
@@ -16,6 +16,7 @@ import com.myblogtour.blogtour.ui.profileUser.ProfileViewModel
 import com.myblogtour.blogtour.ui.profileUser.resetPassword.ViewModelResetPassword
 import com.myblogtour.blogtour.ui.recoveryPassword.RecoveryPasswordViewModel
 import com.myblogtour.blogtour.ui.registrationUser.RegistrationViewModel
+import com.myblogtour.blogtour.ui.search.ResultSearchViewModel
 import com.myblogtour.blogtour.utils.validatorEmail.EmailValidatorPattern
 import com.myblogtour.blogtour.utils.validatorEmail.EmailValidatorPatternImpl
 import com.myblogtour.blogtour.utils.validatorPassword.PasswordValidatorPattern
@@ -62,6 +63,9 @@ object Modules {
         }
         single<UserRegistrationRepository> {
             UserRegistrationRepositoryImpl(get(named("api")))
+        }
+        single<SearchPublication> {
+            SearchPublicationImpl(get(named("api")))
         }
         single<PasswordValidatorPattern> {
             PasswordValidatorPatternImpl()
@@ -120,6 +124,9 @@ object Modules {
 
         viewModel {
             ViewModelResetPassword(get(named("authFirebase")), get())
+        }
+        viewModel {
+            ResultSearchViewModel(get())
         }
     }
 }

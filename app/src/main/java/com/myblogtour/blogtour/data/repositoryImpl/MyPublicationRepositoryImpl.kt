@@ -1,4 +1,4 @@
-package com.myblogtour.blogtour.data
+package com.myblogtour.blogtour.data.repositoryImpl
 
 import com.myblogtour.airtable.BuildConfig
 import com.myblogtour.airtable.domain.PublicationDTO
