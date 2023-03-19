@@ -1,4 +1,4 @@
-package com.myblogtour.blogtour.data
+package com.myblogtour.blogtour.data.repositoryImpl
 
 import android.net.Uri
 import com.google.firebase.auth.FirebaseAuth

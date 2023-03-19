@@ -1,7 +1,6 @@
 package com.myblogtour.blogtour.ui.main
 
 import android.os.Bundle
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate.*
 import androidx.fragment.app.Fragment
@@ -9,6 +8,7 @@ import com.myblogtour.blogtour.R
 import com.myblogtour.blogtour.appState.AppStateMainActivity
 import com.myblogtour.blogtour.databinding.ActivityMainBinding
 import com.myblogtour.blogtour.ui.home.HomeFragment
+import com.myblogtour.blogtour.ui.search.ResultSearchFragment
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 const val SYSTEM_THEME = 0
@@ -41,7 +41,10 @@ class MainActivity : AppCompatActivity() {
             appBar.setOnMenuItemClickListener {
                 when (it.itemId) {
                     R.id.btn_search_menu -> {
-                        Toast.makeText(this@MainActivity, "Поиск", Toast.LENGTH_SHORT).show()
+                        supportFragmentManager
+                            .beginTransaction()
+                            .replace(R.id.containerFragment, ResultSearchFragment())
+                            .addToBackStack("").commit()
                     }
                 }
                 true

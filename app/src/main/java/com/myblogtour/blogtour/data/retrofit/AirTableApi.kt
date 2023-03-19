@@ -58,7 +58,13 @@ interface AirTableApi {
     @GET("$URL_API_END_POINT_PUBLICATION/?")
     fun getMyPublication(
         @Query(API_KEY) apikey: String,
-        @Query("filterByFormula") uid: String,
+        @Query("filterByFormula") searchMyPublication: String,
+    ): Call<PublicationDTO>
+
+    @GET("$URL_API_END_POINT_PUBLICATION/?")
+    fun getSearchPublication(
+        @Query(API_KEY) apikey: String,
+        @Query("filterByFormula") search: String,
     ): Call<PublicationDTO>
 
     @DELETE("$URL_API_END_POINT_PUBLICATION/{id}/")

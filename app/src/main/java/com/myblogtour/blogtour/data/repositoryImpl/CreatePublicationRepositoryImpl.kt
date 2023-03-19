@@ -1,4 +1,4 @@
-package com.myblogtour.blogtour.data
+package com.myblogtour.blogtour.data.repositoryImpl
 
 import com.google.gson.JsonObject
 import com.myblogtour.airtable.BuildConfig
