@@ -6,6 +6,7 @@ import android.animation.ObjectAnimator
 import android.content.Context.INPUT_METHOD_SERVICE
 import android.os.Bundle
 import android.view.View
+import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
@@ -23,7 +24,8 @@ class ResultSearchFragment :
     private val adapter: ResultRecyclerAdapter by lazy {
         ResultRecyclerAdapter(this)
     }
-    private var flag = false
+    private var flagMoreMenu = false
+    private var flagTextSearch = true
     private lateinit var itemOpenMenuMore: ItemRecyclerViewResultSearchBinding
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -32,17 +34,14 @@ class ResultSearchFragment :
         viewModelResult.getLiveData().observe(viewLifecycleOwner) {
             when (it) {
                 is AppStateSearchPublication.OnError -> {
+                    flagTextSearch = true
                     binding.textInputLayout.error = it.onError
                 }
                 is AppStateSearchPublication.OnSuccess -> {
                     with(binding) {
                         progressBarResultSearch.visibility = View.GONE
                     }
-                    requireActivity().currentFocus?.let { view ->
-                        val imm =
-                            requireActivity().getSystemService(INPUT_METHOD_SERVICE) as? InputMethodManager
-                        imm?.hideSoftInputFromWindow(view.windowToken, 0)
-                    }
+                    closeKeyBoard()
                     adapter.setListPublication(it.onSuccess)
                 }
                 is AppStateSearchPublication.OpenSearchFragment -> {
@@ -61,13 +60,33 @@ class ResultSearchFragment :
     private fun initSearch() {
         with(binding) {
             textInputLayout.setEndIconOnClickListener {
-                viewModelResult.setSearchPublication(binding.editTextSearch.text)
+                viewModelResult.setSearchPublication(editTextSearch.text)
+            }
+            editTextSearch.setOnEditorActionListener { _, actionId, _ ->
+                var consumed = false
+                if (actionId == EditorInfo.IME_ACTION_SEARCH){
+                    viewModelResult.setSearchPublication(editTextSearch.text)
+                    closeKeyBoard()
+                    consumed = true
+                }
+                return@setOnEditorActionListener consumed
             }
             editTextSearch.addTextChangedListener {
-                it?.let {
-                    textInputLayout.error = null
+                if (flagTextSearch){
+                    it?.let {
+                        textInputLayout.error = null
+                        flagTextSearch = false
+                    }
                 }
             }
+        }
+    }
+
+    private fun closeKeyBoard() {
+        requireActivity().currentFocus?.let { view ->
+            val imm =
+                requireActivity().getSystemService(INPUT_METHOD_SERVICE) as? InputMethodManager
+            imm?.hideSoftInputFromWindow(view.windowToken, 0)
         }
     }
 
@@ -84,9 +103,9 @@ class ResultSearchFragment :
     }
 
     private fun moreMenuPublication(item: ItemRecyclerViewResultSearchBinding) {
-        flag = !flag
+        flagMoreMenu = !flagMoreMenu
         itemOpenMenuMore = item
-        if (flag) {
+        if (flagMoreMenu) {
             itemOpenMenuMore.moreMenuPublicationResultSearch.visibility = View.VISIBLE
             ObjectAnimator.ofFloat(
                 itemOpenMenuMore.moreMenuPublicationResultSearch,
