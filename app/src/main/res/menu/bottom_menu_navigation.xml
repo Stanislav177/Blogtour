@@ -13,10 +13,12 @@
         android:id="@+id/navBtnLoadPublication"
         android:icon="@drawable/ic_add_publication"
         android:title="Добавить публикацию" />
-    <item
-        android:id="@+id/navBtnFavoritePublication"
-        android:icon="@drawable/ic_favorites_pulication"
-        android:title="Избранное" />
+
+<!--    <item-->
+<!--        android:id="@+id/navBtnFavoritePublication"-->
+<!--        android:icon="@drawable/ic_favorites_pulication"-->
+<!--        android:title="Избранное" />-->
+
     <item
         android:id="@+id/navBtnSetting"
         android:icon="@drawable/ic_settings"

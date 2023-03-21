@@ -46,11 +46,11 @@ class BottomNavigationDrawerFragment : BottomSheetDialogFragment() {
                     toFragment(MyPublicationFragment())
                     this.dismiss()
                 }
-                R.id.navBtnFavoritePublication -> {
-                    Toast.makeText(requireActivity(), "FavoritePublication", Toast.LENGTH_SHORT)
-                        .show()
-                    this.dismiss()
-                }
+//                R.id.navBtnFavoritePublication -> {
+//                    Toast.makeText(requireActivity(), "FavoritePublication", Toast.LENGTH_SHORT)
+//                        .show()
+//                    this.dismiss()
+//                }
                 R.id.navBtnSetting -> {
                     toFragment(SettingFragment())
                     this.dismiss()
