@@ -57,6 +57,16 @@
                 tools:text="@string/test_text" />
 
             <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/read_login"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                app:layout_constraintBottom_toBottomOf="@+id/userLogin"
+                app:layout_constraintStart_toEndOf="@+id/userLogin"
+                app:layout_constraintTop_toTopOf="@+id/userLogin"
+                app:srcCompat="@drawable/border_login" />
+
+            <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/iconVerifiedUser"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -70,8 +80,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="3dp"
-                android:textSize="10sp"
                 android:text="@string/confirm_email"
+                android:textSize="10sp"
                 app:layout_constraintBottom_toBottomOf="@+id/iconVerifiedUser"
                 app:layout_constraintStart_toEndOf="@+id/iconVerifiedUser"
                 app:layout_constraintTop_toTopOf="@+id/iconVerifiedUser" />
@@ -99,10 +109,10 @@
                 android:id="@+id/emailLocalTV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Email:"
-                app:layout_constraintBottom_toBottomOf="@+id/mailUser"
+                android:text="@string/email"
+                android:layout_marginTop="5dp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@id/mailUser" />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/mailUser"
@@ -111,24 +121,86 @@
                 android:layout_marginStart="5dp"
                 android:hint="xxxxxx@xxx.ru"
                 android:textSize="18sp"
+                app:layout_constraintBottom_toBottomOf="@id/emailLocalTV"
                 app:layout_constraintStart_toEndOf="@+id/emailLocalTV"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="@+id/emailLocalTV" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/localTVLocation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="@string/location"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/emailLocalTV" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/userLocation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:hint="Moscow"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toBottomOf="@+id/localTVLocation"
+                app:layout_constraintStart_toEndOf="@+id/localTVLocation"
+                app:layout_constraintTop_toTopOf="@+id/localTVLocation" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/localTVDateOfBirth"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="@string/date_of_birth"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/localTVLocation" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvDateOfBirthUser"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:hint="01.01.1990"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toBottomOf="@+id/localTVDateOfBirth"
+                app:layout_constraintStart_toEndOf="@+id/localTVDateOfBirth"
+                app:layout_constraintTop_toTopOf="@+id/localTVDateOfBirth" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/localGender"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="@string/gender"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/localTVDateOfBirth" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/genderUser"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:hint="Мужской"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toBottomOf="@+id/localGender"
+                app:layout_constraintStart_toEndOf="@+id/localGender"
+                app:layout_constraintTop_toTopOf="@+id/localGender" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/btnUserProfileResetPassword"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="18sp"
+                android:layout_marginTop="5dp"
                 android:text="@string/reset_password"
+                android:textSize="18sp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/mailUser" />
+                app:layout_constraintTop_toBottomOf="@+id/localGender" />
 
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/singOut"
-                android:layout_marginBottom="25dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="25dp"
                 android:backgroundTint="#403D3D"
                 android:text="@string/sign_out"
                 android:textSize="20sp"

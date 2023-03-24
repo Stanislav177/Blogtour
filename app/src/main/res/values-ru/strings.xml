@@ -28,4 +28,8 @@
     <string name="reset_password"><u>Сменить пароль</u></string>
     <string name="privacy_policy">Нажимая зарегистрироваться, вы соглашаетесь \n<u>с политикой конфиденциальности</u></string>
     <string name="privacy_policy_auth">Нажимая авторизоваться, вы соглашаетесь \n <u>с политикой конфиденциальности</u></string>
+    <string name="email">Эл.почта:</string>
+    <string name="location">Локация:</string>
+    <string name="date_of_birth">Дата рождения:</string>
+    <string name="gender">Пол:</string>
 </resources>
