@@ -10,8 +10,17 @@ interface ProfileContract {
         val userError: LiveData<Throwable>
         val userSingOut: LiveData<Boolean>
         val verificationEmail: LiveData<String>
+        val errorSaveProfile: LiveData<String>
+        val successSaveUserProfile: LiveData<String>
+
         fun onRefresh()
         fun singInOut()
         fun verificationEmail()
+        fun saveReadUserProfile(
+            loginUser: String,
+            locationUser: String,
+            genderUser: Int,
+            dateBirth: String
+        )
     }
 }

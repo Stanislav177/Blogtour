@@ -46,7 +46,7 @@
                 app:layout_constraintStart_toStartOf="@+id/userLogin"
                 app:layout_constraintTop_toBottomOf="@+id/iconVerifiedUser" />
 
-            <androidx.appcompat.widget.AppCompatTextView
+            <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/userLogin"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -55,16 +55,6 @@
                 app:layout_constraintStart_toEndOf="@+id/iconUserProfile"
                 app:layout_constraintTop_toBottomOf="@+id/innerTextViewLogin"
                 tools:text="@string/test_text" />
-
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/read_login"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                app:layout_constraintBottom_toBottomOf="@+id/userLogin"
-                app:layout_constraintStart_toEndOf="@+id/userLogin"
-                app:layout_constraintTop_toTopOf="@+id/userLogin"
-                app:srcCompat="@drawable/border_login" />
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/iconVerifiedUser"
@@ -105,12 +95,22 @@
             android:layout_height="match_parent"
             android:layout_margin="8dp">
 
+            <ProgressBar
+                android:id="@+id/progressBarSaveProfile"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                app:layout_constraintBottom_toTopOf="@+id/btnSaveProfileUser"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/emailLocalTV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/email"
                 android:layout_marginTop="5dp"
+                android:text="@string/email"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -134,7 +134,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/emailLocalTV" />
 
-            <androidx.appcompat.widget.AppCompatTextView
+            <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/userLocation"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -174,12 +174,11 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/localTVDateOfBirth" />
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/genderUser"
+            <androidx.appcompat.widget.AppCompatSpinner
+                android:id="@+id/genderUserSpinner"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
-                android:hint="Мужской"
                 android:textSize="18sp"
                 app:layout_constraintBottom_toBottomOf="@+id/localGender"
                 app:layout_constraintStart_toEndOf="@+id/localGender"
@@ -194,6 +193,16 @@
                 android:textSize="18sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/localGender" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/btnSaveProfileUser"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:text="@string/save_profile"
+                app:layout_constraintBottom_toTopOf="@+id/singOut"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
 
 
             <com.google.android.material.button.MaterialButton

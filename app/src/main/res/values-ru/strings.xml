@@ -32,4 +32,11 @@
     <string name="location">Локация:</string>
     <string name="date_of_birth">Дата рождения:</string>
     <string name="gender">Пол:</string>
+    <string name="save_profile"><u>Сохранить изменения</u></string>
+
+    <string-array name="listGender">
+        <item>Не указано</item>
+        <item>Мужской</item>
+        <item>Женский</item>
+    </string-array>
 </resources>
