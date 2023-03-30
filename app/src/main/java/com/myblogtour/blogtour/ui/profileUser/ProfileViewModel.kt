@@ -1,5 +1,6 @@
 package com.myblogtour.blogtour.ui.profileUser
 
+import android.text.Editable
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -8,10 +9,12 @@ import com.myblogtour.blogtour.domain.UserProfileEntity
 import com.myblogtour.blogtour.domain.repository.AuthFirebaseRepository
 import com.myblogtour.blogtour.domain.repository.UserProfileRepository
 import com.myblogtour.blogtour.utils.SingleLiveEvent
+import com.myblogtour.blogtour.utils.validatorUserName.LoginValidatorPattern
 
 class ProfileViewModel(
     private val userProfileRepository: UserProfileRepository,
-    private val authFirebaseRepository: AuthFirebaseRepository
+    private val authFirebaseRepository: AuthFirebaseRepository,
+    private val validNameValidatorPattern: LoginValidatorPattern
 ) : ViewModel(),
     ProfileContract.ProfileViewModel {
 
@@ -21,6 +24,8 @@ class ProfileViewModel(
     override val verificationEmail: LiveData<String> = MutableLiveData()
     override val errorSaveProfile: LiveData<String> = SingleLiveEvent()
     override val successSaveUserProfile: LiveData<String> = SingleLiveEvent()
+    override val errorUserLogin: LiveData<String> = SingleLiveEvent()
+    override val errorLocationUser: LiveData<String> = SingleLiveEvent()
 
     override fun onRefresh() {
         authFirebaseRepository.userCurrent(
@@ -58,28 +63,49 @@ class ProfileViewModel(
     }
 
     override fun saveReadUserProfile(
-        loginUser: String,
+        loginUser: Editable?,
         locationUser: String,
         genderUser: Int,
         dateBirth: String
     ) {
-        authFirebaseRepository.userCurrent(
-            onSuccess = { fbUser ->
-                userProfileRepository.saveUserProfile(
-                    fbUser.displayName!!,
-                    converterDataUserProfileToJson(loginUser, locationUser, genderUser, dateBirth),
-                    onSuccess = {
-                        successSaveUserProfile.mutable().postValue("Изменения сохранены")
-                    },
-                    onError = {
-                        errorSaveProfile.mutable().postValue(it.message)
-                    }
-                )
-            },
-            onError = {
-                errorSaveProfile.mutable().postValue(it)
+        validNameValidatorPattern.afterTextUserName(loginUser)
+        when {
+            validNameValidatorPattern.validUserLogin -> {
+                if (locationUser.isNotEmpty()) {
+                    authFirebaseRepository.userCurrent(
+                        onSuccess = { fbUser ->
+                            userProfileRepository.saveUserProfile(
+                                fbUser.displayName!!,
+                                converterDataUserProfileToJson(
+                                    loginUser.toString(),
+                                    locationUser,
+                                    genderUser,
+                                    dateBirth
+                                ),
+                                onSuccess = {
+                                    successSaveUserProfile.mutable()
+                                        .postValue("Изменения сохранены")
+                                },
+                                onError = {
+                                    errorSaveProfile.mutable().postValue(it.message)
+                                }
+                            )
+                        },
+                        onError = {
+                            errorSaveProfile.mutable().postValue(it)
+                        }
+                    )
+                } else {
+                    errorLocationUser.mutable().postValue("Введите город")
+                }
             }
-        )
+            validNameValidatorPattern.nullUserLogin == null -> {
+                errorUserLogin.mutable().postValue("Введите логин")
+            }
+            else -> {
+                errorUserLogin.mutable().postValue("Некорректный логин")
+            }
+        }
     }
 
     private fun converterDataUserProfileToJson(
@@ -90,7 +116,7 @@ class ProfileViewModel(
     ): JsonObject {
         val json = JsonObject()
         val jsonField = JsonObject()
-        with(json){
+        with(json) {
             addProperty("nickname", loginUser)
             addProperty("location", locationUser)
             addProperty("usergender", genderUser)

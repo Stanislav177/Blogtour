@@ -93,8 +93,9 @@
             android:id="@+id/inputLoginReg"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:inputType="text"
+            android:inputType="textCapWords"
             app:singleLine="true"
+            android:maxLength="15"
             android:textSize="15sp" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -131,6 +132,7 @@
             android:layout_height="match_parent"
             android:inputType="textPassword"
             app:singleLine="true"
+            android:maxLength="20"
             android:textSize="15sp" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -149,6 +151,7 @@
             android:layout_height="match_parent"
             android:inputType="textPassword"
             app:singleLine="true"
+            android:maxLength="20"
             android:textSize="15sp" />
     </com.google.android.material.textfield.TextInputLayout>
 

@@ -1,5 +1,6 @@
 package com.myblogtour.blogtour.ui.profileUser
 
+import android.text.Editable
 import androidx.lifecycle.LiveData
 import com.myblogtour.blogtour.domain.UserProfileEntity
 
@@ -12,12 +13,13 @@ interface ProfileContract {
         val verificationEmail: LiveData<String>
         val errorSaveProfile: LiveData<String>
         val successSaveUserProfile: LiveData<String>
-
+        val errorUserLogin: LiveData<String>
+        val errorLocationUser: LiveData<String>
         fun onRefresh()
         fun singInOut()
         fun verificationEmail()
         fun saveReadUserProfile(
-            loginUser: String,
+            loginUser: Editable?,
             locationUser: String,
             genderUser: Int,
             dateBirth: String
