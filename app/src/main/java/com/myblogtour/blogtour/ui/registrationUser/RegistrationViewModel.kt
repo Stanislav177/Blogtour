@@ -43,7 +43,7 @@ class RegistrationViewModel(
     }
 
     private fun verificationEmail() {
-        authFirebaseRepository.verificationEmail{
+        authFirebaseRepository.verificationEmail {
 
         }
     }
@@ -173,20 +173,8 @@ class RegistrationViewModel(
 
     //Регистрируем профиль в Airtable
     private fun createProfileUserAirtable(uid: String) {
-        val fieldsJsonObject = JsonObject()
-        val userIconJsonArray = JsonArray()
-        val userJsonObject = JsonObject()
-        val urlIconJsonObject = JsonObject()
-
-        urlIconJsonObject.addProperty("url", uriIconUser.toString())
-        userIconJsonArray.add(urlIconJsonObject)
-        userJsonObject.addProperty("uid", uid)
-        userJsonObject.addProperty("nickname", userLogin)
-        userJsonObject.add("icon", userIconJsonArray)
-        fieldsJsonObject.add("fields", userJsonObject)
-
         userRegistrationRepository.createUser(
-            fieldsJsonObject,
+            converterJsonObjectUserRegister(uid),
             onSuccess = {
                 val userProfile = converterFromRegisterUserAirtableToUserEntity(it)
                 setDisplayNameIdAirtable(userProfile.id, userProfile.icon)
@@ -196,6 +184,23 @@ class RegistrationViewModel(
                 liveData.postValue(AppStateUserRegistration.ErrorUser("Что-то пошло не так"))
             }
         )
+    }
+
+    private fun converterJsonObjectUserRegister(uid: String): JsonObject {
+        val fieldsJsonObject = JsonObject()
+        val userJsonObject = JsonObject()
+        val urlIconJsonObject = JsonObject()
+        val userIconJsonArray = JsonArray()
+        urlIconJsonObject.addProperty("url", uriIconUser.toString())
+        userJsonObject.addProperty("uid", uid)
+        userJsonObject.addProperty("nickname", userLogin)
+        userJsonObject.addProperty("location", "Введите город")
+        userJsonObject.addProperty("datebirth", "1.1.1990")
+        userJsonObject.addProperty("usergender", 0)
+        userIconJsonArray.add(urlIconJsonObject)
+        userJsonObject.add("icon", userIconJsonArray)
+        fieldsJsonObject.add("fields", userJsonObject)
+        return fieldsJsonObject
     }
 
     fun deleteImage() {

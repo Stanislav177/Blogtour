@@ -35,26 +35,30 @@
                 app:layout_constraintStart_toStartOf="@+id/iconUserProfile"
                 app:layout_constraintTop_toTopOf="@+id/iconUserProfile" />
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/innerTextViewLogin"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:text="@string/login_colon"
-                android:textSize="10sp"
-                app:layout_constraintBottom_toTopOf="@+id/userLogin"
-                app:layout_constraintStart_toStartOf="@+id/userLogin"
-                app:layout_constraintTop_toBottomOf="@+id/iconVerifiedUser" />
 
-            <androidx.appcompat.widget.AppCompatEditText
-                android:id="@+id/userLogin"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInputLayoutProfileUser"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="15dp"
-                android:textSize="18sp"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="5dp"
+                android:hint="@string/login"
+                app:counterEnabled="true"
+                app:counterMaxLength="15"
                 app:layout_constraintStart_toEndOf="@+id/iconUserProfile"
-                app:layout_constraintTop_toBottomOf="@+id/innerTextViewLogin"
-                tools:text="@string/test_text" />
+                app:layout_constraintTop_toBottomOf="@+id/iconVerifiedUser">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/userLogin"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:inputType="textCapWords"
+                    android:maxLines="1"
+                    android:maxLength="15"
+                    android:textSize="20sp" />
+
+            </com.google.android.material.textfield.TextInputLayout>
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/iconVerifiedUser"
@@ -140,6 +144,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
                 android:hint="Moscow"
+                android:maxLines="1"
+                android:singleLine="true"
                 android:textSize="18sp"
                 app:layout_constraintBottom_toBottomOf="@+id/localTVLocation"
                 app:layout_constraintStart_toEndOf="@+id/localTVLocation"

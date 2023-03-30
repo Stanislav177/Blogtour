@@ -33,6 +33,7 @@
     <string name="date_of_birth">Дата рождения:</string>
     <string name="gender">Пол:</string>
     <string name="save_profile"><u>Сохранить изменения</u></string>
+    <string name="login">Логин</string>
 
     <string-array name="listGender">
         <item>Не указано</item>

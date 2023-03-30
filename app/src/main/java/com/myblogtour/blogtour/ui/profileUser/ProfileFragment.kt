@@ -63,7 +63,7 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(FragmentProfileBind
             btnSaveProfileUser.setOnClickListener {
                 binding.progressBarSaveProfile.visibility = View.VISIBLE
                 viewModel.saveReadUserProfile(
-                    binding.userLogin.text.toString(),
+                    binding.userLogin.text,
                     binding.userLocation.text.toString(),
                     binding.genderUserSpinner.selectedItemPosition,
                     binding.tvDateOfBirthUser.text.toString()
@@ -108,6 +108,15 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(FragmentProfileBind
         viewModel.successSaveUserProfile.observe(viewLifecycleOwner) {
             binding.progressBarSaveProfile.visibility = View.GONE
             showToast(it)
+        }
+        viewModel.errorLocationUser.observe(viewLifecycleOwner) {
+            binding.progressBarSaveProfile.visibility = View.GONE
+            binding.userLocation.error = it
+            showToast(it)
+        }
+        viewModel.errorUserLogin.observe(viewLifecycleOwner) {
+            binding.progressBarSaveProfile.visibility = View.GONE
+            binding.userLogin.error = it
         }
         viewModel.onRefresh()
     }
