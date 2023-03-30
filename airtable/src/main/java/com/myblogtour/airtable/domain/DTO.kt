@@ -42,22 +42,22 @@ data class ImagePublication(
     val url: String,
 ) : Parcelable
 
-data class UserProfileDTO (
-    val records: List<RecordUserProfileDTO>
-)
 
-data class RecordUserProfileDTO (
+data class RecordUserProfileDTO(
     val id: String,
     val fields: FieldsUserProfileDTO
 )
 
-data class FieldsUserProfileDTO (
+data class FieldsUserProfileDTO(
     val nickname: String,
     val uid: String,
     val icon: List<IconUser>,
     val publication: List<String>,
     @SerializedName("likepublication")
-    val likePublication: List<String>
+    val likePublication: List<String>,
+    val location: String,
+    val datebirth: String,
+    val usergender: Int
 )
 
 data class Record(
@@ -70,10 +70,5 @@ data class Fields(
     val id: Long,
     val location: String,
     val likeCount: Long,
-    val text: String,
-
-)
-
-data class URLImage(
-    val url: String,
+    val text: String
 )

@@ -8,5 +8,8 @@ data class UserProfileEntity(
     val icon: String,
     val likePublication: List<String>?,
     val verification: Boolean,
-    val email: String
+    val email: String,
+    val location: String,
+    val datebirth: String,
+    val usergender: Int
 )

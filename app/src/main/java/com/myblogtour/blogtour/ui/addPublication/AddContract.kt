@@ -12,6 +12,7 @@ interface AddContract {
         val errorMessageImage: LiveData<String>
         val errorMessageText: LiveData<String>
         val errorMessageLocation: LiveData<String>
+        val errorMessagePublicationAdd: LiveData<String>
         fun dataPublication(
                 text: String,
                 location: String,

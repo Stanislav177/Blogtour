@@ -53,7 +53,6 @@ class AddPublicationFragment :
         val latLon = exif.getLatLong(locationImage)
         val lon = exif.getAttribute(ExifInterface.TAG_GPS_LONGITUDE)
         val lat = exif.getAttribute(ExifInterface.TAG_GPS_LATITUDE)
-
     }
 
     private fun viewModelObserve() {
@@ -72,15 +71,22 @@ class AddPublicationFragment :
                 }
             }
             errorMessageImage.observe(viewLifecycleOwner) {
-                Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
+                showToast(it)
             }
             errorMessageLocation.observe(viewLifecycleOwner) {
-                Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
+                showToast(it)
             }
             errorMessageText.observe(viewLifecycleOwner) {
-                Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
+                showToast(it)
+            }
+            errorMessagePublicationAdd.observe(viewLifecycleOwner){
+                showToast(it)
             }
         }
+    }
+
+    private fun showToast(it: String?) {
+        Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
     }
 
     private fun initImagePublication(it: Uri?) {
@@ -100,14 +106,16 @@ class AddPublicationFragment :
 
     private fun publishPost(it: Boolean) {
         if (it) {
-            Toast.makeText(requireContext(), "Пост размещен", Toast.LENGTH_SHORT).show()
+            showToast("Пост размещен")
             with(binding) {
+                viewModel.deleteImage()
+                viewModel.flagAddPublication(true)
                 editTextPost.text.clear()
                 editTextLocation.text.clear()
                 imagePostAddPost.load(null)
             }
         } else {
-            Toast.makeText(requireContext(), "Что-то пошло не так", Toast.LENGTH_SHORT).show()
+            showToast("Что-то пошло не так")
         }
     }
 

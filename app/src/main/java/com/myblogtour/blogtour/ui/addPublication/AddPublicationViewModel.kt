@@ -10,6 +10,7 @@ import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 import com.myblogtour.blogtour.domain.repository.AuthFirebaseRepository
 import com.myblogtour.blogtour.domain.repository.CreatePublicationRepository
+import com.myblogtour.blogtour.utils.SingleLiveEvent
 
 class AddPublicationViewModel(
     private val authFirebaseRepository: AuthFirebaseRepository,
@@ -19,6 +20,7 @@ class AddPublicationViewModel(
 
     private var nameFile: StorageReference? = null
     private var uploadTask: UploadTask? = null
+    private var flagAddPublication = true
 
     override val publishPostLiveData: LiveData<Boolean> = MutableLiveData()
     override val loadUri: LiveData<Uri?> = MutableLiveData()
@@ -26,13 +28,21 @@ class AddPublicationViewModel(
     override val errorMessageImage: LiveData<String> = MutableLiveData()
     override val errorMessageText: LiveData<String> = MutableLiveData()
     override val errorMessageLocation: LiveData<String> = MutableLiveData()
+    override val errorMessagePublicationAdd: LiveData<String> = SingleLiveEvent()
+
+    fun flagAddPublication(b: Boolean) {
+        flagAddPublication = b
+    }
 
     fun deleteImage() {
-        nameFile!!.delete().addOnSuccessListener {
-            loadUri.mutable().postValue(null)
-        }.addOnFailureListener {
-            val er = it
-        }
+        Thread {
+            Thread.sleep(5000)
+            nameFile!!.delete().addOnSuccessListener {
+                loadUri.mutable().postValue(null)
+            }.addOnFailureListener {
+                val er = it
+            }
+        }.start()
     }
 
     fun deleteImageDetach() {
@@ -86,31 +96,33 @@ class AddPublicationViewModel(
         location: String,
         imageUri: Uri?,
     ) {
-
-        when {
-            imageUri == null -> {
-                errorMessageImage.mutable().postValue("Добавьте изображение")
-                return
-            }
-            text.isEmpty() -> {
-                errorMessageImage.mutable().postValue("Добавьте текст")
-                return
-            }
-            location.isEmpty() -> {
-                errorMessageImage.mutable().postValue("Добавьте местоположение")
-                return
-            }
-            else -> {
-                val publishPost = converterJsonObject(imageUri, text, location)
-                createPublicationRepository.createPublication(
-                    onSuccess = {
-                        publishPostLiveData.mutable().postValue(it)
-                    },
-                    onError = {
-
-                    },
-                    publishPost
-                )
+        if (flagAddPublication) {
+            when {
+                imageUri == null -> {
+                    errorMessageImage.mutable().postValue("Добавьте изображение")
+                    return
+                }
+                text.isEmpty() -> {
+                    errorMessageImage.mutable().postValue("Добавьте текст")
+                    return
+                }
+                location.isEmpty() -> {
+                    errorMessageImage.mutable().postValue("Добавьте местоположение")
+                    return
+                }
+                else -> {
+                    flagAddPublication = false
+                    val publishPost = converterJsonObject(imageUri, text, location)
+                    createPublicationRepository.createPublication(
+                        onSuccess = {
+                            publishPostLiveData.mutable().postValue(it)
+                        },
+                        onError = {
+                            errorMessagePublicationAdd.mutable().postValue(it.message)
+                        },
+                        publishPost
+                    )
+                }
             }
         }
     }

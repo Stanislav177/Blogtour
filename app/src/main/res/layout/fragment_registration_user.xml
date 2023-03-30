@@ -85,7 +85,9 @@
         android:layout_marginStart="20dp"
         android:layout_marginTop="25dp"
         android:layout_marginEnd="20dp"
-        android:hint="Имя">
+        android:hint="Login"
+        app:counterEnabled="true"
+        app:counterMaxLength="15">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/inputLoginReg"

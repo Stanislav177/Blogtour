@@ -1,8 +1,5 @@
 package com.myblogtour.blogtour.ui.home
 
-import android.animation.Animator
-import android.animation.AnimatorListenerAdapter
-import android.animation.ObjectAnimator
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,7 +13,6 @@ class HomeRecyclerAdapter(private var myOnClickListener: MyOnClickListener) :
     RecyclerView.Adapter<HomeRecyclerAdapter.PostViewHolder>() {
 
     private var listPost: MutableList<PublicationEntity> = mutableListOf()
-    private var flag = false
 
     fun setPostData(postData: List<PublicationEntity>) {
         this.listPost = postData.toMutableList()
@@ -106,33 +102,6 @@ class HomeRecyclerAdapter(private var myOnClickListener: MyOnClickListener) :
                     myOnClickListener.onItemClickMore(
                         ItemRecyclerBlogBinding.bind(itemView).apply { this })
                 }
-            }
-        }
-
-        private fun moreMenuPublication(item: ItemRecyclerBlogBinding) {
-            flag = !flag
-            if (flag) {
-                ObjectAnimator.ofFloat(item.moreMenuPublication, View.TRANSLATION_Y, 0f, 130f)
-                    .setDuration(1000).start()
-                item.moreMenuPublication.animate().alpha(1f).setDuration(1000).setListener(
-                    object : AnimatorListenerAdapter() {
-                        override fun onAnimationEnd(animation: Animator) {
-                            item.moreMenuPublication.isClickable = true
-                            super.onAnimationEnd(animation)
-                        }
-                    }
-                )
-            } else {
-                ObjectAnimator.ofFloat(item.moreMenuPublication, View.TRANSLATION_Y, 130f, 0f)
-                    .setDuration(1000).start()
-                item.moreMenuPublication.animate().alpha(0f).setDuration(1000).setListener(
-                    object : AnimatorListenerAdapter() {
-                        override fun onAnimationEnd(animation: Animator) {
-                            item.moreMenuPublication.isClickable = false
-                            super.onAnimationEnd(animation)
-                        }
-                    }
-                )
             }
         }
     }

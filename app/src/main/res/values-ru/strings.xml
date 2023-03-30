@@ -6,7 +6,6 @@
     <string name="home_bottom_menu">Главная</string>
     <string name="more_bottom_menu">Еще</string>
     <string name="favorites_bottom_menu">Избранное</string>
-
     <string name="tools_text_item">Главной целью нашего большого автомобильного путешествия был
         национальный парк Грейт Смоки Маунтинс. Смоки – это огромный массив леса площадью
         несколько тысяч квадратных километров.</string>
@@ -29,4 +28,15 @@
     <string name="reset_password"><u>Сменить пароль</u></string>
     <string name="privacy_policy">Нажимая зарегистрироваться, вы соглашаетесь \n<u>с политикой конфиденциальности</u></string>
     <string name="privacy_policy_auth">Нажимая авторизоваться, вы соглашаетесь \n <u>с политикой конфиденциальности</u></string>
+    <string name="email">Эл.почта:</string>
+    <string name="location">Локация:</string>
+    <string name="date_of_birth">Дата рождения:</string>
+    <string name="gender">Пол:</string>
+    <string name="save_profile"><u>Сохранить изменения</u></string>
+
+    <string-array name="listGender">
+        <item>Не указано</item>
+        <item>Мужской</item>
+        <item>Женский</item>
+    </string-array>
 </resources>

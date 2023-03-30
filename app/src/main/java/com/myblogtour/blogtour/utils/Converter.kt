@@ -1,8 +1,6 @@
 package com.myblogtour.blogtour.utils
 
-import android.icu.text.FormattedValue
 import android.icu.text.SimpleDateFormat
-import android.util.Log
 import com.myblogtour.airtable.domain.IconUser
 import com.myblogtour.airtable.domain.ImagePublication
 import com.myblogtour.airtable.domain.PublicationDTO
@@ -136,27 +134,6 @@ private fun converterUrlImageDto(urlDtoImage: List<ImagePublication>): MutableLi
     return publicationImage
 }
 
-//fun converterFromProfileUserDtoToProfileUserEntity(
-//    userProfileDTO: UserProfileDTO,
-//): UserProfileEntity? {
-//    val userProfileDToSize = userProfileDTO.records.size
-//    var profileUser: UserProfileEntity? = null
-//    if (userProfileDToSize != 0) {
-//        userProfileDToSize.let {
-//            for (i in 0 until it) {
-//                profileUser = UserProfileEntity(
-//                    userProfileDTO.records[i].id,
-//                    userProfileDTO.records[i].fields.uid,
-//                    userProfileDTO.records[i].fields.nickname,
-//                    userProfileDTO.records[i].fields.publication,
-//                    converterIconUserDto(userProfileDTO.records[i].fields.icon),
-//                    userProfileDTO.records[i].fields.likePublication
-//                )
-//            }
-//        }
-//    }
-//    return profileUser
-//}
 
 fun converterFromRegisterUserAirtableToUserEntity(
     recordUserProfileDTO: RecordUserProfileDTO
@@ -168,8 +145,12 @@ fun converterFromRegisterUserAirtableToUserEntity(
     converterIconUserDto(recordUserProfileDTO.fields.icon),
     recordUserProfileDTO.fields.likePublication,
     false,
-    ""
+    "",
+    recordUserProfileDTO.fields.location,
+    recordUserProfileDTO.fields.datebirth,
+    recordUserProfileDTO.fields.usergender
 )
+
 fun converterFromProfileUserAirtableToUserEntity(
     userVer: Boolean,
     userMail: String,
@@ -182,6 +163,9 @@ fun converterFromProfileUserAirtableToUserEntity(
     converterIconUserDto(recordUserProfileDTO.fields.icon),
     recordUserProfileDTO.fields.likePublication,
     userVer,
-    userMail
+    userMail,
+    recordUserProfileDTO.fields.location,
+    recordUserProfileDTO.fields.datebirth,
+    recordUserProfileDTO.fields.usergender
 )
 

@@ -4,6 +4,8 @@ import com.google.gson.JsonObject
 import com.myblogtour.airtable.domain.PublicationDTO
 import com.myblogtour.airtable.domain.Record
 import com.myblogtour.airtable.domain.RecordUserProfileDTO
+import com.myblogtour.blogtour.domain.UserProfileEntity
+import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.http.*
 
@@ -54,6 +56,14 @@ interface AirTableApi {
         @Query(API_KEY) apikey: String,
         @Body post: JsonObject,
     ): Call<Unit>
+
+    @Headers("Content-Type: application/json")
+    @PATCH("$URL_API_END_POINT_USER_PROFILE/{id}/")
+    fun updateUserProfile(
+        @Path("id") idUser: String,
+        @Query(API_KEY) apikey: String,
+        @Body post: JsonObject,
+    ): Call<RecordUserProfileDTO>
 
     @GET("$URL_API_END_POINT_PUBLICATION/?")
     fun getMyPublication(
