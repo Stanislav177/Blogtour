@@ -10,4 +10,5 @@ sealed class AppStateUserRegistration {
     data class ProgressLoadingIconUser(val progress: Int) : AppStateUserRegistration()
     data class SuccessIconUser(val successIcon: Boolean) : AppStateUserRegistration()
     data class DeleteIconUser(val deleteIcon: Boolean) : AppStateUserRegistration()
+    data class ErrorIconUser(val errorIcon: String) : AppStateUserRegistration()
 }
