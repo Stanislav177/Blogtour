@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
+import coil.transform.CircleCropTransformation
 import com.myblogtour.blogtour.R
 import com.myblogtour.blogtour.databinding.ItemRecyclerBlogBinding
 import com.myblogtour.blogtour.domain.PublicationEntity
@@ -36,23 +37,25 @@ class HomeRecyclerAdapter(private var myOnClickListener: MyOnClickListener) :
         RecyclerView.ViewHolder(view) {
         fun bind(post: PublicationEntity) {
             val imageNUll = post.urlImage.size
-
             ItemRecyclerBlogBinding.bind(itemView).apply {
                 nickNameTextView.text = post.nickNameUserProfile
                 location.text = post.location
                 countLike.text = post.counterLike.toString()
                 dateAdditionsPublication.text = post.date
                 textPublicationCard.text = post.text
-                iconUserProfile.load(post.iconFromUserProfile)
+                iconUserProfile.load(post.iconFromUserProfile) {
+                    transformations(CircleCropTransformation())
+                }
                 nickNameUserLike.text = post.nickNameUserLike
                 if (post.maxLinesText) {
                     textPublicationCard.maxLines = 50
                 } else {
                     textPublicationCard.maxLines = 3
                 }
-
                 if (imageNUll != 0) {
-                    imagePost.load(post.urlImage[0].url)
+                    imagePost.load(post.urlImage[0].url) {
+                        placeholder(R.drawable.ic_load_image)
+                    }
                 }
                 if (post.clickLikePublication) {
                     likePost.setImageResource(R.drawable.ic_like_on)

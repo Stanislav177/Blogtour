@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
+import com.myblogtour.blogtour.R
 import com.myblogtour.blogtour.databinding.ItemRecyclerViewMyPublicationBinding
 import com.myblogtour.blogtour.domain.PublicationEntity
 
@@ -40,7 +41,9 @@ class MyPublicationRecyclerView(val myOnItemClickListener: MyOnItemClickListener
 
             ItemRecyclerViewMyPublicationBinding.bind(itemView).run {
                 if (imageSize != 0) {
-                    imageMyPublication.load(publication.urlImage[0].url)
+                    imageMyPublication.load(publication.urlImage[0].url){
+                        placeholder(R.drawable.ic_load_image)
+                    }
                 }
                 textViewDatePublication.text = publication.date
                 textViewMyPublication.text = publication.text
