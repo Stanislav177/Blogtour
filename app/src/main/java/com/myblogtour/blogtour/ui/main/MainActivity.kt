@@ -1,7 +1,7 @@
 package com.myblogtour.blogtour.ui.main
 
 import android.os.Bundle
-import android.widget.ArrayAdapter
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate.*
 import androidx.fragment.app.Fragment
@@ -9,6 +9,7 @@ import com.myblogtour.blogtour.R
 import com.myblogtour.blogtour.appState.AppStateMainActivity
 import com.myblogtour.blogtour.databinding.ActivityMainBinding
 import com.myblogtour.blogtour.ui.home.HomeFragment
+import com.myblogtour.blogtour.ui.noNetworkConnection.NoNetworkConnectionDialog
 import com.myblogtour.blogtour.ui.search.ResultSearchFragment
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -30,13 +31,16 @@ class MainActivity : AppCompatActivity() {
 
         if (savedInstanceState == null) {
             toFragment(HomeFragment())
+            viewModel.onNetworkConnection()
         }
         initBottomAppBar()
+        observerViewModel()
     }
 
     private fun initBottomAppBar() {
         with(binding) {
             btnHomeFab.setOnClickListener {
+                viewModel.onNetworkConnection()
                 toFragment(HomeFragment())
             }
             appBar.setOnMenuItemClickListener {
@@ -52,21 +56,35 @@ class MainActivity : AppCompatActivity() {
             }
             appBar.setNavigationOnClickListener {
                 viewModel.onRefresh()
-                viewModel.getLiveData().observe(this@MainActivity) {
-                    when (it) {
-                        is AppStateMainActivity.CurrentUser -> {
-                            BottomNavigationDrawerFragment().show(
-                                this@MainActivity.supportFragmentManager,
-                                "ff"
-                            )
-                        }
-                        is AppStateMainActivity.NoCurrentUser -> {
-                            BottomNavigationDrawerFragmentAuth().show(
-                                this@MainActivity.supportFragmentManager,
-                                "f"
-                            )
-                        }
-                    }
+                observerViewModel()
+            }
+        }
+    }
+
+    private fun observerViewModel() {
+        viewModel.getLiveData().observe(this@MainActivity) {
+            when (it) {
+                is AppStateMainActivity.CurrentUser -> {
+                    BottomNavigationDrawerFragment().show(
+                        this@MainActivity.supportFragmentManager,
+                        "ff"
+                    )
+                }
+                is AppStateMainActivity.NoCurrentUser -> {
+                    BottomNavigationDrawerFragmentAuth().show(
+                        this@MainActivity.supportFragmentManager,
+                        "f"
+                    )
+                }
+                is AppStateMainActivity.NetworkConnection -> {
+                    Toast.makeText(this, it.connection.textNetwork, Toast.LENGTH_SHORT).show()
+                }
+                is AppStateMainActivity.NoNetworkConnection -> {
+                    NoNetworkConnectionDialog().show(
+                        this@MainActivity.supportFragmentManager,
+                        "fff"
+                    )
+                    Toast.makeText(this, "Нет соединения", Toast.LENGTH_SHORT).show()
                 }
             }
         }

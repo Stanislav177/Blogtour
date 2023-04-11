@@ -66,6 +66,7 @@ class RegistrationUserFragment :
                 }
                 is AppStateUserRegistration.SuccessUser -> {
                     openAlertDialog()
+                    viewModel.singOut()
                 }
                 is AppStateUserRegistration.ErrorUser -> {
                     Toast.makeText(context, "Что-то пошло не так", Toast.LENGTH_SHORT).show()
@@ -99,6 +100,10 @@ class RegistrationUserFragment :
                         addIconUserProfile.visibility = View.VISIBLE
                     }
                 }
+                is AppStateUserRegistration.ErrorIconUser -> {
+                    Toast.makeText(requireActivity(), "Добавьте изображение", Toast.LENGTH_SHORT)
+                        .show()
+                }
             }
         }
     }
@@ -109,7 +114,6 @@ class RegistrationUserFragment :
             .setTitle("Регистрация прошла успешно.")
             .setMessage(" Для подтверждения Email, на почту отправлено письмо")
             .setPositiveButton("OK") { _, _ ->
-                viewModel.singOut()
                 requireActivity().supportFragmentManager.popBackStack()
             }.create().show()
     }

@@ -30,7 +30,6 @@ class RegistrationViewModel(
     private lateinit var email: String
     private lateinit var password: String
     private lateinit var uriIconUser: Uri
-
     private var nameFile: StorageReference? = null
     private var uploadTask: UploadTask? = null
 
@@ -54,18 +53,22 @@ class RegistrationViewModel(
         passwordOneRegister: Editable?,
         passwordTwoRegister: Editable?,
     ) {
-        validNameValidatorPattern.afterTextUserName(loginUserRegister)
-        when {
-            validNameValidatorPattern.validUserLogin -> {
-                userLogin = loginUserRegister.toString()
-                emailValidator(emailRegister, passwordOneRegister, passwordTwoRegister)
+        if (this::uriIconUser.isInitialized) {
+            validNameValidatorPattern.afterTextUserName(loginUserRegister)
+            when {
+                validNameValidatorPattern.validUserLogin -> {
+                    userLogin = loginUserRegister.toString()
+                    emailValidator(emailRegister, passwordOneRegister, passwordTwoRegister)
+                }
+                validNameValidatorPattern.nullUserLogin == null -> {
+                    liveData.postValue(AppStateUserRegistration.ErrorUserLogin("Введите логин"))
+                }
+                else -> {
+                    liveData.postValue(AppStateUserRegistration.ErrorUserLogin("Некорректный логин"))
+                }
             }
-            validNameValidatorPattern.nullUserLogin == null -> {
-                liveData.postValue(AppStateUserRegistration.ErrorUserLogin("Введите логин"))
-            }
-            else -> {
-                liveData.postValue(AppStateUserRegistration.ErrorUserLogin("Некорректный логин"))
-            }
+        } else {
+            liveData.postValue(AppStateUserRegistration.ErrorIconUser("Добавьте фото"))
         }
     }
 

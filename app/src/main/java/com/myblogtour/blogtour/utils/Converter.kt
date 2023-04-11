@@ -70,7 +70,7 @@ private fun converterIdTableCounterLike(idCounterLike: List<String>?): String {
 private fun searchUserLikePublication(id: String?, userListLike: List<String>?): Boolean {
     id?.let { idNotNull ->
         userListLike?.let {
-            val searchUser = userListLike.binarySearch(idNotNull)
+            val searchUser = userListLike.sorted().binarySearch(idNotNull)
             if (searchUser >= 0) {
                 return true
             }

@@ -12,17 +12,21 @@ import com.myblogtour.blogtour.ui.authUser.AuthUserViewModel
 import com.myblogtour.blogtour.ui.home.HomeViewModel
 import com.myblogtour.blogtour.ui.main.MainViewModel
 import com.myblogtour.blogtour.ui.myPublication.MyPublicationViewModel
+import com.myblogtour.blogtour.ui.noNetworkConnection.NoNetworkConnectionViewModel
 import com.myblogtour.blogtour.ui.profileUser.ProfileViewModel
 import com.myblogtour.blogtour.ui.profileUser.resetPassword.ViewModelResetPassword
 import com.myblogtour.blogtour.ui.recoveryPassword.RecoveryPasswordViewModel
 import com.myblogtour.blogtour.ui.registrationUser.RegistrationViewModel
 import com.myblogtour.blogtour.ui.search.ResultSearchViewModel
+import com.myblogtour.blogtour.utils.networkConnection.NetworkStatusRepository
+import com.myblogtour.blogtour.utils.networkConnection.NetworkStatusRepositoryImpl
 import com.myblogtour.blogtour.utils.validatorEmail.EmailValidatorPattern
 import com.myblogtour.blogtour.utils.validatorEmail.EmailValidatorPatternImpl
 import com.myblogtour.blogtour.utils.validatorPassword.PasswordValidatorPattern
 import com.myblogtour.blogtour.utils.validatorPassword.PasswordValidatorPatternImpl
 import com.myblogtour.blogtour.utils.validatorUserName.LoginValidatorPattern
 import com.myblogtour.blogtour.utils.validatorUserName.LoginValidatorPatternImpl
+import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
@@ -76,6 +80,9 @@ object Modules {
         single<LoginValidatorPattern> {
             LoginValidatorPatternImpl()
         }
+        single<NetworkStatusRepository> {
+            NetworkStatusRepositoryImpl(androidContext())
+        }
     }
 
     val firebase = module {
@@ -85,7 +92,7 @@ object Modules {
 
     val viewModelsModule = module {
         viewModel {
-            ProfileViewModel(get(), get(),get())
+            ProfileViewModel(get(), get(), get())
         }
         viewModel {
             HomeViewModel(publicationRepository = get(), authFirebaseRepository = get())
@@ -108,14 +115,15 @@ object Modules {
                 authFirebaseRepository = get(),
                 userRegistrationRepository = get(),
                 storageRef = get(named("storageRef")),
-                get(),
-                get(),
-                get()
+                validPasswordPattern = get(),
+                validEmailPattern = get(),
+                validNameValidatorPattern = get()
             )
         }
         viewModel {
             MainViewModel(
-                authFirebaseRepository = get()
+                authFirebaseRepository = get(),
+                networkStatusRepository = get()
             )
         }
         viewModel {
@@ -126,7 +134,10 @@ object Modules {
             ViewModelResetPassword(get(named("authFirebase")), get())
         }
         viewModel {
-            ResultSearchViewModel(get(),get())
+            ResultSearchViewModel(get(), get())
+        }
+        viewModel {
+            NoNetworkConnectionViewModel(get())
         }
     }
 }
