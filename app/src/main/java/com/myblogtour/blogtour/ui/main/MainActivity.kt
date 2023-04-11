@@ -77,14 +77,13 @@ class MainActivity : AppCompatActivity() {
                     )
                 }
                 is AppStateMainActivity.NetworkConnection -> {
-                    Toast.makeText(this, it.connection.textNetwork, Toast.LENGTH_SHORT).show()
+
                 }
                 is AppStateMainActivity.NoNetworkConnection -> {
                     NoNetworkConnectionDialog().show(
                         this@MainActivity.supportFragmentManager,
                         "fff"
                     )
-                    Toast.makeText(this, "Нет соединения", Toast.LENGTH_SHORT).show()
                 }
             }
         }
