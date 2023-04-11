@@ -34,6 +34,9 @@
     <string name="gender">Пол:</string>
     <string name="save_profile"><u>Сохранить изменения</u></string>
     <string name="login">Логин</string>
+    <string name="no_internet">Нет соединения с интернетом</string>
+    <string name="update">Обновить</string>
+
 
     <string-array name="listGender">
         <item>Не указано</item>
