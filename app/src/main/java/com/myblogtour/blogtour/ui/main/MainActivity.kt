@@ -1,6 +1,7 @@
 package com.myblogtour.blogtour.ui.main
 
 import android.animation.ObjectAnimator
+import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.view.animation.AnticipateInterpolator
@@ -30,12 +31,13 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val splashScreen = installSplashScreen()
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            val splashScreen = installSplashScreen()
+            showSplashScreen(splashScreen)
+        }
         startTheme(getThemeSP())
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        showSplashScreen(splashScreen)
 
         if (savedInstanceState == null) {
             toFragment(HomeFragment())
