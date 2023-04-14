@@ -1,9 +1,14 @@
 package com.myblogtour.blogtour.ui.main
 
+import android.animation.ObjectAnimator
 import android.os.Bundle
-import android.widget.Toast
+import android.view.View
+import android.view.animation.AnticipateInterpolator
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate.*
+import androidx.core.animation.doOnEnd
+import androidx.core.splashscreen.SplashScreen
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.fragment.app.Fragment
 import com.myblogtour.blogtour.R
 import com.myblogtour.blogtour.appState.AppStateMainActivity
@@ -12,6 +17,7 @@ import com.myblogtour.blogtour.ui.home.HomeFragment
 import com.myblogtour.blogtour.ui.noNetworkConnection.NoNetworkConnectionDialog
 import com.myblogtour.blogtour.ui.search.ResultSearchFragment
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import java.util.concurrent.Executors
 
 const val SYSTEM_THEME = 0
 const val LIGHT_THEME = 1
@@ -24,10 +30,12 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val splashScreen = installSplashScreen()
         startTheme(getThemeSP())
-
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        showSplashScreen(splashScreen)
 
         if (savedInstanceState == null) {
             toFragment(HomeFragment())
@@ -35,6 +43,29 @@ class MainActivity : AppCompatActivity() {
         }
         initBottomAppBar()
         observerViewModel()
+    }
+
+    private fun showSplashScreen(splashScreen: SplashScreen) {
+        splashScreen.setKeepOnScreenCondition { true }
+        Executors.newSingleThreadExecutor().execute {
+            Thread.sleep(2000)
+            splashScreen.setKeepOnScreenCondition { false }
+        }
+
+        splashScreen.setOnExitAnimationListener { splash ->
+            ObjectAnimator.ofFloat(
+                splash.view,
+                View.TRANSLATION_Y,
+                0f,
+                -splash.view.height.toFloat()
+            ).apply {
+                duration = 500
+                interpolator = AnticipateInterpolator()
+                doOnEnd {
+                    splash.remove()
+                }
+            }.start()
+        }
     }
 
     private fun initBottomAppBar() {
