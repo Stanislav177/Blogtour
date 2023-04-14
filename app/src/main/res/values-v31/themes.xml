@@ -1,0 +1,8 @@
+<resources>
+
+    <style name="MyTheme.Splash" parent="Theme.SplashScreen">
+        <item name="postSplashScreenTheme">@style/MyTheme</item>
+        <item name="windowSplashScreenAnimatedIcon">@mipmap/ic_app</item>
+        <item name="windowSplashScreenBackground">@color/white</item>
+    </style>
+</resources>
