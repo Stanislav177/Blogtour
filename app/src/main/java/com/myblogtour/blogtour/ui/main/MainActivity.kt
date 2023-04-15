@@ -53,7 +53,6 @@ class MainActivity : AppCompatActivity() {
             Thread.sleep(2000)
             splashScreen.setKeepOnScreenCondition { false }
         }
-
         splashScreen.setOnExitAnimationListener { splash ->
             ObjectAnimator.ofFloat(
                 splash.view,
