@@ -10,21 +10,9 @@ import com.myblogtour.blogtour.R
 import com.myblogtour.blogtour.databinding.BottomNavigationLayoutAuthBinding
 import com.myblogtour.blogtour.ui.authUser.AuthUserFragment
 import com.myblogtour.blogtour.ui.setting.SettingFragment
+import com.myblogtour.blogtour.utils.BaseDialogFragment
 
-class BottomNavigationDrawerFragmentAuth : BottomSheetDialogFragment() {
-
-    private var _binding: BottomNavigationLayoutAuthBinding? = null
-    private val binding: BottomNavigationLayoutAuthBinding
-        get() = _binding!!
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = BottomNavigationLayoutAuthBinding.inflate(inflater, container, false)
-        return binding.root
-    }
+class BottomNavigationDrawerFragmentAuth : BaseDialogFragment<BottomNavigationLayoutAuthBinding>(BottomNavigationLayoutAuthBinding::inflate) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

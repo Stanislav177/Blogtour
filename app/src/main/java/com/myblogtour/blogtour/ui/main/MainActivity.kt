@@ -31,10 +31,10 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-            val splashScreen = installSplashScreen()
-            showSplashScreen(splashScreen)
-        }
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+//           installSplashScreen()
+//            //showSplashScreen(splashScreen)
+//        }
         startTheme(getThemeSP())
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)

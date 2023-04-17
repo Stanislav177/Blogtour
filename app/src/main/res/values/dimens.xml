@@ -11,4 +11,5 @@
     <dimen name="margin_card_corner_radius_item">10dp</dimen>
     <dimen name="card_elevation_item">15dp</dimen>
     <dimen name="margin_top_item">5dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
 </resources>
