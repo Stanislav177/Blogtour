@@ -4,30 +4,17 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.myblogtour.blogtour.R
 import com.myblogtour.blogtour.databinding.BottomNavigationLayoutBinding
 import com.myblogtour.blogtour.ui.addPublication.AddPublicationFragment
 import com.myblogtour.blogtour.ui.myPublication.MyPublicationFragment
 import com.myblogtour.blogtour.ui.profileUser.ProfileFragment
 import com.myblogtour.blogtour.ui.setting.SettingFragment
+import com.myblogtour.blogtour.utils.BaseDialogFragment
 
-class BottomNavigationDrawerFragment : BottomSheetDialogFragment() {
-
-    private var _binding: BottomNavigationLayoutBinding? = null
-    private val binding: BottomNavigationLayoutBinding
-        get() = _binding!!
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = BottomNavigationLayoutBinding.inflate(inflater, container, false)
-        return binding.root
-    }
+class BottomNavigationDrawerFragment :
+    BaseDialogFragment<BottomNavigationLayoutBinding>(BottomNavigationLayoutBinding::inflate) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
