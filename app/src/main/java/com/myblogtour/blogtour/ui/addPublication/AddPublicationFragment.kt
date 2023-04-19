@@ -1,11 +1,15 @@
 package com.myblogtour.blogtour.ui.addPublication
 
+import android.Manifest
+import android.app.AlertDialog
+import android.content.pm.PackageManager
 import android.media.ExifInterface
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.ContextCompat
 import coil.load
 import com.myblogtour.blogtour.databinding.FragmentAddPublicationBinding
 import com.myblogtour.blogtour.utils.BaseFragment
@@ -14,6 +18,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 class AddPublicationFragment :
     BaseFragment<FragmentAddPublicationBinding>(FragmentAddPublicationBinding::inflate) {
 
+    private val REQUEST_CODE = 999
     private val viewModel: AddPublicationViewModel by viewModel()
     private var imageUri: Uri? = null
     private var imageUriLocal: Uri? = null
@@ -42,6 +47,9 @@ class AddPublicationFragment :
             }
             deleteImagePublication.setOnClickListener {
                 viewModel.deleteImage()
+            }
+            currentLocation.setOnClickListener {
+                checkPermission()
             }
         }
     }
@@ -79,7 +87,7 @@ class AddPublicationFragment :
             errorMessageText.observe(viewLifecycleOwner) {
                 showToast(it)
             }
-            errorMessagePublicationAdd.observe(viewLifecycleOwner){
+            errorMessagePublicationAdd.observe(viewLifecycleOwner) {
                 showToast(it)
             }
         }
@@ -102,6 +110,49 @@ class AddPublicationFragment :
                 deleteImagePublication.visibility = View.GONE
             }
         }
+    }
+
+    private fun checkPermission() {
+        context?.let {
+            when {
+                ContextCompat.checkSelfPermission(
+                    it,
+                    Manifest.permission.ACCESS_FINE_LOCATION
+                ) == PackageManager.PERMISSION_GRANTED -> {
+                    getLocation()
+                }
+                shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION) -> {
+                    showDialog()
+                }
+                else -> {
+                    myRequestPermission()
+                }
+            }
+        }
+    }
+
+    private fun showDialog() {
+        val builder = AlertDialog.Builder(requireActivity())
+        builder.setTitle("Доступ к геопозиции")
+            .setMessage(
+                "Разрешить доступ к геопозиции, " +
+                        "для автоматического определения вашего место положения"
+            )
+            .setPositiveButton("Да") { _, _ ->
+                myRequestPermission()
+            }.setNegativeButton("Нет") { dialog, _ ->
+                dialog.dismiss()
+            }
+            .create()
+            .show()
+    }
+
+    private fun myRequestPermission() {
+        requestPermissions(arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), REQUEST_CODE)
+    }
+
+    private fun getLocation() {
+
     }
 
     override fun onRequestPermissionsResult(
