@@ -53,9 +53,7 @@
             android:layout_marginStart="5dp"
             android:layout_marginTop="5dp"
             android:layout_marginEnd="5dp"
-            android:hint="Добавьте место положение"
-            app:counterEnabled="true"
-            app:counterMaxLength="25"
+            android:hint="Добавьте местоположение"
             app:layout_constraintStart_toStartOf="@id/innerEditTextAddPost"
             app:layout_constraintTop_toBottomOf="@id/innerEditTextAddPost">
 
@@ -64,17 +62,36 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="text"
-                app:singleLine="true" />
+                app:singleLine="true"/>
         </com.google.android.material.textfield.TextInputLayout>
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/appCompatImageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/innerEditTextLocationAddPost"
+            app:srcCompat="@drawable/ic_location" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/currentLocation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/current_location"
+            app:layout_constraintBottom_toBottomOf="@+id/appCompatImageView"
+            app:layout_constraintStart_toEndOf="@+id/appCompatImageView"
+            app:layout_constraintTop_toTopOf="@+id/appCompatImageView" />
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/attachPhotoAddPost"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="5dp"
             app:layout_constraintStart_toStartOf="@+id/innerEditTextLocationAddPost"
-            app:layout_constraintTop_toBottomOf="@+id/innerEditTextLocationAddPost"
-            app:srcCompat="@drawable/ic_add_photo" />
+            app:layout_constraintTop_toBottomOf="@+id/currentLocation"
+            app:srcCompat="@drawable/ic_add_photo"
+            tools:ignore="ImageContrastCheck" />
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/imagePostAddPost"

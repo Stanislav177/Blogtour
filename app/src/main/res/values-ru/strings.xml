@@ -36,6 +36,7 @@
     <string name="login">Логин</string>
     <string name="no_internet">Нет соединения с интернетом</string>
     <string name="update">Обновить</string>
+    <string name="current_location"><u>Текущее местоположение</u></string>
 
 
     <string-array name="listGender">

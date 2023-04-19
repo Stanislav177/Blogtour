@@ -36,6 +36,7 @@
     <string name="login">Login</string>
     <string name="no_internet">No internet connection</string>
     <string name="update">Update</string>
+    <string name="current_location"><u>Your current location</u></string>
 
     <string-array name="listGender">
         <item>Not indicated</item>

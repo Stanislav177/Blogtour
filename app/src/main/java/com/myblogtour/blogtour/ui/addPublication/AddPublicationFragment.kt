@@ -104,6 +104,14 @@ class AddPublicationFragment :
         }
     }
 
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+
+    }
+
     private fun publishPost(it: Boolean) {
         if (it) {
             showToast("Пост размещен")
@@ -118,6 +126,7 @@ class AddPublicationFragment :
             showToast("Что-то пошло не так")
         }
     }
+
 
     override fun onDetach() {
         super.onDetach()
