@@ -14,9 +14,12 @@ interface AddContract {
         val errorMessageLocation: LiveData<String>
         val errorMessagePublicationAdd: LiveData<String>
         fun dataPublication(
-                text: String,
-                location: String,
-                imageUri: Uri?
+            text: String,
+            location: String,
+            imageUri: Uri?,
         )
+        val address: LiveData<String>
+        val offGPS: LiveData<String>
+        val errorAddress: LiveData<String>
     }
 }

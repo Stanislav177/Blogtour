@@ -170,12 +170,13 @@ class AddPublicationFragment :
                 if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
                     val providerGPS = locationManager.getProvider(LocationManager.GPS_PROVIDER)
                     providerGPS?.let {
-                        locationManager.requestLocationUpdates(
-                            LocationManager.GPS_PROVIDER,
-                            MIN_PERIOD,
-                            MIN_DISTANCE,
-                            locationListener
-                        )
+                        getAddress(locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER))
+//                        locationManager.requestLocationUpdates(
+//                            LocationManager.GPS_PROVIDER,
+//                            MIN_PERIOD,
+//                            MIN_DISTANCE,
+//                            locationListener
+//                        )
                     }
                 } else {
                     val lastLocation =
@@ -200,20 +201,26 @@ class AddPublicationFragment :
         override fun onProviderDisabled(provider: String) {
             super.onProviderDisabled(provider)
         }
-
     }
 
 
-    private fun getAddress(location: Location) {
+    private fun getAddress(location: Location?) {
         Thread {
-            val geocoder = Geocoder(requireContext())
-            val geo = geocoder.getFromLocation(location.latitude, location.longitude, 1)
-            geo?.let {
-                requireActivity().runOnUiThread {
-                    Toast.makeText(requireContext(), it[0].subAdminArea + it[0].thoroughfare +  it[0].subThoroughfare, Toast.LENGTH_SHORT).show()
+            location?.let {
+                val geocoder = Geocoder(requireContext())
+                val geo = geocoder.getFromLocation(location.latitude, location.longitude, 1)
+                geo?.let {
+                    requireActivity().runOnUiThread {
+                        Toast.makeText(requireContext(),
+                            it[0].subAdminArea + it[0].thoroughfare + it[0].subThoroughfare,
+                            Toast.LENGTH_SHORT).show()
+                    }
                 }
             }
         }.start()
+    }
+
+    private fun getAddress(latitude: Double, longitude: Double) {
 
     }
 
