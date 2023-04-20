@@ -2,7 +2,12 @@ package com.myblogtour.blogtour.ui.addPublication
 
 import android.Manifest
 import android.app.AlertDialog
+import android.content.Context
 import android.content.pm.PackageManager
+import android.location.Geocoder
+import android.location.Location
+import android.location.LocationListener
+import android.location.LocationManager
 import android.media.ExifInterface
 import android.net.Uri
 import android.os.Bundle
@@ -19,6 +24,8 @@ class AddPublicationFragment :
     BaseFragment<FragmentAddPublicationBinding>(FragmentAddPublicationBinding::inflate) {
 
     private val REQUEST_CODE = 999
+    private val MIN_DISTANCE = 100f
+    private val MIN_PERIOD = 60000L
     private val viewModel: AddPublicationViewModel by viewModel()
     private var imageUri: Uri? = null
     private var imageUriLocal: Uri? = null
@@ -152,15 +159,82 @@ class AddPublicationFragment :
     }
 
     private fun getLocation() {
+        activity?.let {
+            if (ContextCompat.checkSelfPermission(
+                    it,
+                    Manifest.permission.ACCESS_FINE_LOCATION
+                ) == PackageManager.PERMISSION_GRANTED
+            ) {
+                val locationManager =
+                    it.getSystemService(Context.LOCATION_SERVICE) as LocationManager
+                if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+                    val providerGPS = locationManager.getProvider(LocationManager.GPS_PROVIDER)
+                    providerGPS?.let {
+                        locationManager.requestLocationUpdates(
+                            LocationManager.GPS_PROVIDER,
+                            MIN_PERIOD,
+                            MIN_DISTANCE,
+                            locationListener
+                        )
+                    }
+                } else {
+                    val lastLocation =
+                        locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER)
+                    lastLocation?.let {
+                        getAddress(it)
+                    }
+                }
+            }
+        }
+    }
+
+    private val locationListener = object : LocationListener {
+        override fun onLocationChanged(location: Location) {
+            getAddress(location)
+        }
+
+        override fun onProviderEnabled(provider: String) {
+            super.onProviderEnabled(provider)
+        }
+
+        override fun onProviderDisabled(provider: String) {
+            super.onProviderDisabled(provider)
+        }
+
+    }
+
+
+    private fun getAddress(location: Location) {
+        Thread {
+            val geocoder = Geocoder(requireContext())
+            val geo = geocoder.getFromLocation(location.latitude, location.longitude, 1)
+            geo?.let {
+                requireActivity().runOnUiThread {
+                    Toast.makeText(requireContext(), it[0].subAdminArea + it[0].thoroughfare +  it[0].subThoroughfare, Toast.LENGTH_SHORT).show()
+                }
+            }
+        }.start()
 
     }
 
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,
-        grantResults: IntArray
+        grantResults: IntArray,
     ) {
-
+        if (requestCode == REQUEST_CODE) {
+            when {
+                (grantResults[0] == PackageManager.PERMISSION_GRANTED) -> {
+                    getLocation()
+                }
+                shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION) -> {
+                    showDialog()
+                }
+                else -> {
+                    myRequestPermission()
+                }
+            }
+        }
     }
 
     private fun publishPost(it: Boolean) {
