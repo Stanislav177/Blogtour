@@ -31,10 +31,6 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-//           installSplashScreen()
-//            //showSplashScreen(splashScreen)
-//        }
         startTheme(getThemeSP())
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -45,28 +41,6 @@ class MainActivity : AppCompatActivity() {
         }
         initBottomAppBar()
         observerViewModel()
-    }
-
-    private fun showSplashScreen(splashScreen: SplashScreen) {
-        splashScreen.setKeepOnScreenCondition { true }
-        Executors.newSingleThreadExecutor().execute {
-            Thread.sleep(2000)
-            splashScreen.setKeepOnScreenCondition { false }
-        }
-        splashScreen.setOnExitAnimationListener { splash ->
-            ObjectAnimator.ofFloat(
-                splash.view,
-                View.TRANSLATION_Y,
-                0f,
-                -splash.view.height.toFloat()
-            ).apply {
-                duration = 500
-                interpolator = AnticipateInterpolator()
-                doOnEnd {
-                    splash.remove()
-                }
-            }.start()
-        }
     }
 
     private fun initBottomAppBar() {

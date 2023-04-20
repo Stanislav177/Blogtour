@@ -1,6 +1,13 @@
 package com.myblogtour.blogtour.ui.addPublication
 
+import android.Manifest
+import android.app.Application
+import android.content.Context
+import android.content.pm.PackageManager
+import android.location.LocationManager
 import android.net.Uri
+import androidx.core.content.ContextCompat
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -15,7 +22,7 @@ import com.myblogtour.blogtour.utils.SingleLiveEvent
 class AddPublicationViewModel(
     private val authFirebaseRepository: AuthFirebaseRepository,
     private val storageRef: StorageReference,
-    private val createPublicationRepository: CreatePublicationRepository
+    private val createPublicationRepository: CreatePublicationRepository,
 ) : ViewModel(), AddContract.ViewModel {
 
     private var nameFile: StorageReference? = null
@@ -29,6 +36,9 @@ class AddPublicationViewModel(
     override val errorMessageText: LiveData<String> = MutableLiveData()
     override val errorMessageLocation: LiveData<String> = MutableLiveData()
     override val errorMessagePublicationAdd: LiveData<String> = SingleLiveEvent()
+    override val address: LiveData<String> = SingleLiveEvent()
+    override val offGPS: LiveData<String> = SingleLiveEvent()
+    override val errorAddress: LiveData<String> = SingleLiveEvent()
 
     fun flagAddPublication(b: Boolean) {
         flagAddPublication = b

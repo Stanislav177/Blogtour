@@ -33,7 +33,6 @@ import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-
 object Modules {
     private const val base_url_api = "https://api.airtable.com/"
 
