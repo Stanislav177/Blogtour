@@ -18,6 +18,8 @@ import com.myblogtour.blogtour.ui.profileUser.resetPassword.ViewModelResetPasswo
 import com.myblogtour.blogtour.ui.recoveryPassword.RecoveryPasswordViewModel
 import com.myblogtour.blogtour.ui.registrationUser.RegistrationViewModel
 import com.myblogtour.blogtour.ui.search.ResultSearchViewModel
+import com.myblogtour.blogtour.utils.checkPermission.RepositoryLocationAddress
+import com.myblogtour.blogtour.utils.checkPermission.RepositoryLocationAddressImpl
 import com.myblogtour.blogtour.utils.networkConnection.NetworkStatusRepository
 import com.myblogtour.blogtour.utils.networkConnection.NetworkStatusRepositoryImpl
 import com.myblogtour.blogtour.utils.validatorEmail.EmailValidatorPattern
@@ -84,6 +86,12 @@ object Modules {
         }
     }
 
+    val permissionModule = module {
+        single<RepositoryLocationAddress> {
+            RepositoryLocationAddressImpl(androidContext())
+        }
+    }
+
     val firebase = module {
         single(named("authFirebase")) { Firebase.auth }
         single(named("storageRef")) { FirebaseStorage.getInstance().reference }
@@ -103,6 +111,7 @@ object Modules {
             AddPublicationViewModel(
                 get(),
                 get(named("storageRef")),
+                get(),
                 get()
             )
         }

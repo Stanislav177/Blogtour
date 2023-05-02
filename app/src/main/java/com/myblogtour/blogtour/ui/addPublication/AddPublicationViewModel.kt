@@ -1,13 +1,7 @@
 package com.myblogtour.blogtour.ui.addPublication
 
-import android.Manifest
-import android.app.Application
-import android.content.Context
-import android.content.pm.PackageManager
-import android.location.LocationManager
 import android.net.Uri
-import androidx.core.content.ContextCompat
-import androidx.lifecycle.AndroidViewModel
+import android.text.Editable
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -18,11 +12,13 @@ import com.google.gson.JsonObject
 import com.myblogtour.blogtour.domain.repository.AuthFirebaseRepository
 import com.myblogtour.blogtour.domain.repository.CreatePublicationRepository
 import com.myblogtour.blogtour.utils.SingleLiveEvent
+import com.myblogtour.blogtour.utils.checkPermission.RepositoryLocationAddress
 
 class AddPublicationViewModel(
     private val authFirebaseRepository: AuthFirebaseRepository,
     private val storageRef: StorageReference,
     private val createPublicationRepository: CreatePublicationRepository,
+    private val locationAddressRepository: RepositoryLocationAddress,
 ) : ViewModel(), AddContract.ViewModel {
 
     private var nameFile: StorageReference? = null
@@ -36,8 +32,7 @@ class AddPublicationViewModel(
     override val errorMessageText: LiveData<String> = MutableLiveData()
     override val errorMessageLocation: LiveData<String> = MutableLiveData()
     override val errorMessagePublicationAdd: LiveData<String> = SingleLiveEvent()
-    override val address: LiveData<String> = SingleLiveEvent()
-    override val offGPS: LiveData<String> = SingleLiveEvent()
+    override val address: LiveData<Editable> = SingleLiveEvent()
     override val errorAddress: LiveData<String> = SingleLiveEvent()
 
     fun flagAddPublication(b: Boolean) {
@@ -137,6 +132,16 @@ class AddPublicationViewModel(
         }
     }
 
+    override fun getAddress(lat: Double?, lon: Double?) {
+        locationAddressRepository.getAddress(lat, lon,
+            onAddress = {
+                address.mutable().postValue(it.toEditable())
+            },
+            errorAddress = {
+                errorAddress.mutable().postValue(it)
+            })
+    }
+
     private fun converterJsonObject(imageUri: Uri?, text: String, location: String): JsonObject {
         val userProfile = JsonArray()
         var userIdProfile = ""
@@ -171,4 +176,6 @@ class AddPublicationViewModel(
     private fun <T> LiveData<T>.mutable(): MutableLiveData<T> {
         return this as? MutableLiveData<T> ?: throw IllegalStateException("Error LiveData")
     }
+
+    fun String.toEditable(): Editable = Editable.Factory.getInstance().newEditable(this)
 }
