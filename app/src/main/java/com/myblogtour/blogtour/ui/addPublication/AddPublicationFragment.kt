@@ -3,29 +3,33 @@ package com.myblogtour.blogtour.ui.addPublication
 import android.Manifest
 import android.app.AlertDialog
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
-import android.location.Geocoder
 import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
 import android.media.ExifInterface
 import android.net.Uri
+import android.net.wifi.WifiManager
 import android.os.Bundle
+import android.provider.Settings
 import android.view.View
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
+import androidx.core.content.getSystemService
 import coil.load
 import com.myblogtour.blogtour.databinding.FragmentAddPublicationBinding
 import com.myblogtour.blogtour.utils.BaseFragment
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
+
 class AddPublicationFragment :
     BaseFragment<FragmentAddPublicationBinding>(FragmentAddPublicationBinding::inflate) {
 
     private val REQUEST_CODE = 999
-    private val MIN_DISTANCE = 100f
-    private val MIN_PERIOD = 60000L
+    private val MIN_DISTANCE = 10f
+    private val MIN_PERIOD = 15L
     private val viewModel: AddPublicationViewModel by viewModel()
     private var imageUri: Uri? = null
     private var imageUriLocal: Uri? = null
@@ -37,6 +41,12 @@ class AddPublicationFragment :
                 exifInter()
             }
         }
+
+    private lateinit var locationManager: LocationManager
+
+//    private val locationManager by lazy {
+//        requireContext().getSystemService(Context.LOCATION_SERVICE) as LocationManager
+//    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -56,7 +66,7 @@ class AddPublicationFragment :
                 viewModel.deleteImage()
             }
             currentLocation.setOnClickListener {
-                checkPermission()
+                checkPermissionLocation()
             }
         }
     }
@@ -97,6 +107,9 @@ class AddPublicationFragment :
             errorMessagePublicationAdd.observe(viewLifecycleOwner) {
                 showToast(it)
             }
+            address.observe(viewLifecycleOwner) {
+                binding.editTextLocation.text = it
+            }
         }
     }
 
@@ -119,79 +132,78 @@ class AddPublicationFragment :
         }
     }
 
-    private fun checkPermission() {
-        context?.let {
-            when {
-                ContextCompat.checkSelfPermission(
-                    it,
-                    Manifest.permission.ACCESS_FINE_LOCATION
-                ) == PackageManager.PERMISSION_GRANTED -> {
-                    getLocation()
-                }
-                shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION) -> {
-                    showDialog()
-                }
-                else -> {
-                    myRequestPermission()
-                }
+    private fun myRequestPermission() {
+        requestPermissions(arrayOf(Manifest.permission.ACCESS_FINE_LOCATION,
+            Manifest.permission.ACCESS_COARSE_LOCATION), REQUEST_CODE)
+    }
+
+    private fun checkPermission(): Boolean {
+        if (ContextCompat.checkSelfPermission(requireContext(),
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) == PackageManager.PERMISSION_GRANTED || ContextCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ) == PackageManager.PERMISSION_GRANTED
+        ) {
+            return true
+        }
+        return false
+    }
+
+    private fun checkPermissionLocation() {
+        when {
+            checkPermission() -> {
+                getLocation()
+            }
+            shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION) -> {
+                showDialog()
+            }
+            else -> {
+                myRequestPermission()
             }
         }
     }
 
-    private fun showDialog() {
-        val builder = AlertDialog.Builder(requireActivity())
-        builder.setTitle("Доступ к геопозиции")
-            .setMessage(
-                "Разрешить доступ к геопозиции, " +
-                        "для автоматического определения вашего место положения"
-            )
-            .setPositiveButton("Да") { _, _ ->
-                myRequestPermission()
-            }.setNegativeButton("Нет") { dialog, _ ->
-                dialog.dismiss()
-            }
-            .create()
-            .show()
-    }
-
-    private fun myRequestPermission() {
-        requestPermissions(arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), REQUEST_CODE)
-    }
-
     private fun getLocation() {
-        activity?.let {
-            if (ContextCompat.checkSelfPermission(
-                    it,
-                    Manifest.permission.ACCESS_FINE_LOCATION
-                ) == PackageManager.PERMISSION_GRANTED
-            ) {
-                val locationManager =
-                    it.getSystemService(Context.LOCATION_SERVICE) as LocationManager
-                if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-                    val providerGPS = locationManager.getProvider(LocationManager.GPS_PROVIDER)
-                    providerGPS?.let {
-                        getAddress(locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER))
-//                        locationManager.requestLocationUpdates(
-//                            LocationManager.GPS_PROVIDER,
-//                            MIN_PERIOD,
-//                            MIN_DISTANCE,
-//                            locationListener
-//                        )
-                    }
-                } else {
-                    val lastLocation =
-                        locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER)
-                    lastLocation?.let {
-                        getAddress(it)
-                    }
+        locationManager =
+            requireContext().getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        val wifiMan = requireContext().getSystemService(Context.WIFI_SERVICE) as WifiManager
+        if (checkPermission()) {
+            if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+                val providerGPS = locationManager.getProvider(LocationManager.GPS_PROVIDER)
+                providerGPS?.let {
+                    locationManager.requestLocationUpdates(
+                        LocationManager.GPS_PROVIDER,
+                        MIN_PERIOD,
+                        MIN_DISTANCE,
+                        locationListener)
+                }
+            } else if (locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
+                val providerNetwork =
+                    locationManager.getProvider(LocationManager.NETWORK_PROVIDER)
+                providerNetwork?.let {
+                    locationManager.requestLocationUpdates(
+                        LocationManager.NETWORK_PROVIDER,
+                        2000L,
+                        0f,
+                        locationListener
+                    )
+                }
+            } else {
+                val lastLocation =
+                    locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER)
+                lastLocation?.let { loc ->
+                    setViewModelLocation(loc.latitude, loc.longitude)
                 }
             }
+        } else {
+            showToast("ЧТО_То пошло не так ")
         }
     }
 
     private val locationListener = object : LocationListener {
         override fun onLocationChanged(location: Location) {
-            getAddress(location)
+            setViewModelLocation(location.latitude, location.longitude)
         }
 
         override fun onProviderEnabled(provider: String) {
@@ -203,25 +215,9 @@ class AddPublicationFragment :
         }
     }
 
-
-    private fun getAddress(location: Location?) {
-        Thread {
-            location?.let {
-                val geocoder = Geocoder(requireContext())
-                val geo = geocoder.getFromLocation(location.latitude, location.longitude, 1)
-                geo?.let {
-                    requireActivity().runOnUiThread {
-                        Toast.makeText(requireContext(),
-                            it[0].subAdminArea + it[0].thoroughfare + it[0].subThoroughfare,
-                            Toast.LENGTH_SHORT).show()
-                    }
-                }
-            }
-        }.start()
-    }
-
-    private fun getAddress(latitude: Double, longitude: Double) {
-
+    private fun setViewModelLocation(lat: Double?, lon: Double?) {
+        viewModel.getAddress(lat, lon)
+        locationManager.removeUpdates(locationListener)
     }
 
     override fun onRequestPermissionsResult(
@@ -238,7 +234,8 @@ class AddPublicationFragment :
                     showDialog()
                 }
                 else -> {
-                    myRequestPermission()
+                    val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
+                    startActivity(intent)
                 }
             }
         }
@@ -259,6 +256,21 @@ class AddPublicationFragment :
         }
     }
 
+    private fun showDialog() {
+        val builder = AlertDialog.Builder(requireActivity())
+        builder.setTitle("Доступ к геопозиции")
+            .setMessage(
+                "Разрешить доступ к геопозиции, " +
+                        "для автоматического определения вашего место положения"
+            )
+            .setPositiveButton("Да") { _, _ ->
+                myRequestPermission()
+            }.setNegativeButton("Нет") { dialog, _ ->
+                dialog.dismiss()
+            }
+            .create()
+            .show()
+    }
 
     override fun onDetach() {
         super.onDetach()
