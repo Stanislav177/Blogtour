@@ -17,7 +17,12 @@ class RepositoryLocationAddressImpl(private val context: Context) :
             if (lat != null || lon != null) {
                 lat?.let {
                     lon?.let {
-                        onAddress.invoke(getAddressGeo(getGeocoder(lat, lon)))
+                        try {
+                            onAddress.invoke(getAddressGeo(getGeocoder(lat, lon)))
+                        } catch (e: Exception) {
+                            errorAddress.invoke("")
+                        }
+
                     }
                 }
             } else {
