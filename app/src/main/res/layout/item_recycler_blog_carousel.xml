@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/margin_top_item"
+    android:background="#DDDDDD"
+    app:cardCornerRadius="@dimen/margin_card_corner_radius_item"
+    app:cardElevation="@dimen/card_elevation_item">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/iconUserProfile"
+            android:layout_width="38dp"
+            android:layout_height="38dp"
+            android:layout_marginStart="3dp"
+            android:layout_marginTop="3dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/ic_add_icon_profile"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/nickNameTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_nickname_more_item"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="@dimen/margin_nickname_more_item"
+            android:textSize="@dimen/text_size_nickname_item"
+            app:layout_constraintStart_toEndOf="@id/iconUserProfile"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="NickName" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="@+id/nickNameTextView"
+            app:layout_constraintTop_toBottomOf="@+id/nickNameTextView"
+            tools:text="Москва" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/moreCard"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_nickname_more_item"
+            android:layout_marginEnd="@dimen/margin_nickname_more_item"
+            android:background="@drawable/ic_more"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvImagePublication"
+            android:layout_width="match_parent"
+            android:layout_height="470dp"
+            android:layout_marginTop="3dp"
+            android:scrollbars="horizontal"
+            tools:listitem="@layout/item_image_carousel"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/location" />
+
+        <LinearLayout
+            android:id="@+id/moreMenuPublication"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:alpha="0"
+            android:background="@color/white"
+            android:orientation="vertical"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="@+id/moreCard"
+            app:layout_constraintTop_toTopOf="@+id/moreCard">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/btnComplaintPublication"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="2dp"
+                android:clickable="false"
+                android:text="Пожаловаться"
+                android:textColor="@color/black"
+                android:textSize="20sp" />
+
+        </LinearLayout>
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/likePost"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/ic_like_off"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/rvImagePublication" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/countLike"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="3dp"
+            android:text="@string/tools_count_like"
+            android:textSize="@dimen/text_size_like_item"
+            app:layout_constraintStart_toEndOf="@id/likePost"
+            app:layout_constraintTop_toTopOf="@id/likePost" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvCardLike"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_like_fromcountlike_item_"
+            android:text="@string/tools_like_item"
+            android:textSize="@dimen/text_size_like_item"
+            app:layout_constraintStart_toEndOf="@+id/countLike"
+            app:layout_constraintTop_toTopOf="@+id/likePost" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/nickNameUserLike"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            app:layout_constraintStart_toStartOf="@+id/likePost"
+            app:layout_constraintTop_toBottomOf="@+id/likePost"
+            tools:text="Nick" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/textPublicationCard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_text_item"
+            android:ellipsize="end"
+            android:maxLines="3"
+            android:textSize="@dimen/text_size_text_item"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/nickNameUserLike"
+            tools:text="@string/tools_text_item" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/dateAdditionsPublication"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_date_add_post_item"
+            android:layout_marginEnd="@dimen/margin_date_add_post_item"
+            android:layout_marginBottom="@dimen/margin_date_add_post_item"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textPublicationCard"
+            tools:text="@string/tools_data_item" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.cardview.widget.CardView>
