@@ -13,10 +13,13 @@ import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
 import android.view.View
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.content.ContextCompat
-import coil.load
+import com.myblogtour.blogtour.R
 import com.myblogtour.blogtour.databinding.FragmentAddPublicationBinding
 import com.myblogtour.blogtour.utils.BaseFragment
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -39,6 +42,8 @@ class AddPublicationFragment :
             }
         }
 
+    private val imageList: MutableList<String>? = null
+
     private val locationManager by lazy {
         requireContext().getSystemService(Context.LOCATION_SERVICE) as LocationManager
     }
@@ -48,22 +53,52 @@ class AddPublicationFragment :
         viewModelObserve()
         with(binding) {
             publishBtnAddPost.setOnClickListener {
-                viewModel.dataPublication(
-                    editTextPost.text.toString(),
-                    editTextLocation.text.toString(),
-                    imageUri
-                )
+                addView()
+//                viewModel.dataPublication(
+//                    editTextPost.text.toString(),
+//                    editTextLocation.text.toString(),
+//                    imageUri
+//                )
             }
             attachPhotoAddPost.setOnClickListener {
                 resultLauncher.launch("image/*")
             }
-            deleteImagePublication.setOnClickListener {
-                viewModel.deleteImage()
-            }
+//            deleteImagePublication.setOnClickListener {
+//                viewModel.deleteImage()
+//            }
             currentLocation.setOnClickListener {
                 checkPermissionLocation()
             }
         }
+    }
+
+    private fun addView() {
+        val params = ConstraintLayout.LayoutParams(120,120)
+        val constraintSet = ConstraintSet()
+        constraintSet.clone(binding.containerAddImagePublication)
+
+        val imageView = ImageView(requireActivity())
+
+        imageView.id = (1)
+        imageView.setImageDrawable(resources.getDrawable(R.drawable.ic_load_image))
+        imageView.layoutParams = params
+
+
+        constraintSet.connect(imageView.id,
+            ConstraintSet.START,
+            binding.attachPhotoAddPost.id,
+            ConstraintSet.END, 5)
+
+        constraintSet.connect(imageView.id,
+            ConstraintSet.TOP,
+            binding.containerAddImagePublication.id,
+            ConstraintSet.TOP, 5)
+
+
+        constraintSet.applyTo(binding.containerAddImagePublication)
+
+
+        binding.containerAddImagePublication.addView(imageView)
     }
 
     private fun exifInter() {
@@ -85,11 +120,11 @@ class AddPublicationFragment :
                 initImagePublication(it)
             }
             progressLoad.observe(viewLifecycleOwner) {
-                with(binding) {
-                    progressBarImagePostAddPost.visibility = View.VISIBLE
-                    textViewProgress.visibility = View.VISIBLE
-                    textViewProgress.text = "$it%"
-                }
+//                with(binding) {
+//                    progressBarImagePostAddPost.visibility = View.VISIBLE
+//                    textViewProgress.visibility = View.VISIBLE
+//                    textViewProgress.text = "$it%"
+//                }
             }
             errorMessageImage.observe(viewLifecycleOwner) {
                 showToast(it)
@@ -114,18 +149,18 @@ class AddPublicationFragment :
     }
 
     private fun initImagePublication(it: Uri?) {
-        with(binding) {
-            if (it != null) {
-                imageUri = it
-                progressBarImagePostAddPost.visibility = View.GONE
-                textViewProgress.visibility = View.GONE
-                imagePostAddPost.load(imageUriLocal)
-                deleteImagePublication.visibility = View.VISIBLE
-            } else {
-                imagePostAddPost.load(null)
-                deleteImagePublication.visibility = View.GONE
-            }
-        }
+//        with(binding) {
+//            if (it != null) {
+//                imageUri = it
+//                progressBarImagePostAddPost.visibility = View.GONE
+//                textViewProgress.visibility = View.GONE
+//                imagePostAddPost.load(imageUriLocal)
+//                deleteImagePublication.visibility = View.VISIBLE
+//            } else {
+//                imagePostAddPost.load(null)
+//                deleteImagePublication.visibility = View.GONE
+//            }
+//        }
     }
 
     private fun myRequestPermission() {
@@ -216,7 +251,7 @@ class AddPublicationFragment :
                 viewModel.flagAddPublication(true)
                 editTextPost.text.clear()
                 editTextLocation.text.clear()
-                imagePostAddPost.load(null)
+                //imagePostAddPost.load(null)
             }
         } else {
             showToast("Что-то пошло не так")

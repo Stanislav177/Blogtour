@@ -14,10 +14,13 @@ data class PublicationEntity(
     var clickLikePublication: Boolean, // стоит лайк или нет
     val idCounterLike: String, // id таблицы с лайками
     var maxLinesText: Boolean,
-    val currentUser: Boolean
+    val currentUser: Boolean,
 )
 
 data class ImageEntity(
     val url: String? = null, // url image
+)
 
+data class ListImagePublication(
+    val listImageUrl: List<ImageEntity>,
 )

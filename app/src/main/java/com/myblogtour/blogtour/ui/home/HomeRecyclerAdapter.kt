@@ -3,11 +3,13 @@ package com.myblogtour.blogtour.ui.home
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import coil.transform.CircleCropTransformation
 import com.myblogtour.blogtour.R
 import com.myblogtour.blogtour.databinding.ItemRecyclerBlogBinding
+import com.myblogtour.blogtour.databinding.ItemRecyclerBlogCarouselBinding
 import com.myblogtour.blogtour.domain.PublicationEntity
 
 class HomeRecyclerAdapter(private var myOnClickListener: MyOnClickListener) :
@@ -21,9 +23,10 @@ class HomeRecyclerAdapter(private var myOnClickListener: MyOnClickListener) :
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostViewHolder {
-        val itemBinding: ItemRecyclerBlogBinding = ItemRecyclerBlogBinding.inflate(
-            LayoutInflater.from(parent.context), parent, false
-        )
+        val itemBinding: ItemRecyclerBlogCarouselBinding =
+            ItemRecyclerBlogCarouselBinding.inflate(LayoutInflater.from(parent.context),
+                parent,
+                false)
         return PostViewHolder(itemBinding.root)
     }
 
@@ -33,11 +36,17 @@ class HomeRecyclerAdapter(private var myOnClickListener: MyOnClickListener) :
 
     override fun getItemCount() = listPost.size
 
-    inner class PostViewHolder(view: View) :
-        RecyclerView.ViewHolder(view) {
+    inner class PostViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         fun bind(post: PublicationEntity) {
+            val imageAdapter: HomeImagePublicationRecyclerAdapter by lazy {
+                HomeImagePublicationRecyclerAdapter()
+            }
             val imageNUll = post.urlImage.size
-            ItemRecyclerBlogBinding.bind(itemView).apply {
+            ItemRecyclerBlogCarouselBinding.bind(itemView).apply {
+                rvImagePublication.adapter = imageAdapter
+                rvImagePublication.layoutManager =
+                    LinearLayoutManager(itemView.context, LinearLayoutManager.HORIZONTAL, false)
+                imageAdapter.setListImagePublication(post.urlImage)
                 nickNameTextView.text = post.nickNameUserProfile
                 location.text = post.location
                 countLike.text = post.counterLike.toString()
@@ -52,11 +61,11 @@ class HomeRecyclerAdapter(private var myOnClickListener: MyOnClickListener) :
                 } else {
                     textPublicationCard.maxLines = 3
                 }
-                if (imageNUll != 0) {
-                    imagePost.load(post.urlImage[0].url) {
-                        placeholder(R.drawable.ic_load_image)
-                    }
-                }
+//                if (imageNUll != 0) {
+//                    imagePost.load(post.urlImage[0].url) {
+//                        placeholder(R.drawable.ic_load_image)
+//                    }
+//                }
                 if (post.clickLikePublication) {
                     likePost.setImageResource(R.drawable.ic_like_on)
                 } else {
@@ -86,24 +95,22 @@ class HomeRecyclerAdapter(private var myOnClickListener: MyOnClickListener) :
                             listPost[layoutPosition].clickLikePublication = false
                             notifyItemChanged(layoutPosition)
                         }
-                        myOnClickListener.onItemClickLike(
-                            post.idCounterLike
-                        )
+                        myOnClickListener.onItemClickLike(post.idCounterLike)
                     } else {
                         myOnClickListener.onItemClickLikeError()
                     }
                 }
 
                 moreCard.setOnClickListener {
-                    myOnClickListener.onItemClickMore(
-                        ItemRecyclerBlogBinding.bind(itemView).apply { this })
+                    myOnClickListener.onItemClickMore(ItemRecyclerBlogBinding.bind(itemView)
+                        .apply { this })
                     //moreMenuPublication(ItemRecyclerBlogBinding.bind(itemView).apply { this })
                 }
                 btnComplaintPublication.setOnClickListener {
                     //moreMenuPublication(ItemRecyclerBlogBinding.bind(itemView).apply { this })
                     myOnClickListener.onItemClickComplaintPublication(post.id)
-                    myOnClickListener.onItemClickMore(
-                        ItemRecyclerBlogBinding.bind(itemView).apply { this })
+                    myOnClickListener.onItemClickMore(ItemRecyclerBlogBinding.bind(itemView)
+                        .apply { this })
                 }
             }
         }
