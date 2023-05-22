@@ -83,11 +83,12 @@
             app:layout_constraintStart_toEndOf="@+id/appCompatImageView"
             app:layout_constraintTop_toTopOf="@+id/appCompatImageView" />
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <LinearLayout
             android:id="@+id/containerAddImagePublication"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
+            android:orientation="horizontal"
             app:layout_constraintStart_toStartOf="@+id/innerEditTextLocationAddPost"
             app:layout_constraintTop_toBottomOf="@+id/currentLocation">
 
@@ -97,54 +98,54 @@
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_marginStart="5dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/ic_add_photo"
                 tools:ignore="ImageContrastCheck" />
 
-<!--            <androidx.appcompat.widget.AppCompatImageView-->
-<!--                android:id="@+id/imagePostAddPost"-->
-<!--                android:layout_width="75dp"-->
-<!--                android:layout_height="75dp"-->
-<!--                android:layout_marginStart="7dp"-->
-<!--                android:background="#E3E3E3"-->
-<!--                app:layout_constraintStart_toEndOf="@+id/attachPhotoAddPost"-->
-<!--                app:layout_constraintTop_toTopOf="parent" />-->
 
-<!--            <ProgressBar-->
-<!--                android:id="@+id/progressBarImagePostAddPost"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:visibility="gone"-->
-<!--                app:layout_constraintBottom_toBottomOf="@+id/imagePostAddPost"-->
-<!--                app:layout_constraintEnd_toEndOf="@+id/imagePostAddPost"-->
-<!--                app:layout_constraintStart_toStartOf="@+id/imagePostAddPost"-->
-<!--                app:layout_constraintTop_toTopOf="@+id/imagePostAddPost" />-->
 
-<!--            <androidx.appcompat.widget.AppCompatTextView-->
-<!--                android:id="@+id/textViewProgress"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:gravity="center"-->
-<!--                android:visibility="gone"-->
-<!--                app:layout_constraintBottom_toBottomOf="@+id/imagePostAddPost"-->
-<!--                app:layout_constraintEnd_toEndOf="@+id/imagePostAddPost"-->
-<!--                app:layout_constraintStart_toStartOf="@+id/imagePostAddPost"-->
-<!--                app:layout_constraintTop_toTopOf="@+id/imagePostAddPost" />-->
 
-<!--            <androidx.appcompat.widget.AppCompatTextView-->
-<!--                android:id="@+id/deleteImagePublication"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginTop="2dp"-->
-<!--                android:text="Удалить"-->
-<!--                android:visibility="visible"-->
-<!--                app:layout_constraintEnd_toEndOf="@id/imagePostAddPost"-->
-<!--                app:layout_constraintStart_toStartOf="@+id/imagePostAddPost"-->
-<!--                app:layout_constraintTop_toBottomOf="@+id/imagePostAddPost" />-->
+            <!--            <androidx.appcompat.widget.AppCompatImageView-->
+            <!--                android:id="@+id/imagePostAddPost"-->
+            <!--                android:layout_width="75dp"-->
+            <!--                android:layout_height="75dp"-->
+            <!--                android:layout_marginStart="7dp"-->
+            <!--                android:background="#E3E3E3"-->
+            <!--                app:layout_constraintStart_toEndOf="@+id/attachPhotoAddPost"-->
+            <!--                app:layout_constraintTop_toTopOf="parent" />-->
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+            <!--            <ProgressBar-->
+            <!--                android:id="@+id/progressBarImagePostAddPost"-->
+            <!--                android:layout_width="wrap_content"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:visibility="gone"-->
+            <!--                app:layout_constraintBottom_toBottomOf="@+id/imagePostAddPost"-->
+            <!--                app:layout_constraintEnd_toEndOf="@+id/imagePostAddPost"-->
+            <!--                app:layout_constraintStart_toStartOf="@+id/imagePostAddPost"-->
+            <!--                app:layout_constraintTop_toTopOf="@+id/imagePostAddPost" />-->
+
+            <!--            <androidx.appcompat.widget.AppCompatTextView-->
+            <!--                android:id="@+id/textViewProgress"-->
+            <!--                android:layout_width="wrap_content"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:gravity="center"-->
+            <!--                android:visibility="gone"-->
+            <!--                app:layout_constraintBottom_toBottomOf="@+id/imagePostAddPost"-->
+            <!--                app:layout_constraintEnd_toEndOf="@+id/imagePostAddPost"-->
+            <!--                app:layout_constraintStart_toStartOf="@+id/imagePostAddPost"-->
+            <!--                app:layout_constraintTop_toTopOf="@+id/imagePostAddPost" />-->
+
+            <!--            <androidx.appcompat.widget.AppCompatTextView-->
+            <!--                android:id="@+id/deleteImagePublication"-->
+            <!--                android:layout_width="wrap_content"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_marginTop="2dp"-->
+            <!--                android:text="Удалить"-->
+            <!--                android:visibility="visible"-->
+            <!--                app:layout_constraintEnd_toEndOf="@id/imagePostAddPost"-->
+            <!--                app:layout_constraintStart_toStartOf="@+id/imagePostAddPost"-->
+            <!--                app:layout_constraintTop_toBottomOf="@+id/imagePostAddPost" />-->
+
+        </LinearLayout>
 
 
         <androidx.appcompat.widget.AppCompatButton

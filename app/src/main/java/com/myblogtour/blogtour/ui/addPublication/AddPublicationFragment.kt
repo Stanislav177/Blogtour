@@ -8,17 +8,19 @@ import android.content.pm.PackageManager
 import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
-import android.media.ExifInterface
 import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
+import android.view.Gravity
 import android.view.View
-import android.widget.ImageView
+import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.constraintlayout.widget.ConstraintSet
+import androidx.appcompat.widget.AppCompatImageView
+import androidx.appcompat.widget.AppCompatTextView
+import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.core.content.ContextCompat
+import coil.load
 import com.myblogtour.blogtour.R
 import com.myblogtour.blogtour.databinding.FragmentAddPublicationBinding
 import com.myblogtour.blogtour.utils.BaseFragment
@@ -31,18 +33,32 @@ class AddPublicationFragment :
     private val REQUEST_CODE = 999
     private val MIN_DISTANCE = 10f
     private val MIN_PERIOD = 15L
+
+    private val linearLayoutOne: LinearLayoutCompat by lazy { LinearLayoutCompat(requireActivity()) }
+    private val linearLayoutTwo: LinearLayoutCompat by lazy { LinearLayoutCompat(requireActivity()) }
+    private val linearLayoutThree: LinearLayoutCompat by lazy { LinearLayoutCompat(requireActivity()) }
+    private val deleteImageOne: AppCompatTextView by lazy { AppCompatTextView(requireActivity()) }
+    private val deleteImageTwo: AppCompatTextView by lazy { AppCompatTextView(requireActivity()) }
+    private val deleteImageThree: AppCompatTextView by lazy { AppCompatTextView(requireActivity()) }
+    private val imageViewOne: AppCompatImageView by lazy { AppCompatImageView(requireActivity()) }
+    private val imageViewTwo: AppCompatImageView by lazy { AppCompatImageView(requireActivity()) }
+    private val imageViewThree: AppCompatImageView by lazy { AppCompatImageView(requireActivity()) }
+    private val progressLoadingImage: ProgressBar by lazy { ProgressBar(requireActivity()) }
+    private var imageOne: Uri? = null
+    private var imageTwo: Uri? = null
+    private var imageThree: Uri? = null
+    private var flagIsClickableAttachImage = true
+
     private val viewModel: AddPublicationViewModel by viewModel()
-    private var imageUri: Uri? = null
-    private var imageUriLocal: Uri? = null
+    private var listUriImage: MutableList<Uri> = mutableListOf()
+    private val imageList: MutableList<String>? = null
+
     private val resultLauncher =
         registerForActivityResult(ActivityResultContracts.GetContent()) {
             it?.let {
-                imageUriLocal = it
-                viewModel.image(it)
+                addView(it)
             }
         }
-
-    private val imageList: MutableList<String>? = null
 
     private val locationManager by lazy {
         requireContext().getSystemService(Context.LOCATION_SERVICE) as LocationManager
@@ -53,7 +69,6 @@ class AddPublicationFragment :
         viewModelObserve()
         with(binding) {
             publishBtnAddPost.setOnClickListener {
-                addView()
 //                viewModel.dataPublication(
 //                    editTextPost.text.toString(),
 //                    editTextLocation.text.toString(),
@@ -61,53 +76,150 @@ class AddPublicationFragment :
 //                )
             }
             attachPhotoAddPost.setOnClickListener {
-                resultLauncher.launch("image/*")
+                if (flagIsClickableAttachImage) {
+                    resultLauncher.launch("image/*")
+                } else {
+                    showToast("Идет загрузка изображения")
+                }
             }
-//            deleteImagePublication.setOnClickListener {
-//                viewModel.deleteImage()
-//            }
             currentLocation.setOnClickListener {
                 checkPermissionLocation()
             }
         }
     }
 
-    private fun addView() {
-        val params = ConstraintLayout.LayoutParams(120,120)
-        val constraintSet = ConstraintSet()
-        constraintSet.clone(binding.containerAddImagePublication)
+    private fun addView(uri: Uri) {
+        attachPhotoIsClickable(false)
+        val scale = requireActivity().resources.displayMetrics.density
+        val pixels = (75 * scale + 0.5f).toInt()
+        val params = LinearLayoutCompat.LayoutParams(pixels, pixels)
 
-        val imageView = ImageView(requireActivity())
+        when (null) {
+            imageOne -> {
+                initViewImageOne(uri, params)
+            }
+            imageTwo -> {
+                initViewImageTwo(uri, params)
+            }
+            imageThree -> {
+                initViewImageThree(uri, params)
+            }
+        }
+    }
 
-        imageView.id = (1)
-        imageView.setImageDrawable(resources.getDrawable(R.drawable.ic_load_image))
-        imageView.layoutParams = params
+    private fun attachPhotoIsClickable(b: Boolean) {
+        flagIsClickableAttachImage = b
+    }
 
+    private fun initViewImageOne(uri: Uri, params: LinearLayoutCompat.LayoutParams) {
+        imageOne = uri
+        listUriImage.add(0, imageOne!!)
+        viewModel.image(uri, 1)
+        imageViewOne.layoutParams = params
+        imageViewOne.visibility = View.GONE
 
-        constraintSet.connect(imageView.id,
-            ConstraintSet.START,
-            binding.attachPhotoAddPost.id,
-            ConstraintSet.END, 5)
+        deleteImageOne.let {
+            it.layoutParams =
+                LinearLayoutCompat.LayoutParams(LinearLayoutCompat.LayoutParams.MATCH_PARENT,
+                    LinearLayoutCompat.LayoutParams.WRAP_CONTENT)
+            it.gravity = Gravity.CENTER
+            it.text = getText(R.string.delete_image)
+            it.textSize = 12f
+            it.setOnClickListener {
+                linearLayoutOne.removeView(imageViewOne)
+                imageViewOne.load(null)
+                linearLayoutOne.removeView(deleteImageOne)
+                deleteImageView(imageOne!!, linearLayoutOne)
+            }
+        }
+        linearLayoutOne.let {
+            it.orientation = LinearLayoutCompat.VERTICAL
+            it.addView(imageViewOne)
+            it.addView(progressLoadingImage)
+            it.addView(deleteImageOne)
+        }
+        binding.containerAddImagePublication.addView(linearLayoutOne)
+    }
 
-        constraintSet.connect(imageView.id,
-            ConstraintSet.TOP,
-            binding.containerAddImagePublication.id,
-            ConstraintSet.TOP, 5)
+    private fun initViewImageTwo(uri: Uri, params: LinearLayoutCompat.LayoutParams) {
+        imageTwo = uri
+        listUriImage.add(1, imageTwo!!)
+        viewModel.image(uri, 2)
+        imageViewTwo.layoutParams = params
+        imageViewTwo.visibility = View.GONE
+        deleteImageTwo.let {
+            it.layoutParams =
+                LinearLayoutCompat.LayoutParams(LinearLayoutCompat.LayoutParams.MATCH_PARENT,
+                    LinearLayoutCompat.LayoutParams.WRAP_CONTENT)
+            it.gravity = Gravity.CENTER
+            it.text = getText(R.string.delete_image)
+            it.textSize = 12f
+            it.setOnClickListener {
+                linearLayoutTwo.removeView(imageViewTwo)
+                imageViewTwo.load(null)
+                linearLayoutTwo.removeView(deleteImageTwo)
+                deleteImageView(imageTwo!!, linearLayoutTwo)
+            }
+        }
+        linearLayoutTwo.let {
+            it.orientation = LinearLayoutCompat.VERTICAL
+            it.addView(imageViewTwo)
+            it.addView(progressLoadingImage)
+            it.addView(deleteImageTwo)
+        }
+        binding.containerAddImagePublication.addView(linearLayoutTwo)
+    }
 
+    private fun initViewImageThree(uri: Uri, params: LinearLayoutCompat.LayoutParams) {
+        imageThree = uri
+        listUriImage.add(2, imageThree!!)
+        viewModel.image(uri, 3)
+        imageViewThree.layoutParams = params
+        imageViewThree.visibility = View.GONE
+        deleteImageThree.let {
+            it.layoutParams =
+                LinearLayoutCompat.LayoutParams(LinearLayoutCompat.LayoutParams.MATCH_PARENT,
+                    LinearLayoutCompat.LayoutParams.WRAP_CONTENT)
+            it.gravity = Gravity.CENTER
+            it.text = getText(R.string.delete_image)
+            it.textSize = 12f
+            it.setOnClickListener {
+                linearLayoutThree.removeView(imageViewThree)
+                imageViewThree.load(null)
+                linearLayoutThree.removeView(deleteImageThree)
+                deleteImageView(imageThree!!, linearLayoutThree)
+            }
+        }
+        linearLayoutThree.let {
+            it.orientation = LinearLayoutCompat.VERTICAL
+            it.addView(imageViewThree)
+            it.addView(progressLoadingImage)
+            it.addView(deleteImageThree)
+        }
+        binding.containerAddImagePublication.addView(linearLayoutThree)
+    }
 
-        constraintSet.applyTo(binding.containerAddImagePublication)
+    private fun initViewProgressBar(l: LinearLayoutCompat) {
 
+    }
 
-        binding.containerAddImagePublication.addView(imageView)
+    private fun deleteImageView(positionUri: Uri, linearLayoutCompat: LinearLayoutCompat) {
+        if (positionUri == imageOne) {
+            imageOne = null
+        } else if (positionUri == imageTwo) {
+            imageTwo = null
+        }
+        listUriImage.remove(positionUri)
+        binding.containerAddImagePublication.removeView(linearLayoutCompat)
     }
 
     private fun exifInter() {
-        val exif =
-            ExifInterface(requireContext().contentResolver.openInputStream(imageUriLocal!!)!!)
-        val locationImage = FloatArray(2)
-        val latLon = exif.getLatLong(locationImage)
-        val lon = exif.getAttribute(ExifInterface.TAG_GPS_LONGITUDE)
-        val lat = exif.getAttribute(ExifInterface.TAG_GPS_LATITUDE)
+//        val exif =
+//            ExifInterface(requireContext().contentResolver.openInputStream(imageUriLocal!!)!!)
+//        val locationImage = FloatArray(2)
+//        val latLon = exif.getLatLong(locationImage)
+//        val lon = exif.getAttribute(ExifInterface.TAG_GPS_LONGITUDE)
+//        val lat = exif.getAttribute(ExifInterface.TAG_GPS_LATITUDE)
         TODO("FM - не приходят координаты")
     }
 
@@ -116,10 +228,15 @@ class AddPublicationFragment :
             publishPostLiveData.observe(viewLifecycleOwner) {
                 publishPost(it)
             }
-            loadUri.observe(viewLifecycleOwner) {
-                initImagePublication(it)
+            loadUriOneImage.observe(viewLifecycleOwner) {
+                initImagePublication(it, 1)
+            }
+
+            loadUriTwoImage.observe(viewLifecycleOwner) {
+                initImagePublication(it, 2)
             }
             progressLoad.observe(viewLifecycleOwner) {
+                initViewProgressBar(linearLayoutOne)
 //                with(binding) {
 //                    progressBarImagePostAddPost.visibility = View.VISIBLE
 //                    textViewProgress.visibility = View.VISIBLE
@@ -148,19 +265,25 @@ class AddPublicationFragment :
         Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
     }
 
-    private fun initImagePublication(it: Uri?) {
-//        with(binding) {
-//            if (it != null) {
-//                imageUri = it
-//                progressBarImagePostAddPost.visibility = View.GONE
-//                textViewProgress.visibility = View.GONE
-//                imagePostAddPost.load(imageUriLocal)
-//                deleteImagePublication.visibility = View.VISIBLE
-//            } else {
-//                imagePostAddPost.load(null)
-//                deleteImagePublication.visibility = View.GONE
-//            }
-//        }
+    private fun initImagePublication(it: Uri?, numberImage: Int) {
+        attachPhotoIsClickable(true)
+        when (numberImage) {
+            1 -> {
+                imageViewOne.load(it)
+                imageViewOne.visibility = View.VISIBLE
+                linearLayoutOne.removeView(progressLoadingImage)
+            }
+            2 -> {
+                imageViewTwo.load(it)
+                imageViewTwo.visibility = View.VISIBLE
+                linearLayoutTwo.removeView(progressLoadingImage)
+            }
+            3 -> {
+                imageViewThree.load(it)
+                imageViewThree.visibility = View.VISIBLE
+                linearLayoutThree.removeView(progressLoadingImage)
+            }
+        }
     }
 
     private fun myRequestPermission() {
@@ -247,7 +370,7 @@ class AddPublicationFragment :
         if (it) {
             showToast("Пост размещен")
             with(binding) {
-                viewModel.deleteImage()
+                //viewModel.deleteImage()
                 viewModel.flagAddPublication(true)
                 editTextPost.text.clear()
                 editTextLocation.text.clear()
@@ -277,6 +400,6 @@ class AddPublicationFragment :
     override fun onDetach() {
         super.onDetach()
         locationManager.removeUpdates(locationListener)
-        viewModel.deleteImageDetach()
+        //viewModel.deleteImageDetach()
     }
 }

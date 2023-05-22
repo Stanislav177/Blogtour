@@ -95,6 +95,7 @@ object Modules {
     val firebase = module {
         single(named("authFirebase")) { Firebase.auth }
         single(named("storageRef")) { FirebaseStorage.getInstance().reference }
+        single<ImageFbRepository> { ImageFbRepositoryImpl(get(named("storageRef"))) }
     }
 
     val viewModelsModule = module {
@@ -111,6 +112,7 @@ object Modules {
             AddPublicationViewModel(
                 get(),
                 get(named("storageRef")),
+                get(),
                 get(),
                 get()
             )

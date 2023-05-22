@@ -1,6 +1,5 @@
 package com.myblogtour.blogtour.ui.addPublication
 
-import android.location.Location
 import android.net.Uri
 import android.text.Editable
 import androidx.lifecycle.LiveData
@@ -9,7 +8,8 @@ interface AddContract {
 
     interface ViewModel {
         val publishPostLiveData: LiveData<Boolean>
-        val loadUri: LiveData<Uri?>
+        val loadUriOneImage: LiveData<Uri?>
+        val loadUriTwoImage: LiveData<Uri?>
         val progressLoad: LiveData<Int>
         val errorMessageImage: LiveData<String>
         val errorMessageText: LiveData<String>
