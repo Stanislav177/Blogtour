@@ -11,5 +11,6 @@ interface ImageFbRepository {
         onProgress: ((Int)) -> Unit,
     )
 
+    fun deleteImage(uri: List<Uri?>)
     fun deleteImage(uri: Uri)
 }

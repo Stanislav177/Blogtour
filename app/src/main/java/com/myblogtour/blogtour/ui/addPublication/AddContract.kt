@@ -10,6 +10,7 @@ interface AddContract {
         val publishPostLiveData: LiveData<Boolean>
         val loadUriOneImage: LiveData<Uri?>
         val loadUriTwoImage: LiveData<Uri?>
+        val loadUriThreeImage: LiveData<Uri?>
         val progressLoad: LiveData<Int>
         val errorMessageImage: LiveData<String>
         val errorMessageText: LiveData<String>
@@ -20,7 +21,9 @@ interface AddContract {
         fun dataPublication(
             text: String,
             location: String,
-            imageUri: Uri?,
+            uriImageOne: Uri?,
+            uriImageTwo: Uri?,
+            uriImageThree: Uri?
         )
         fun getAddress(lat: Double?, lon: Double?)
     }

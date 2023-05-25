@@ -27,6 +27,7 @@ class AddPublicationViewModel(
     override val publishPostLiveData: LiveData<Boolean> = MutableLiveData()
     override val loadUriOneImage: LiveData<Uri?> = MutableLiveData()
     override val loadUriTwoImage: LiveData<Uri?> = MutableLiveData()
+    override val loadUriThreeImage: LiveData<Uri?> = MutableLiveData()
     override val progressLoad: LiveData<Int> = MutableLiveData()
     override val errorMessageImage: LiveData<String> = MutableLiveData()
     override val errorMessageText: LiveData<String> = MutableLiveData()
@@ -39,6 +40,22 @@ class AddPublicationViewModel(
         flagAddPublication = b
     }
 
+    fun deleteImage(uriImageOne: Uri?, uriImageTwo: Uri?, uriImageThree: Uri?) {
+        val uriList: MutableList<Uri?> = mutableListOf()
+        with(uriList) {
+            add(uriImageOne)
+            add(uriImageTwo)
+            add(uriImageThree)
+        }
+        imageFbRepository.deleteImage(uriList.toList())
+    }
+
+    fun deleteImage(uriImage: Uri?) {
+        uriImage?.let {
+            imageFbRepository.deleteImage(it)
+        }
+    }
+
     fun image(uri: Uri, imageNumber: Int) {
         imageFbRepository.imageLoading(uri, onSuccess = {
             when (imageNumber) {
@@ -47,6 +64,9 @@ class AddPublicationViewModel(
                 }
                 2 -> {
                     loadUriTwoImage.mutable().postValue(it)
+                }
+                3 -> {
+                    loadUriThreeImage.mutable().postValue(it)
                 }
             }
 
@@ -60,11 +80,13 @@ class AddPublicationViewModel(
     override fun dataPublication(
         text: String,
         location: String,
-        imageUri: Uri?,
+        uriImageOne: Uri?,
+        uriImageTwo: Uri?,
+        uriImageThree: Uri?,
     ) {
         if (flagAddPublication) {
             when {
-                imageUri == null -> {
+                imageUriNotNull(uriImageOne, uriImageTwo, uriImageThree) == null -> {
                     errorMessageImage.mutable().postValue("Добавьте изображение")
                     return
                 }
@@ -78,7 +100,13 @@ class AddPublicationViewModel(
                 }
                 else -> {
                     flagAddPublication = false
-                    val publishPost = converterJsonObject(imageUri, text, location)
+                    val publishPost =
+                        converterJsonObject(
+                            uriImageOne,
+                            uriImageTwo,
+                            uriImageThree,
+                            text,
+                            location)
                     createPublicationRepository.createPublication(onSuccess = {
                         publishPostLiveData.mutable().postValue(it)
                     }, onError = {
@@ -97,7 +125,24 @@ class AddPublicationViewModel(
         })
     }
 
-    private fun converterJsonObject(imageUri: Uri?, text: String, location: String): JsonObject {
+    private fun imageUriNotNull(
+        uriImageOne: Uri?,
+        uriImageTwo: Uri?,
+        uriImageThree: Uri?,
+    ): Uri? {
+        if (uriImageOne != null || uriImageTwo != null || uriImageThree != null) {
+            return Uri.parse("")
+        }
+        return null
+    }
+
+    private fun converterJsonObject(
+        uriImageOne: Uri?,
+        uriImageTwo: Uri?,
+        uriImageThree: Uri?,
+        text: String,
+        location: String,
+    ): JsonObject {
         val userProfile = JsonArray()
         var userIdProfile = ""
         authFirebaseRepository.userCurrent(onSuccess = {
@@ -109,11 +154,22 @@ class AddPublicationViewModel(
         })
         val urlImage = JsonArray()
         val image = JsonObject()
+        val imageTwo = JsonObject()
+        val imageThree = JsonObject()
         val publicationJson = JsonObject()
         val fieldsJson = JsonObject()
-
-        image.addProperty("url", imageUri.toString())
-        urlImage.add(image)
+        uriImageOne?.let {
+            image.addProperty("url", it.toString())
+            urlImage.add(image)
+        }
+        uriImageTwo?.let {
+            imageTwo.addProperty("url", it.toString())
+            urlImage.add(imageTwo)
+        }
+        uriImageThree?.let {
+            imageThree.addProperty("url", it.toString())
+            urlImage.add(imageThree)
+        }
         userProfile.add(userIdProfile)
         with(publicationJson) {
             addProperty("text", text)

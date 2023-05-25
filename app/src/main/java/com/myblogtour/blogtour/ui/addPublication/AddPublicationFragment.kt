@@ -44,15 +44,17 @@ class AddPublicationFragment :
     private val imageViewTwo: AppCompatImageView by lazy { AppCompatImageView(requireActivity()) }
     private val imageViewThree: AppCompatImageView by lazy { AppCompatImageView(requireActivity()) }
     private val progressLoadingImage: ProgressBar by lazy { ProgressBar(requireActivity()) }
+    private var imageOneLocal: Uri? = null
+    private var imageTwoLocal: Uri? = null
+    private var imageThreeLocal: Uri? = null
     private var imageOne: Uri? = null
     private var imageTwo: Uri? = null
     private var imageThree: Uri? = null
+
     private var flagIsClickableAttachImage = true
 
     private val viewModel: AddPublicationViewModel by viewModel()
-    private var listUriImage: MutableList<Uri> = mutableListOf()
-    private val imageList: MutableList<String>? = null
-
+    //private var listUriImage: MutableList<Uri> = mutableListOf()
     private val resultLauncher =
         registerForActivityResult(ActivityResultContracts.GetContent()) {
             it?.let {
@@ -69,11 +71,11 @@ class AddPublicationFragment :
         viewModelObserve()
         with(binding) {
             publishBtnAddPost.setOnClickListener {
-//                viewModel.dataPublication(
-//                    editTextPost.text.toString(),
-//                    editTextLocation.text.toString(),
-//                    imageUri
-//                )
+                viewModel.dataPublication(
+                    editTextPost.text.toString(),
+                    editTextLocation.text.toString(),
+                    imageOne, imageTwo, imageThree
+                )
             }
             attachPhotoAddPost.setOnClickListener {
                 if (flagIsClickableAttachImage) {
@@ -95,13 +97,13 @@ class AddPublicationFragment :
         val params = LinearLayoutCompat.LayoutParams(pixels, pixels)
 
         when (null) {
-            imageOne -> {
+            imageOneLocal -> {
                 initViewImageOne(uri, params)
             }
-            imageTwo -> {
+            imageTwoLocal -> {
                 initViewImageTwo(uri, params)
             }
-            imageThree -> {
+            imageThreeLocal -> {
                 initViewImageThree(uri, params)
             }
         }
@@ -112,8 +114,8 @@ class AddPublicationFragment :
     }
 
     private fun initViewImageOne(uri: Uri, params: LinearLayoutCompat.LayoutParams) {
-        imageOne = uri
-        listUriImage.add(0, imageOne!!)
+        imageOneLocal = uri
+        //listUriImage.add(0, imageOneLocal!!)
         viewModel.image(uri, 1)
         imageViewOne.layoutParams = params
         imageViewOne.visibility = View.GONE
@@ -129,7 +131,7 @@ class AddPublicationFragment :
                 linearLayoutOne.removeView(imageViewOne)
                 imageViewOne.load(null)
                 linearLayoutOne.removeView(deleteImageOne)
-                deleteImageView(imageOne!!, linearLayoutOne)
+                deleteImageView(imageOneLocal!!, linearLayoutOne)
             }
         }
         linearLayoutOne.let {
@@ -142,8 +144,8 @@ class AddPublicationFragment :
     }
 
     private fun initViewImageTwo(uri: Uri, params: LinearLayoutCompat.LayoutParams) {
-        imageTwo = uri
-        listUriImage.add(1, imageTwo!!)
+        imageTwoLocal = uri
+        //listUriImage.add(1, imageTwoLocal!!)
         viewModel.image(uri, 2)
         imageViewTwo.layoutParams = params
         imageViewTwo.visibility = View.GONE
@@ -158,7 +160,7 @@ class AddPublicationFragment :
                 linearLayoutTwo.removeView(imageViewTwo)
                 imageViewTwo.load(null)
                 linearLayoutTwo.removeView(deleteImageTwo)
-                deleteImageView(imageTwo!!, linearLayoutTwo)
+                deleteImageView(imageTwoLocal!!, linearLayoutTwo)
             }
         }
         linearLayoutTwo.let {
@@ -171,8 +173,8 @@ class AddPublicationFragment :
     }
 
     private fun initViewImageThree(uri: Uri, params: LinearLayoutCompat.LayoutParams) {
-        imageThree = uri
-        listUriImage.add(2, imageThree!!)
+        imageThreeLocal = uri
+        //listUriImage.add(2, imageThreeLocal!!)
         viewModel.image(uri, 3)
         imageViewThree.layoutParams = params
         imageViewThree.visibility = View.GONE
@@ -187,7 +189,7 @@ class AddPublicationFragment :
                 linearLayoutThree.removeView(imageViewThree)
                 imageViewThree.load(null)
                 linearLayoutThree.removeView(deleteImageThree)
-                deleteImageView(imageThree!!, linearLayoutThree)
+                deleteImageView(imageThreeLocal!!, linearLayoutThree)
             }
         }
         linearLayoutThree.let {
@@ -204,13 +206,20 @@ class AddPublicationFragment :
     }
 
     private fun deleteImageView(positionUri: Uri, linearLayoutCompat: LinearLayoutCompat) {
-        if (positionUri == imageOne) {
-            imageOne = null
-        } else if (positionUri == imageTwo) {
-            imageTwo = null
+        when (positionUri) {
+            imageOneLocal -> {
+                imageOneLocal = null
+            }
+            imageTwoLocal -> {
+                imageTwoLocal = null
+            }
+            imageThreeLocal -> {
+                imageThreeLocal = null
+            }
         }
-        listUriImage.remove(positionUri)
+        //listUriImage.remove(positionUri)
         binding.containerAddImagePublication.removeView(linearLayoutCompat)
+        viewModel.deleteImage(positionUri)
     }
 
     private fun exifInter() {
@@ -234,6 +243,9 @@ class AddPublicationFragment :
 
             loadUriTwoImage.observe(viewLifecycleOwner) {
                 initImagePublication(it, 2)
+            }
+            loadUriThreeImage.observe(viewLifecycleOwner) {
+                initImagePublication(it, 3)
             }
             progressLoad.observe(viewLifecycleOwner) {
                 initViewProgressBar(linearLayoutOne)
@@ -269,16 +281,19 @@ class AddPublicationFragment :
         attachPhotoIsClickable(true)
         when (numberImage) {
             1 -> {
+                imageOne = it
                 imageViewOne.load(it)
                 imageViewOne.visibility = View.VISIBLE
                 linearLayoutOne.removeView(progressLoadingImage)
             }
             2 -> {
+                imageTwo = it
                 imageViewTwo.load(it)
                 imageViewTwo.visibility = View.VISIBLE
                 linearLayoutTwo.removeView(progressLoadingImage)
             }
             3 -> {
+                imageThree = it
                 imageViewThree.load(it)
                 imageViewThree.visibility = View.VISIBLE
                 linearLayoutThree.removeView(progressLoadingImage)
@@ -400,6 +415,6 @@ class AddPublicationFragment :
     override fun onDetach() {
         super.onDetach()
         locationManager.removeUpdates(locationListener)
-        //viewModel.deleteImageDetach()
+        viewModel.deleteImage(imageOneLocal, imageTwoLocal, imageThreeLocal)
     }
 }
