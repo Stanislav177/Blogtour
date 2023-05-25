@@ -1,28 +1,41 @@
 package com.myblogtour.blogtour.ui.home
 
+import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
+import coil.load
+import com.myblogtour.blogtour.databinding.ItemImageCarouselBinding
+import com.myblogtour.blogtour.domain.ImageEntity
 
 class HomeImagePublicationRecyclerAdapter :
     RecyclerView.Adapter<HomeImagePublicationRecyclerAdapter.ViewHolderImagePublication>() {
 
-    //private var listImagePublication
+    private var listImagePublication: MutableList<ImageEntity> = mutableListOf()
+
+    fun setListImagePublication(listImage: List<ImageEntity>) {
+        this.listImagePublication = listImage.toMutableList()
+        notifyDataSetChanged()
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolderImagePublication {
-        TODO("Not yet implemented")
+        val itemBinding: ItemImageCarouselBinding =
+            ItemImageCarouselBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return ViewHolderImagePublication(itemBinding.root)
     }
 
     override fun onBindViewHolder(holder: ViewHolderImagePublication, position: Int) {
-        TODO("Not yet implemented")
+        holder.bind(this.listImagePublication[position])
     }
 
-    override fun getItemCount(): Int {
-        TODO("Not yet implemented")
-    }
+    override fun getItemCount() = listImagePublication.size
 
     inner class ViewHolderImagePublication(view: View) : ViewHolder(view) {
-
+        fun bind(image: ImageEntity) {
+            ItemImageCarouselBinding.bind(itemView).apply {
+                imagePublication.load(image.url)
+            }
+        }
     }
 }

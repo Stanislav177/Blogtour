@@ -37,6 +37,7 @@
     <string name="no_internet">Нет соединения с интернетом</string>
     <string name="update">Обновить</string>
     <string name="current_location"><u>Текущее местоположение</u></string>
+    <string name="delete_image"><u>Удалить</u></string>
 
 
     <string-array name="listGender">

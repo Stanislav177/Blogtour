@@ -60,7 +60,6 @@
             android:layout_width="match_parent"
             android:layout_height="470dp"
             android:layout_marginTop="3dp"
-            android:scrollbars="horizontal"
             tools:listitem="@layout/item_image_carousel"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintStart_toStartOf="parent"
