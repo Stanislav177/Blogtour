@@ -23,6 +23,8 @@ class AddPublicationViewModel(
 ) : ViewModel(), AddContract.ViewModel {
 
     private var flagAddPublication = true
+    private var counterImagePublication = 0
+    private var loadingImagePublication = true
 
     override val publishPostLiveData: LiveData<Boolean> = MutableLiveData()
     override val loadUriOneImage: LiveData<Uri?> = MutableLiveData()
@@ -35,9 +37,17 @@ class AddPublicationViewModel(
     override val errorMessagePublicationAdd: LiveData<String> = SingleLiveEvent()
     override val address: LiveData<Editable> = SingleLiveEvent()
     override val errorAddress: LiveData<String> = SingleLiveEvent()
+    override val counterImage: LiveData<Boolean> = SingleLiveEvent()
 
     fun flagAddPublication(b: Boolean) {
         flagAddPublication = b
+    }
+
+    fun counterImage() {
+        if (counterImagePublication == 3) {
+            counterImage.mutable().postValue(false)
+        }
+        return counterImage.mutable().postValue(true)
     }
 
     fun deleteImage(uriImageOne: Uri?, uriImageTwo: Uri?, uriImageThree: Uri?) {

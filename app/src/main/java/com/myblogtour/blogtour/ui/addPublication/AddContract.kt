@@ -18,13 +18,15 @@ interface AddContract {
         val errorMessagePublicationAdd: LiveData<String>
         val address: LiveData<Editable>
         val errorAddress: LiveData<String>
+        val counterImage: LiveData<Boolean>
         fun dataPublication(
             text: String,
             location: String,
             uriImageOne: Uri?,
             uriImageTwo: Uri?,
-            uriImageThree: Uri?
+            uriImageThree: Uri?,
         )
+
         fun getAddress(lat: Double?, lon: Double?)
     }
 }

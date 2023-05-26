@@ -54,6 +54,7 @@ class AddPublicationFragment :
     private var flagIsClickableAttachImage = true
 
     private val viewModel: AddPublicationViewModel by viewModel()
+
     //private var listUriImage: MutableList<Uri> = mutableListOf()
     private val resultLauncher =
         registerForActivityResult(ActivityResultContracts.GetContent()) {
@@ -78,11 +79,7 @@ class AddPublicationFragment :
                 )
             }
             attachPhotoAddPost.setOnClickListener {
-                if (flagIsClickableAttachImage) {
-                    resultLauncher.launch("image/*")
-                } else {
-                    showToast("Идет загрузка изображения")
-                }
+                viewModel.counterImage()
             }
             currentLocation.setOnClickListener {
                 checkPermissionLocation()
@@ -119,7 +116,6 @@ class AddPublicationFragment :
         viewModel.image(uri, 1)
         imageViewOne.layoutParams = params
         imageViewOne.visibility = View.GONE
-
         deleteImageOne.let {
             it.layoutParams =
                 LinearLayoutCompat.LayoutParams(LinearLayoutCompat.LayoutParams.MATCH_PARENT,
@@ -269,6 +265,17 @@ class AddPublicationFragment :
             }
             address.observe(viewLifecycleOwner) {
                 binding.editTextLocation.text = it
+            }
+            counterImage.observe(viewLifecycleOwner) {
+                if (it) {
+                    if (flagIsClickableAttachImage) {
+                        resultLauncher.launch("image/*")
+                    } else {
+                        showToast("Идет загрузка изображения")
+                    }
+                } else {
+                    showToast("Лимит привышен")
+                }
             }
         }
     }
