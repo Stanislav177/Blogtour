@@ -13,20 +13,25 @@ class AddPublicationImageAdapter :
 
     private var listImagePublication: MutableList<ImagePublicationEntity> = mutableListOf()
 
-    fun setImageList(listImagePublication: ImagePublicationEntity) {
-        this.listImagePublication.add(listImagePublication)
+    fun setImageList(imagePublication: ImagePublicationEntity) {
+        this.listImagePublication.add(imagePublication)
         notifyDataSetChanged()
     }
 
-    fun replaceImage(listImagePublication: ImagePublicationEntity) {
-        this.listImagePublication.filter { it.uriLocal == listImagePublication.uriLocal }
+    fun replaceImage(imagePublication: ImagePublicationEntity) {
+        val positionListImage = listImagePublication.indices.find {
+            listImagePublication[it].uriLocal == imagePublication.uriLocal
+        }
+        this.listImagePublication.filter { it.uriLocal == imagePublication.uriLocal }
             .forEach {
-                it.url = listImagePublication.url
-                it.uriLocal = listImagePublication.uriLocal
-                it.loading = listImagePublication.loading
-                it.progress = listImagePublication.progress
+                it.url = imagePublication.url
+                it.uriLocal = imagePublication.uriLocal
+                it.loading = imagePublication.loading
+                it.progress = imagePublication.progress
             }
-        notifyDataSetChanged()
+        positionListImage?.let {
+            notifyItemChanged(it)
+        }
     }
 
 

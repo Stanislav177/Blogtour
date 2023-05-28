@@ -239,18 +239,9 @@ class AddPublicationFragment :
             .show()
     }
 
-    override fun onDetach() {
-        super.onDetach()
-        locationManager.removeUpdates(locationListener)
-    }
-
     override fun onDestroy() {
         super.onDestroy()
         viewModel.deleteImage()
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        viewModel.deleteImage()
+        locationManager.removeUpdates(locationListener)
     }
 }
