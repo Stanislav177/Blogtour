@@ -252,4 +252,8 @@ class AddPublicationFragment :
     override fun onItemClick(uriLocal: Uri) {
         viewModel.deleteImage(uriLocal)
     }
+
+    override fun onItemClickCancel(uriLocal: Uri) {
+        viewModel.cancel(uriLocal)
+    }
 }

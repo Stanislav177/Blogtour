@@ -50,16 +50,24 @@ class AddPublicationImageAdapter(private val onClickListenerPosition: MyOnClickL
                     progressLoadingImage.visibility = View.VISIBLE
                     progressLoadingImage.text = "${image.progress}%"
                     imagePublication.visibility = View.GONE
+                    cancelImagePublication.visibility = View.VISIBLE
+                    cancelImagePublication.setOnClickListener {
+                        onClickListenerPosition.onItemClickCancel(image.uriLocal!!)
+                        listImagePublication.removeAt(layoutPosition)
+                        notifyDataSetChanged()
+                    }
                 } else {
                     progressBarLoadingImage.visibility = View.GONE
                     progressLoadingImage.visibility = View.GONE
                     imagePublication.visibility = View.VISIBLE
                     imagePublication.load(image.uriLocal)
-                }
-                deleteImagePublication.setOnClickListener {
-                    onClickListenerPosition.onItemClick(image.uriLocal!!)
-                    listImagePublication.removeAt(layoutPosition)
-                    notifyDataSetChanged()
+                    cancelImagePublication.visibility = View.GONE
+                    deleteImagePublication.visibility = View.VISIBLE
+                    deleteImagePublication.setOnClickListener {
+                        onClickListenerPosition.onItemClick(image.uriLocal!!)
+                        listImagePublication.removeAt(layoutPosition)
+                        notifyDataSetChanged()
+                    }
                 }
             }
         }

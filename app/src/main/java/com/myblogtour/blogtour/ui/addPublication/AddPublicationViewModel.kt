@@ -56,6 +56,10 @@ class AddPublicationViewModel(
         loadingImage.mutable().postValue(loadingImagePublication)
     }
 
+    fun cancel(uri: Uri) {
+        imageFbRepository.cancelLoading(uri)
+    }
+
     fun deleteImage() {
         val uriList: MutableList<Uri?> = mutableListOf()
         for (i in listImagePublication.indices) {
@@ -74,27 +78,35 @@ class AddPublicationViewModel(
         if (uriList.size > 0) {
             imageFbRepository.deleteImage(uriList.toList())
         }
+        listImagePublication.clear()
     }
 
     fun deleteImage(uriImage: Uri?) {
         uriImage?.let {
             imageFbRepository.deleteImage(it)
         }
+        listImagePublication.indices.find {
+            listImagePublication[it].uriLocal == uriImage
+        }?.let { index ->
+            listImagePublication.removeAt(index)
+        }
     }
 
     fun image(uri: Uri) {
         loadingImagePublication = false
-        imageFbRepository.imageLoading(uri, onSuccess = { uriFb ->
-            imagePublicationEntity = ImagePublicationEntity(uriFb, uri, false)
-            listImagePublication.add(imagePublicationEntity)
-            loadUriImage.mutable().postValue(imagePublicationEntity)
-            loadingImagePublication = true
-        }, onError = {
+        imageFbRepository.imageLoading(uri,
+            onSuccess = { uriFb ->
+                imagePublicationEntity = ImagePublicationEntity(uriFb, uri, false)
+                listImagePublication.add(imagePublicationEntity)
+                loadUriImage.mutable().postValue(imagePublicationEntity)
+                loadingImagePublication = true
+            }, onError = {
 
-        }, onProgress = { onProgress ->
-            imagePublicationEntity = ImagePublicationEntity(uriLocal = uri, progress = onProgress)
-            progressLoad.mutable().postValue(imagePublicationEntity)
-        })
+            }, onProgress = { onProgress ->
+                imagePublicationEntity =
+                    ImagePublicationEntity(uriLocal = uri, progress = onProgress)
+                progressLoad.mutable().postValue(imagePublicationEntity)
+            })
     }
 
     override fun dataPublication(

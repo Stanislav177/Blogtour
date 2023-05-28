@@ -38,6 +38,7 @@
     <string name="update">Update</string>
     <string name="current_location"><u>Your current location</u></string>
     <string name="delete_image"><u>Delete</u></string>
+    <string name="cancel"><u>Cancel</u></string>
 
     <string-array name="listGender">
         <item>Not indicated</item>

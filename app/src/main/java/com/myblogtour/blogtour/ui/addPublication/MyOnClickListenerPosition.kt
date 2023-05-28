@@ -4,4 +4,5 @@ import android.net.Uri
 
 interface MyOnClickListenerPosition {
     fun onItemClick(uriLocal: Uri)
+    fun onItemClickCancel(uriLocal: Uri)
 }
