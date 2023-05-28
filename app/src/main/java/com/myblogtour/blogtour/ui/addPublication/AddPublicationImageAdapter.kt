@@ -8,7 +8,7 @@ import coil.load
 import com.myblogtour.blogtour.databinding.ItemLoadingImagePublicationBinding
 import com.myblogtour.blogtour.domain.ImagePublicationEntity
 
-class AddPublicationImageAdapter :
+class AddPublicationImageAdapter(private val onClickListenerPosition: MyOnClickListenerPosition) :
     RecyclerView.Adapter<AddPublicationImageAdapter.ViewHolderImage>() {
 
     private var listImagePublication: MutableList<ImagePublicationEntity> = mutableListOf()
@@ -19,21 +19,15 @@ class AddPublicationImageAdapter :
     }
 
     fun replaceImage(imagePublication: ImagePublicationEntity) {
-        val positionListImage = listImagePublication.indices.find {
+        listImagePublication.indices.find {
             listImagePublication[it].uriLocal == imagePublication.uriLocal
-        }
-        this.listImagePublication.filter { it.uriLocal == imagePublication.uriLocal }
-            .forEach {
-                it.url = imagePublication.url
-                it.uriLocal = imagePublication.uriLocal
-                it.loading = imagePublication.loading
-                it.progress = imagePublication.progress
-            }
-        positionListImage?.let {
-            notifyItemChanged(it)
+        }?.let { index ->
+            listImagePublication[index].url = imagePublication.url
+            listImagePublication[index].loading = imagePublication.loading
+            listImagePublication[index].progress = imagePublication.progress
+            notifyItemChanged(index)
         }
     }
-
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolderImage {
         val itemBinding: ItemLoadingImagePublicationBinding =
@@ -61,6 +55,11 @@ class AddPublicationImageAdapter :
                     progressLoadingImage.visibility = View.GONE
                     imagePublication.visibility = View.VISIBLE
                     imagePublication.load(image.uriLocal)
+                }
+                deleteImagePublication.setOnClickListener {
+                    onClickListenerPosition.onItemClick(image.uriLocal!!)
+                    listImagePublication.removeAt(layoutPosition)
+                    notifyDataSetChanged()
                 }
             }
         }

@@ -23,7 +23,8 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
 class AddPublicationFragment :
-    BaseFragment<FragmentAddPublicationBinding>(FragmentAddPublicationBinding::inflate) {
+    BaseFragment<FragmentAddPublicationBinding>(FragmentAddPublicationBinding::inflate),
+    MyOnClickListenerPosition {
 
     private val REQUEST_CODE = 999
     private val MIN_DISTANCE = 10f
@@ -40,6 +41,10 @@ class AddPublicationFragment :
 
     private val locationManager by lazy {
         requireContext().getSystemService(Context.LOCATION_SERVICE) as LocationManager
+    }
+
+    private val adapterImage: AddPublicationImageAdapter by lazy {
+        AddPublicationImageAdapter(this)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -64,7 +69,6 @@ class AddPublicationFragment :
         }
     }
 
-    private val adapterImage: AddPublicationImageAdapter by lazy { AddPublicationImageAdapter() }
 
     private fun addImagePublication(it: Uri) {
         viewModel.image(it)
@@ -243,5 +247,9 @@ class AddPublicationFragment :
         super.onDestroy()
         viewModel.deleteImage()
         locationManager.removeUpdates(locationListener)
+    }
+
+    override fun onItemClick(uriLocal: Uri) {
+        viewModel.deleteImage(uriLocal)
     }
 }
