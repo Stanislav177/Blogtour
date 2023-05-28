@@ -119,6 +119,13 @@
                 app:srcCompat="@drawable/ic_add_photo"
                 tools:ignore="ImageContrastCheck" />
 
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvImageAddPublication"
+                android:layout_width="match_parent"
+                android:layout_height="90dp"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:listitem="@layout/item_loading_image_publication" />
+
         </LinearLayout>
 
         <androidx.appcompat.widget.AppCompatButton

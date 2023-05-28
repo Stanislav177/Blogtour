@@ -3,15 +3,14 @@ package com.myblogtour.blogtour.ui.addPublication
 import android.net.Uri
 import android.text.Editable
 import androidx.lifecycle.LiveData
+import com.myblogtour.blogtour.domain.ImagePublicationEntity
 
 interface AddContract {
 
     interface ViewModel {
         val publishPostLiveData: LiveData<Boolean>
-        val loadUriOneImage: LiveData<Uri?>
-        val loadUriTwoImage: LiveData<Uri?>
-        val loadUriThreeImage: LiveData<Uri?>
-        val progressLoad: LiveData<Int>
+        val loadUriImage: LiveData<ImagePublicationEntity>
+        val progressLoad: LiveData<ImagePublicationEntity>
         val errorMessageImage: LiveData<String>
         val errorMessageText: LiveData<String>
         val errorMessageLocation: LiveData<String>
@@ -19,12 +18,10 @@ interface AddContract {
         val address: LiveData<Editable>
         val errorAddress: LiveData<String>
         val counterImage: LiveData<Boolean>
+        val loadingImage: LiveData<Boolean>
         fun dataPublication(
             text: String,
-            location: String,
-            uriImageOne: Uri?,
-            uriImageTwo: Uri?,
-            uriImageThree: Uri?,
+            location: String
         )
 
         fun getAddress(lat: Double?, lon: Double?)
