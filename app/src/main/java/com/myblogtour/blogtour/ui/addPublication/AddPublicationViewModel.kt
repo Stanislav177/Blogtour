@@ -5,9 +5,9 @@ import android.text.Editable
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.google.firebase.storage.StorageReference
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
+import com.myblogtour.blogtour.domain.ImagePublicationEntity
 import com.myblogtour.blogtour.domain.repository.AuthFirebaseRepository
 import com.myblogtour.blogtour.domain.repository.CreatePublicationRepository
 import com.myblogtour.blogtour.domain.repository.ImageFbRepository
@@ -16,77 +16,123 @@ import com.myblogtour.blogtour.utils.checkPermission.RepositoryLocationAddress
 
 class AddPublicationViewModel(
     private val authFirebaseRepository: AuthFirebaseRepository,
-    private val storageRef: StorageReference,
     private val createPublicationRepository: CreatePublicationRepository,
     private val locationAddressRepository: RepositoryLocationAddress,
     private val imageFbRepository: ImageFbRepository,
 ) : ViewModel(), AddContract.ViewModel {
 
     private var flagAddPublication = true
+    private var loadingImagePublication = true
+    private lateinit var imagePublicationEntity: ImagePublicationEntity
+    private var listImagePublication: MutableList<ImagePublicationEntity> = mutableListOf()
 
     override val publishPostLiveData: LiveData<Boolean> = MutableLiveData()
-    override val loadUriOneImage: LiveData<Uri?> = MutableLiveData()
-    override val loadUriTwoImage: LiveData<Uri?> = MutableLiveData()
-    override val loadUriThreeImage: LiveData<Uri?> = MutableLiveData()
-    override val progressLoad: LiveData<Int> = MutableLiveData()
+    override val loadUriImage: LiveData<ImagePublicationEntity> = MutableLiveData()
+    override val progressLoad: LiveData<ImagePublicationEntity> = MutableLiveData()
     override val errorMessageImage: LiveData<String> = MutableLiveData()
     override val errorMessageText: LiveData<String> = MutableLiveData()
     override val errorMessageLocation: LiveData<String> = MutableLiveData()
     override val errorMessagePublicationAdd: LiveData<String> = SingleLiveEvent()
     override val address: LiveData<Editable> = SingleLiveEvent()
     override val errorAddress: LiveData<String> = SingleLiveEvent()
+    override val counterImage: LiveData<Boolean> = SingleLiveEvent()
+    override val loadingImage: LiveData<Boolean> = SingleLiveEvent()
+    override val amountImage: LiveData<Int> = SingleLiveEvent()
+    override val loadingImageFb: LiveData<Uri> = SingleLiveEvent()
 
     fun flagAddPublication(b: Boolean) {
         flagAddPublication = b
     }
 
-    fun deleteImage(uriImageOne: Uri?, uriImageTwo: Uri?, uriImageThree: Uri?) {
-        val uriList: MutableList<Uri?> = mutableListOf()
-        with(uriList) {
-            add(uriImageOne)
-            add(uriImageTwo)
-            add(uriImageThree)
+    fun getCounterImage() {
+        if (listImagePublication.size == 3) {
+            return counterImage.mutable().postValue(false)
         }
-        imageFbRepository.deleteImage(uriList.toList())
+        return counterImage.mutable().postValue(true)
+    }
+
+    fun getLoadingImage() {
+        loadingImage.mutable().postValue(loadingImagePublication)
+    }
+
+    fun cancel(uri: Uri) {
+        imageFbRepository.cancelLoading(uri)
+    }
+
+    fun deleteImage() {
+        val uriList: MutableList<Uri?> = mutableListOf()
+        for (i in listImagePublication.indices) {
+            when (i) {
+                0 -> {
+                    uriList.add(listImagePublication[i].uriLocal)
+                }
+                1 -> {
+                    uriList.add(listImagePublication[i].uriLocal)
+                }
+                2 -> {
+                    uriList.add(listImagePublication[i].uriLocal)
+                }
+            }
+        }
+        if (uriList.size > 0) {
+            imageFbRepository.deleteImage(uriList.toList())
+        }
+        listImagePublication.clear()
+        amountImage.mutable().postValue(listImagePublication.size)
     }
 
     fun deleteImage(uriImage: Uri?) {
         uriImage?.let {
             imageFbRepository.deleteImage(it)
         }
+        listImagePublication.indices.find {
+            listImagePublication[it].uriLocal == uriImage
+        }?.let { index ->
+            listImagePublication.removeAt(index)
+        }
+        amountImage.mutable().postValue(listImagePublication.size)
     }
 
-    fun image(uri: Uri, imageNumber: Int) {
-        imageFbRepository.imageLoading(uri, onSuccess = {
-            when (imageNumber) {
-                1 -> {
-                    loadUriOneImage.mutable().postValue(it)
-                }
-                2 -> {
-                    loadUriTwoImage.mutable().postValue(it)
-                }
-                3 -> {
-                    loadUriThreeImage.mutable().postValue(it)
-                }
+    private fun checkImageList(uri: Uri): Boolean {
+        return if (listImagePublication.size > 0) {
+            val checkImage = listImagePublication.indices.find {
+                listImagePublication[it].uriLocal == uri
             }
+            checkImage == null
+        } else {
+            true
+        }
+        return false
+    }
 
-        }, onError = {
+    fun image(uri: Uri) {
+        if (checkImageList(uri)) {
+            loadingImageFb.mutable().postValue(uri)
+            loadingImagePublication = false
+            imageFbRepository.imageLoading(uri,
+                onSuccess = { uriFb ->
+                    imagePublicationEntity = ImagePublicationEntity(uriFb, uri, false)
+                    listImagePublication.add(imagePublicationEntity)
+                    loadUriImage.mutable().postValue(imagePublicationEntity)
+                    loadingImagePublication = true
+                    amountImage.mutable().postValue(listImagePublication.size)
+                }, onError = {
 
-        }, onProgress = {
-            progressLoad.mutable().postValue(it)
-        })
+                }, onProgress = { onProgress ->
+                    imagePublicationEntity =
+                        ImagePublicationEntity(uriLocal = uri, progress = onProgress)
+                    progressLoad.mutable().postValue(imagePublicationEntity)
+                })
+        }
     }
 
     override fun dataPublication(
         text: String,
         location: String,
-        uriImageOne: Uri?,
-        uriImageTwo: Uri?,
-        uriImageThree: Uri?,
     ) {
         if (flagAddPublication) {
             when {
-                imageUriNotNull(uriImageOne, uriImageTwo, uriImageThree) == null -> {
+                listImagePublication.size == 0 -> {
                     errorMessageImage.mutable().postValue("Добавьте изображение")
                     return
                 }
@@ -102,9 +148,6 @@ class AddPublicationViewModel(
                     flagAddPublication = false
                     val publishPost =
                         converterJsonObject(
-                            uriImageOne,
-                            uriImageTwo,
-                            uriImageThree,
                             text,
                             location)
                     createPublicationRepository.createPublication(onSuccess = {
@@ -125,21 +168,7 @@ class AddPublicationViewModel(
         })
     }
 
-    private fun imageUriNotNull(
-        uriImageOne: Uri?,
-        uriImageTwo: Uri?,
-        uriImageThree: Uri?,
-    ): Uri? {
-        if (uriImageOne != null || uriImageTwo != null || uriImageThree != null) {
-            return Uri.parse("")
-        }
-        return null
-    }
-
     private fun converterJsonObject(
-        uriImageOne: Uri?,
-        uriImageTwo: Uri?,
-        uriImageThree: Uri?,
         text: String,
         location: String,
     ): JsonObject {
@@ -152,33 +181,41 @@ class AddPublicationViewModel(
         }, onError = {
 
         })
-        val urlImage = JsonArray()
-        val image = JsonObject()
-        val imageTwo = JsonObject()
-        val imageThree = JsonObject()
         val publicationJson = JsonObject()
         val fieldsJson = JsonObject()
-        uriImageOne?.let {
-            image.addProperty("url", it.toString())
-            urlImage.add(image)
-        }
-        uriImageTwo?.let {
-            imageTwo.addProperty("url", it.toString())
-            urlImage.add(imageTwo)
-        }
-        uriImageThree?.let {
-            imageThree.addProperty("url", it.toString())
-            urlImage.add(imageThree)
-        }
         userProfile.add(userIdProfile)
         with(publicationJson) {
             addProperty("text", text)
             addProperty("location", location)
-            add("image", urlImage)
+            add("image", converterFromListToJson())
             add("userprofile", userProfile)
         }
         fieldsJson.add("fields", publicationJson)
         return fieldsJson
+    }
+
+    private fun converterFromListToJson(): JsonArray {
+        val urlImage = JsonArray()
+        val image = JsonObject()
+        val imageTwo = JsonObject()
+        val imageThree = JsonObject()
+        for (i in listImagePublication.indices) {
+            when (i) {
+                0 -> {
+                    image.addProperty("url", listImagePublication[i].url.toString())
+                    urlImage.add(image)
+                }
+                1 -> {
+                    imageTwo.addProperty("url", listImagePublication[i].url.toString())
+                    urlImage.add(imageTwo)
+                }
+                2 -> {
+                    imageThree.addProperty("url", listImagePublication[i].url.toString())
+                    urlImage.add(imageThree)
+                }
+            }
+        }
+        return urlImage
     }
 
     private fun <T> LiveData<T>.mutable(): MutableLiveData<T> {
