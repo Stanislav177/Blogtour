@@ -4,8 +4,7 @@ import com.google.gson.JsonObject
 import com.myblogtour.airtable.domain.PublicationDTO
 import com.myblogtour.airtable.domain.Record
 import com.myblogtour.airtable.domain.RecordUserProfileDTO
-import com.myblogtour.blogtour.domain.UserProfileEntity
-import org.json.JSONObject
+import io.reactivex.rxjava3.core.Observable
 import retrofit2.Call
 import retrofit2.http.*
 
@@ -26,14 +25,14 @@ interface AirTableApi {
     @GET("$URL_API_END_POINT_PUBLICATION/?sort[0][field]=date&sort[0][direction]=desc")
     fun getPublication(
         @Query(API_KEY) apikey: String,
-    ): Call<PublicationDTO>
+    ): Observable<PublicationDTO>
 
     @Headers("Content-Type: application/json")
     @PATCH("$URL_API_END_POINT_PUBLICATION/{id}")
     fun updatePublicationComplaint(
         @Path("id") idPublication: String,
         @Query(API_KEY) apikey: String,
-        @Body complaint: JsonObject
+        @Body complaint: JsonObject,
     ): Call<Unit>
 
     @Headers("Content-Type: application/json")
@@ -80,12 +79,12 @@ interface AirTableApi {
     @DELETE("$URL_API_END_POINT_PUBLICATION/{id}/")
     fun deletePublication(
         @Path("id") idPublication: String,
-        @Query(API_KEY) apikey: String
+        @Query(API_KEY) apikey: String,
     ): Call<Unit>
 
     @DELETE("$URL_API_END_POINT_LIKE{id}")
     fun deleteLike(
         @Path("id") idLike: String,
-        @Query(API_KEY) apikey: String
+        @Query(API_KEY) apikey: String,
     ): Call<Unit>
 }
