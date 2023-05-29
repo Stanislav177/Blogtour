@@ -21,7 +21,6 @@ import com.myblogtour.blogtour.domain.ImagePublicationEntity
 import com.myblogtour.blogtour.utils.BaseFragment
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-
 class AddPublicationFragment :
     BaseFragment<FragmentAddPublicationBinding>(FragmentAddPublicationBinding::inflate),
     MyOnClickListenerPosition {
@@ -34,8 +33,8 @@ class AddPublicationFragment :
 
     private val resultLauncher =
         registerForActivityResult(ActivityResultContracts.GetContent()) {
-            it?.let {
-                addImagePublication(it)
+            it?.let { uri ->
+                addImagePublication(uri)
             }
         }
 
@@ -69,10 +68,8 @@ class AddPublicationFragment :
         }
     }
 
-
-    private fun addImagePublication(it: Uri) {
-        viewModel.image(it)
-        adapterImage.setImageList(ImagePublicationEntity(uriLocal = it))
+    private fun addImagePublication(uri: Uri) {
+        viewModel.image(uri)
     }
 
     private fun exifInter() {
@@ -125,7 +122,17 @@ class AddPublicationFragment :
                     showToast("Идет загрузка изображения")
                 }
             }
+            amountImage.observe(viewLifecycleOwner) {
+                initCounterImage(it)
+            }
+            loadingImageFb.observe(viewLifecycleOwner) {
+                adapterImage.setImageList(ImagePublicationEntity(uriLocal = it))
+            }
         }
+    }
+
+    private fun initCounterImage(counter: Int) {
+        binding.counterImagePublication.text = counter.toString()
     }
 
     private fun showToast(it: String?) {
@@ -220,7 +227,7 @@ class AddPublicationFragment :
                 viewModel.flagAddPublication(true)
                 editTextPost.text.clear()
                 editTextLocation.text.clear()
-                //imagePostAddPost.load(null)
+                adapterImage.clearImageList()
             }
         } else {
             showToast("Что-то пошло не так")

@@ -18,6 +18,11 @@ class AddPublicationImageAdapter(private val onClickListenerPosition: MyOnClickL
         notifyDataSetChanged()
     }
 
+    fun clearImageList(){
+        this.listImagePublication.clear()
+        notifyDataSetChanged()
+    }
+
     fun replaceImage(imagePublication: ImagePublicationEntity) {
         listImagePublication.indices.find {
             listImagePublication[it].uriLocal == imagePublication.uriLocal

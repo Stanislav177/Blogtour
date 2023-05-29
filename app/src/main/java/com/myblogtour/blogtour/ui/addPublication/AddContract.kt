@@ -19,9 +19,11 @@ interface AddContract {
         val errorAddress: LiveData<String>
         val counterImage: LiveData<Boolean>
         val loadingImage: LiveData<Boolean>
+        val amountImage: LiveData<Int>
+        val loadingImageFb: LiveData<Uri>
         fun dataPublication(
             text: String,
-            location: String
+            location: String,
         )
 
         fun getAddress(lat: Double?, lon: Double?)

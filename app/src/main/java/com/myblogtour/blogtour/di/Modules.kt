@@ -111,7 +111,6 @@ object Modules {
         viewModel {
             AddPublicationViewModel(
                 get(),
-                get(named("storageRef")),
                 get(),
                 get(),
                 get()
