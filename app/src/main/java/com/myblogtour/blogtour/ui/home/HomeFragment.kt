@@ -13,6 +13,7 @@ import com.myblogtour.blogtour.R
 import com.myblogtour.blogtour.appState.AppStateListBlog
 import com.myblogtour.blogtour.databinding.FragmentHomeBinding
 import com.myblogtour.blogtour.databinding.ItemRecyclerBlogBinding
+import com.myblogtour.blogtour.databinding.ItemRecyclerBlogCarouselBinding
 import com.myblogtour.blogtour.ui.main.BottomNavigationDrawerFragment
 import com.myblogtour.blogtour.utils.BaseFragment
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -21,7 +22,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
     MyOnClickListener {
 
     private var flag = false
-    private lateinit var itemOpenMenuMore: ItemRecyclerBlogBinding
+    private lateinit var itemOpenMenuMore: ItemRecyclerBlogCarouselBinding
 
     private val postViewModel: HomeViewModel by viewModel()
 
@@ -66,14 +67,14 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
     }
 
     override fun onItemClickComplaintPublication(id: String) {
-        postViewModel.updatePublicationComplaint(id, "recWOHgeC8AlH04cD")
+        postViewModel.updatePublicationComplaint(id, "reclgZz33yDk5wOML")
     }
 
-    override fun onItemClickMore(item: ItemRecyclerBlogBinding) {
+    override fun onItemClickMore(item: ItemRecyclerBlogCarouselBinding) {
         moreMenuPublication(item)
     }
 
-    private fun moreMenuPublication(item: ItemRecyclerBlogBinding) {
+    private fun moreMenuPublication(item: ItemRecyclerBlogCarouselBinding) {
         flag = !flag
         itemOpenMenuMore = item
         if (flag) {
