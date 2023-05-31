@@ -8,12 +8,13 @@ import com.myblogtour.blogtour.appState.AppStateListBlog
 import com.myblogtour.blogtour.domain.repository.AuthFirebaseRepository
 import com.myblogtour.blogtour.domain.repository.PublicationRepository
 import com.myblogtour.blogtour.utils.converterFromDtoToPublicationEntity
+import io.reactivex.rxjava3.kotlin.subscribeBy
 
 
 class HomeViewModel(
     private val publicationRepository: PublicationRepository,
     private val authFirebaseRepository: AuthFirebaseRepository,
-    private val liveData: MutableLiveData<AppStateListBlog> = MutableLiveData()
+    private val liveData: MutableLiveData<AppStateListBlog> = MutableLiveData(),
 ) : ViewModel() {
 
     private lateinit var idPublicationLocal: String
@@ -34,7 +35,7 @@ class HomeViewModel(
     }
 
     fun getPostList() {
-        publicationRepository.getPublication(
+        publicationRepository.getPublication().subscribeBy(
             onSuccess = {
                 liveData.postValue(
                     AppStateListBlog.Success(

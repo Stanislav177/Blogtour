@@ -5,7 +5,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
-import com.myblogtour.blogtour.appState.AppStateListBlog
 import com.myblogtour.blogtour.appState.AppStateSearchPublication
 import com.myblogtour.blogtour.domain.repository.AuthFirebaseRepository
 import com.myblogtour.blogtour.domain.repository.SearchPublication
@@ -14,7 +13,7 @@ import com.myblogtour.blogtour.utils.converterFromDtoToPublicationEntity
 class ResultSearchViewModel(
     private val searchPublication: SearchPublication,
     private val authFirebaseRepository: AuthFirebaseRepository,
-    private val liveData: MutableLiveData<AppStateSearchPublication> = MutableLiveData()
+    private val liveData: MutableLiveData<AppStateSearchPublication> = MutableLiveData(),
 ) : ViewModel() {
 
     fun getLiveData() = liveData
@@ -87,6 +86,7 @@ class ResultSearchViewModel(
         val updateFieldsComplaint = JsonObject()
         updateFieldsComplaint.add("fields", complaint)
         searchPublication.updateComplaintPublication(idPublication, updateFieldsComplaint)
+            .subscribe()
     }
 
     fun likePublication(idPublication: String) {

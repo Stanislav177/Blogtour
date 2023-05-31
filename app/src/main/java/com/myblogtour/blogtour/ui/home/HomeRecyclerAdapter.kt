@@ -102,14 +102,14 @@ class HomeRecyclerAdapter(private var myOnClickListener: MyOnClickListener) :
                 }
 
                 moreCard.setOnClickListener {
-                    myOnClickListener.onItemClickMore(ItemRecyclerBlogBinding.bind(itemView)
+                    myOnClickListener.onItemClickMore(ItemRecyclerBlogCarouselBinding.bind(itemView)
                         .apply { this })
                     //moreMenuPublication(ItemRecyclerBlogBinding.bind(itemView).apply { this })
                 }
                 btnComplaintPublication.setOnClickListener {
                     //moreMenuPublication(ItemRecyclerBlogBinding.bind(itemView).apply { this })
                     myOnClickListener.onItemClickComplaintPublication(post.id)
-                    myOnClickListener.onItemClickMore(ItemRecyclerBlogBinding.bind(itemView)
+                    myOnClickListener.onItemClickMore(ItemRecyclerBlogCarouselBinding.bind(itemView)
                         .apply { this })
                 }
             }

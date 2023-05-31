@@ -2,9 +2,9 @@ package com.myblogtour.blogtour.data.retrofit
 
 import com.google.gson.JsonObject
 import com.myblogtour.airtable.domain.PublicationDTO
-import com.myblogtour.airtable.domain.Record
 import com.myblogtour.airtable.domain.RecordUserProfileDTO
-import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.core.Completable
+import io.reactivex.rxjava3.core.Single
 import retrofit2.Call
 import retrofit2.http.*
 
@@ -20,12 +20,12 @@ interface AirTableApi {
     fun createPublication(
         @Query(API_KEY) apikey: String,
         @Body publication: JsonObject,
-    ): Call<Record>
+    ): Completable
 
     @GET("$URL_API_END_POINT_PUBLICATION/?sort[0][field]=date&sort[0][direction]=desc")
     fun getPublication(
         @Query(API_KEY) apikey: String,
-    ): Observable<PublicationDTO>
+    ): Single<PublicationDTO>
 
     @Headers("Content-Type: application/json")
     @PATCH("$URL_API_END_POINT_PUBLICATION/{id}")
@@ -33,20 +33,20 @@ interface AirTableApi {
         @Path("id") idPublication: String,
         @Query(API_KEY) apikey: String,
         @Body complaint: JsonObject,
-    ): Call<Unit>
+    ): Completable
 
     @Headers("Content-Type: application/json")
     @POST("$URL_API_END_POINT_USER_PROFILE/?")
     fun createUserProfile(
         @Query(API_KEY) apikey: String,
         @Body createUser: JsonObject,
-    ): Call<RecordUserProfileDTO>
+    ): Single<RecordUserProfileDTO>
 
     @GET("$URL_API_END_POINT_USER_PROFILE/{id}")
     fun getProfileUser(
         @Path("id") idUser: String,
         @Query(API_KEY) apikey: String,
-    ): Call<RecordUserProfileDTO>
+    ): Single<RecordUserProfileDTO>
 
     @Headers("Content-Type: application/json")
     @PATCH("$URL_API_END_POINT_USER_PROFILE/{id}/")
@@ -54,7 +54,7 @@ interface AirTableApi {
         @Path("id") idUser: String,
         @Query(API_KEY) apikey: String,
         @Body post: JsonObject,
-    ): Call<Unit>
+    ): Completable
 
     @Headers("Content-Type: application/json")
     @PATCH("$URL_API_END_POINT_USER_PROFILE/{id}/")
@@ -62,29 +62,29 @@ interface AirTableApi {
         @Path("id") idUser: String,
         @Query(API_KEY) apikey: String,
         @Body post: JsonObject,
-    ): Call<RecordUserProfileDTO>
+    ): Single<RecordUserProfileDTO>
 
     @GET("$URL_API_END_POINT_PUBLICATION/?")
     fun getMyPublication(
         @Query(API_KEY) apikey: String,
         @Query("filterByFormula") searchMyPublication: String,
-    ): Call<PublicationDTO>
+    ): Single<PublicationDTO>
 
     @GET("$URL_API_END_POINT_PUBLICATION/?")
     fun getSearchPublication(
         @Query(API_KEY) apikey: String,
         @Query("filterByFormula") search: String,
-    ): Call<PublicationDTO>
+    ): Single<PublicationDTO>
 
     @DELETE("$URL_API_END_POINT_PUBLICATION/{id}/")
     fun deletePublication(
         @Path("id") idPublication: String,
         @Query(API_KEY) apikey: String,
-    ): Call<Unit>
+    ): Completable
 
     @DELETE("$URL_API_END_POINT_LIKE{id}")
     fun deleteLike(
         @Path("id") idLike: String,
         @Query(API_KEY) apikey: String,
-    ): Call<Unit>
+    ): Completable
 }
