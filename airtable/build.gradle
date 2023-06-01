@@ -20,6 +20,9 @@ android {
         properties.load(project.rootProject.file("apikey.properties").newDataInputStream())
         def apikey = properties.getProperty("api_key", "")
         it.buildConfigField "String", "API_KEY", apikey
+
+        def idComplaint = properties.getProperty("id_complaint", "")
+        it.buildConfigField "String", "ID_COMPLAINT",idComplaint
     }
 
     buildTypes {

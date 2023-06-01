@@ -12,10 +12,10 @@ import com.myblogtour.blogtour.domain.ImageEntity
 class HomeImagePublicationRecyclerAdapter :
     RecyclerView.Adapter<HomeImagePublicationRecyclerAdapter.ViewHolderImagePublication>() {
 
-    private var listImagePublication: MutableList<ImageEntity> = mutableListOf()
+    private var listImagePublication: List<ImageEntity> = listOf()
 
     fun setListImagePublication(listImage: List<ImageEntity>) {
-        this.listImagePublication = listImage.toMutableList()
+        this.listImagePublication = listImage
         notifyDataSetChanged()
     }
 
