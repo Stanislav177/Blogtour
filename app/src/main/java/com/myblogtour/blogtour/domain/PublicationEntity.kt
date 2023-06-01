@@ -18,7 +18,7 @@ data class PublicationEntity(
 )
 
 data class ImageEntity(
-    val url: String? = null, // url image
+    val url: String? = null // url image
 )
 
 data class ListImagePublication(

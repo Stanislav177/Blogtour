@@ -41,7 +41,6 @@ class HomeRecyclerAdapter(private var myOnClickListener: MyOnClickListener) :
             val imageAdapter: HomeImagePublicationRecyclerAdapter by lazy {
                 HomeImagePublicationRecyclerAdapter()
             }
-            val imageNUll = post.urlImage.size
             ItemRecyclerBlogCarouselBinding.bind(itemView).apply {
                 rvImagePublication.adapter = imageAdapter
                 rvImagePublication.layoutManager =

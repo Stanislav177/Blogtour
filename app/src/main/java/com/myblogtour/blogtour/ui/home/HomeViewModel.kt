@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
+import com.myblogtour.airtable.BuildConfig
 import com.myblogtour.blogtour.appState.AppStateListBlog
 import com.myblogtour.blogtour.domain.repository.AuthFirebaseRepository
 import com.myblogtour.blogtour.domain.repository.PublicationRepository
@@ -134,9 +135,9 @@ class HomeViewModel(
         }
     }
 
-    fun updatePublicationComplaint(idPublication: String, complaintId: String) {
+    fun updatePublicationComplaint(idPublication: String) {
         val complaintIdArray = JsonArray()
-        complaintIdArray.add(complaintId)
+        complaintIdArray.add(BuildConfig.ID_COMPLAINT)
         val complaint = JsonObject()
         complaint.add("Complaint", complaintIdArray)
         val updateFieldsComplaint = JsonObject()

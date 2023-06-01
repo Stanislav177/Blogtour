@@ -3,9 +3,8 @@ package com.myblogtour.blogtour.ui.myPublication
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import coil.load
-import com.myblogtour.blogtour.R
 import com.myblogtour.blogtour.databinding.ItemRecyclerViewMyPublicationBinding
 import com.myblogtour.blogtour.domain.PublicationEntity
 
@@ -13,6 +12,8 @@ class MyPublicationRecyclerView(val myOnItemClickListener: MyOnItemClickListener
     RecyclerView.Adapter<MyPublicationRecyclerView.ViewHolderMyPublication>() {
 
     private var myPublicationList: MutableList<PublicationEntity> = mutableListOf()
+
+
 
     fun setMyPublicationList(listMyPublication: List<PublicationEntity>) {
         this.myPublicationList = listMyPublication.toMutableList()
@@ -37,19 +38,24 @@ class MyPublicationRecyclerView(val myOnItemClickListener: MyOnItemClickListener
 
     inner class ViewHolderMyPublication(view: View) : RecyclerView.ViewHolder(view) {
         fun bind(publication: PublicationEntity) {
+            val adapter: MyPublicationImageCarousel by lazy { MyPublicationImageCarousel() }
+
             val imageSize = publication.urlImage.size
 
             ItemRecyclerViewMyPublicationBinding.bind(itemView).run {
                 if (imageSize != 0) {
-                    imageMyPublication.load(publication.urlImage[0].url){
-                        placeholder(R.drawable.ic_load_image)
-                    }
+                    imageMyPublicationRV.adapter = adapter
+                    imageMyPublicationRV.layoutManager =
+                        LinearLayoutManager(
+                            itemView.context, LinearLayoutManager.HORIZONTAL, false)
+                    adapter.setImageList(publication.urlImage)
                 }
                 textViewDatePublication.text = publication.date
                 textViewMyPublication.text = publication.text
                 textViewCounterLikeMyPublication.text = " - ${publication.counterLike}"
                 btnDeletePublication.setOnClickListener {
-                    myOnItemClickListener.onClickDeletePublication(publication.id, publication.idCounterLike)
+                    myOnItemClickListener.onClickDeletePublication(publication.id,
+                        publication.idCounterLike)
                     myPublicationList.removeAt(layoutPosition)
                     notifyItemRemoved(layoutPosition)
                 }

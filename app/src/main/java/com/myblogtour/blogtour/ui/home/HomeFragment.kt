@@ -67,7 +67,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
     }
 
     override fun onItemClickComplaintPublication(id: String) {
-        postViewModel.updatePublicationComplaint(id, "reclgZz33yDk5wOML")
+        postViewModel.updatePublicationComplaint(id, )
     }
 
     override fun onItemClickMore(item: ItemRecyclerBlogCarouselBinding) {
