@@ -35,7 +35,9 @@ class HomeImagePublicationRecyclerAdapter :
         fun bind(image: ImageEntity, size: Int) {
             ItemImageCarouselBinding.bind(itemView).apply {
                 imagePublication.load(image.url)
-                counterImagePublication.text = "${layoutPosition+1}/$size"
+                if (size > 1) {
+                    counterImagePublication.text = "${layoutPosition + 1}/$size"
+                }
             }
         }
     }
