@@ -18,7 +18,7 @@
             android:layout_width="150dp"
             android:layout_height="150dp"
             android:layout_margin="5dp"
-            tools:listitem="@layout/item_image_carousel"
+            tools:listitem="@layout/item_image_carousel_my_publication"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
