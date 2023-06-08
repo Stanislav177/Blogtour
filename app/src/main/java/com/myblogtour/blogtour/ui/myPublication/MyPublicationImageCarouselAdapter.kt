@@ -8,8 +8,8 @@ import coil.load
 import com.myblogtour.blogtour.databinding.ItemImageCarouselMyPublicationBinding
 import com.myblogtour.blogtour.domain.ImageEntity
 
-class MyPublicationImageCarousel :
-    RecyclerView.Adapter<MyPublicationImageCarousel.ViewHolderCarouselImageMyPublication>() {
+class MyPublicationImageCarouselAdapter :
+    RecyclerView.Adapter<MyPublicationImageCarouselAdapter.ViewHolderCarouselImageMyPublication>() {
 
     private var listImage: List<ImageEntity> = listOf()
 
@@ -30,18 +30,15 @@ class MyPublicationImageCarousel :
     }
 
     override fun onBindViewHolder(holder: ViewHolderCarouselImageMyPublication, position: Int) {
-        holder.bind(listImage[position], itemCount)
+        holder.bind(listImage[position])
     }
 
     override fun getItemCount() = listImage.size
 
     inner class ViewHolderCarouselImageMyPublication(view: View) : RecyclerView.ViewHolder(view) {
-        fun bind(image: ImageEntity, size: Int) {
+        fun bind(image: ImageEntity) {
             ItemImageCarouselMyPublicationBinding.bind(itemView).apply {
                 imageMyPublication.load(image.url)
-                if (size > 1) {
-                    counterImageMyPublication.text = "${layoutPosition + 1}/${size}"
-                }
             }
         }
     }

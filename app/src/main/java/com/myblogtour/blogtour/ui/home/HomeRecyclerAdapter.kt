@@ -3,12 +3,11 @@ package com.myblogtour.blogtour.ui.home
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import coil.transform.CircleCropTransformation
+import com.google.android.material.tabs.TabLayoutMediator
 import com.myblogtour.blogtour.R
-import com.myblogtour.blogtour.databinding.ItemRecyclerBlogBinding
 import com.myblogtour.blogtour.databinding.ItemRecyclerBlogCarouselBinding
 import com.myblogtour.blogtour.domain.PublicationEntity
 
@@ -42,10 +41,8 @@ class HomeRecyclerAdapter(private var myOnClickListener: MyOnClickListener) :
                 HomeImagePublicationRecyclerAdapter()
             }
             ItemRecyclerBlogCarouselBinding.bind(itemView).apply {
-                rvImagePublication.adapter = imageAdapter
-                rvImagePublication.layoutManager =
-                    LinearLayoutManager(itemView.context, LinearLayoutManager.HORIZONTAL, false)
-                imageAdapter.setListImagePublication(post.urlImage)
+                adapterImageCarousel(imageAdapter, post)
+
                 nickNameTextView.text = post.nickNameUserProfile
                 location.text = post.location
                 countLike.text = post.counterLike.toString()
@@ -111,6 +108,26 @@ class HomeRecyclerAdapter(private var myOnClickListener: MyOnClickListener) :
                     myOnClickListener.onItemClickMore(ItemRecyclerBlogCarouselBinding.bind(itemView)
                         .apply { this })
                 }
+            }
+        }
+
+        private fun ItemRecyclerBlogCarouselBinding.adapterImageCarousel(
+            imageAdapter: HomeImagePublicationRecyclerAdapter,
+            post: PublicationEntity,
+        ) {
+            imagePublicationVP.adapter = imageAdapter
+            if (post.urlImage.size > 1) {
+                imageAdapter.setListImagePublication(post.urlImage)
+                TabLayoutMediator(tabLayout, imagePublicationVP) { _, _ ->
+                    imagePublicationVP.apply {
+                        clipChildren = false
+                        clipToPadding = false
+                        (getChildAt(0) as RecyclerView).overScrollMode =
+                            RecyclerView.OVER_SCROLL_NEVER
+                    }
+                }.attach()
+            } else {
+                imageAdapter.setListImagePublication(post.urlImage)
             }
         }
     }
