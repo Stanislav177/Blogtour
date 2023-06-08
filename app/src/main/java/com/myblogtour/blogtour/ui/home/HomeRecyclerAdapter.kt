@@ -3,12 +3,11 @@ package com.myblogtour.blogtour.ui.home
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import coil.transform.CircleCropTransformation
+import com.google.android.material.tabs.TabLayoutMediator
 import com.myblogtour.blogtour.R
-import com.myblogtour.blogtour.databinding.ItemRecyclerBlogBinding
 import com.myblogtour.blogtour.databinding.ItemRecyclerBlogCarouselBinding
 import com.myblogtour.blogtour.domain.PublicationEntity
 
@@ -42,10 +41,18 @@ class HomeRecyclerAdapter(private var myOnClickListener: MyOnClickListener) :
                 HomeImagePublicationRecyclerAdapter()
             }
             ItemRecyclerBlogCarouselBinding.bind(itemView).apply {
-                rvImagePublication.adapter = imageAdapter
-                rvImagePublication.layoutManager =
-                    LinearLayoutManager(itemView.context, LinearLayoutManager.HORIZONTAL, false)
                 imageAdapter.setListImagePublication(post.urlImage)
+                rvImagePublication.adapter = imageAdapter
+                TabLayoutMediator(tabLayout, rvImagePublication) { tab, position ->
+                    rvImagePublication.apply {
+                        clipChildren = false
+                        clipToPadding = false
+                        // offscreenPageLimit = 1
+                        (getChildAt(0) as RecyclerView).overScrollMode =
+                            RecyclerView.OVER_SCROLL_NEVER
+                    }
+                }.attach()
+
                 nickNameTextView.text = post.nickNameUserProfile
                 location.text = post.location
                 countLike.text = post.counterLike.toString()

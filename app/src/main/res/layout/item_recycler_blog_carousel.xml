@@ -55,15 +55,43 @@
             app:layout_constraintTop_toTopOf="parent" />
 
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvImagePublication"
+        <RelativeLayout
+            android:id="@+id/relativeLayout"
             android:layout_width="match_parent"
             android:layout_height="470dp"
-            android:layout_marginTop="3dp"
-            tools:listitem="@layout/item_image_carousel"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/location" />
+            app:layout_constraintTop_toBottomOf="@+id/location">
+
+            <androidx.viewpager2.widget.ViewPager2
+                android:id="@+id/rvImagePublication"
+                android:layout_width="match_parent"
+                android:layout_height="470dp"
+                android:layout_marginTop="3dp" />
+
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/tabLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_gravity="bottom|center"
+                android:background="@android:color/transparent"
+                app:tabBackground="@drawable/tab_selector"
+                app:tabGravity="center"
+                app:tabIndicatorHeight="0dp"
+                app:tabSelectedTextColor="@android:color/transparent"
+                app:tabTextColor="@android:color/transparent" />
+        </RelativeLayout>
+
+
+        <!--        <androidx.recyclerview.widget.RecyclerView-->
+        <!--            android:id="@+id/rvImagePublication"-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="470dp"-->
+        <!--            android:layout_marginTop="3dp"-->
+        <!--            tools:listitem="@layout/item_image_carousel"-->
+        <!--            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"-->
+        <!--            app:layout_constraintStart_toStartOf="parent"-->
+        <!--            app:layout_constraintTop_toBottomOf="@+id/location" />-->
 
         <LinearLayout
             android:id="@+id/moreMenuPublication"
@@ -97,7 +125,7 @@
             android:layout_marginBottom="10dp"
             android:background="@drawable/ic_like_off"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/rvImagePublication" />
+            app:layout_constraintTop_toBottomOf="@id/relativeLayout" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/countLike"
