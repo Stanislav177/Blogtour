@@ -41,17 +41,7 @@ class HomeRecyclerAdapter(private var myOnClickListener: MyOnClickListener) :
                 HomeImagePublicationRecyclerAdapter()
             }
             ItemRecyclerBlogCarouselBinding.bind(itemView).apply {
-                imageAdapter.setListImagePublication(post.urlImage)
-                rvImagePublication.adapter = imageAdapter
-                TabLayoutMediator(tabLayout, rvImagePublication) { tab, position ->
-                    rvImagePublication.apply {
-                        clipChildren = false
-                        clipToPadding = false
-                        // offscreenPageLimit = 1
-                        (getChildAt(0) as RecyclerView).overScrollMode =
-                            RecyclerView.OVER_SCROLL_NEVER
-                    }
-                }.attach()
+                adapterImageCarousel(imageAdapter, post)
 
                 nickNameTextView.text = post.nickNameUserProfile
                 location.text = post.location
@@ -118,6 +108,26 @@ class HomeRecyclerAdapter(private var myOnClickListener: MyOnClickListener) :
                     myOnClickListener.onItemClickMore(ItemRecyclerBlogCarouselBinding.bind(itemView)
                         .apply { this })
                 }
+            }
+        }
+
+        private fun ItemRecyclerBlogCarouselBinding.adapterImageCarousel(
+            imageAdapter: HomeImagePublicationRecyclerAdapter,
+            post: PublicationEntity,
+        ) {
+            imagePublicationVP.adapter = imageAdapter
+            if (post.urlImage.size > 1) {
+                imageAdapter.setListImagePublication(post.urlImage)
+                TabLayoutMediator(tabLayout, imagePublicationVP) { _, _ ->
+                    imagePublicationVP.apply {
+                        clipChildren = false
+                        clipToPadding = false
+                        (getChildAt(0) as RecyclerView).overScrollMode =
+                            RecyclerView.OVER_SCROLL_NEVER
+                    }
+                }.attach()
+            } else {
+                imageAdapter.setListImagePublication(post.urlImage)
             }
         }
     }

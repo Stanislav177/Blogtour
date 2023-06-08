@@ -13,15 +13,32 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/imageMyPublicationRV"
+        <RelativeLayout
+            android:id="@+id/relativeLayoutMyPublication"
             android:layout_width="150dp"
             android:layout_height="150dp"
-            android:layout_margin="5dp"
-            tools:listitem="@layout/item_image_carousel_my_publication"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.viewpager2.widget.ViewPager2
+                android:id="@+id/imageMyPublicationVP"
+                android:layout_width="150dp"
+                android:layout_height="150dp" />
+
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/tabLayoutMyPublication"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_gravity="bottom|center"
+                android:background="@android:color/transparent"
+                app:tabBackground="@drawable/tab_selector"
+                app:tabGravity="center"
+                app:tabIndicatorHeight="0dp"
+                app:tabSelectedTextColor="@android:color/transparent"
+                app:tabTextColor="@android:color/transparent" />
+        </RelativeLayout>
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/datePublicationLocal"
@@ -31,7 +48,7 @@
             android:text="Дата публикации: "
             android:textSize="10sp"
             app:layout_constraintStart_toStartOf="@+id/barrierMyPublication"
-            app:layout_constraintTop_toTopOf="@+id/imageMyPublicationRV" />
+            app:layout_constraintTop_toTopOf="@+id/relativeLayoutMyPublication" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/textViewDatePublication"
@@ -48,7 +65,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:barrierDirection="end"
-            app:constraint_referenced_ids="imageMyPublicationRV" />
+            app:constraint_referenced_ids="relativeLayoutMyPublication" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/textLocalPublication"

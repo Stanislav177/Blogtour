@@ -26,17 +26,15 @@ class HomeImagePublicationRecyclerAdapter :
     }
 
     override fun onBindViewHolder(holder: ViewHolderImagePublication, position: Int) {
-        holder.bind(this.listImagePublication[position], itemCount)
+        holder.bind(this.listImagePublication[position])
     }
 
     override fun getItemCount() = listImagePublication.size
 
     inner class ViewHolderImagePublication(view: View) : ViewHolder(view) {
-        fun bind(image: ImageEntity, size: Int) {
+        fun bind(image: ImageEntity) {
             ItemImageCarouselBinding.bind(itemView).apply {
                 imagePublication.load(image.url)
-                val layoutPosition = layoutPosition + 1
-                val l = layoutPosition
             }
         }
     }

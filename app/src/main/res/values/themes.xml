@@ -35,7 +35,7 @@
     </style>
 
     <style name="MyFloatButton" parent="Widget.MaterialComponents.FloatingActionButton">
-        <item name="backgroundTint">#E64A19</item>
+        <item name="backgroundTint">@color/orange</item>
     </style>
 
     <style name="MyButton" parent="Widget.MaterialComponents.Button">

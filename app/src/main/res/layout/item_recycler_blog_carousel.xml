@@ -63,7 +63,7 @@
             app:layout_constraintTop_toBottomOf="@+id/location">
 
             <androidx.viewpager2.widget.ViewPager2
-                android:id="@+id/rvImagePublication"
+                android:id="@+id/imagePublicationVP"
                 android:layout_width="match_parent"
                 android:layout_height="470dp"
                 android:layout_marginTop="3dp" />
@@ -81,17 +81,6 @@
                 app:tabSelectedTextColor="@android:color/transparent"
                 app:tabTextColor="@android:color/transparent" />
         </RelativeLayout>
-
-
-        <!--        <androidx.recyclerview.widget.RecyclerView-->
-        <!--            android:id="@+id/rvImagePublication"-->
-        <!--            android:layout_width="match_parent"-->
-        <!--            android:layout_height="470dp"-->
-        <!--            android:layout_marginTop="3dp"-->
-        <!--            tools:listitem="@layout/item_image_carousel"-->
-        <!--            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"-->
-        <!--            app:layout_constraintStart_toStartOf="parent"-->
-        <!--            app:layout_constraintTop_toBottomOf="@+id/location" />-->
 
         <LinearLayout
             android:id="@+id/moreMenuPublication"
