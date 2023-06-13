@@ -108,6 +108,9 @@ class HomeRecyclerAdapter(private var myOnClickListener: MyOnClickListener) :
                     myOnClickListener.onItemClickMore(ItemRecyclerBlogCarouselBinding.bind(itemView)
                         .apply { this })
                 }
+                location.setOnClickListener {
+                    myOnClickListener.onItemClickLocation()
+                }
             }
         }
 

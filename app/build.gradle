@@ -4,6 +4,7 @@ plugins {
     id 'kotlin-android'
     id 'kotlin-parcelize'
     id 'com.google.gms.google-services'
+    id 'com.google.android.libraries.mapsplatform.secrets-gradle-plugin'
 
 }
 apply plugin: 'kotlin-android'
@@ -17,8 +18,8 @@ android {
         applicationId "com.myblogtour.blogtour"
         minSdk 26
         targetSdk 33
-        versionCode 5
-        versionName "3.0.5"
+        versionCode 6
+        versionName "3.0.6"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -64,6 +65,7 @@ dependencies {
     implementation "io.reactivex.rxjava3:rxjava:3.1.6"
     implementation 'io.reactivex.rxjava3:rxandroid:3.0.2'
     implementation("io.reactivex.rxjava3:rxkotlin:3.0.1")
+    implementation 'com.google.android.gms:play-services-maps:18.1.0'
 
     def koin_version = "3.3.3"
     implementation "io.insert-koin:koin-core:$koin_version"

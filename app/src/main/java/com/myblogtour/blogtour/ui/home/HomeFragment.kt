@@ -6,9 +6,11 @@ import android.animation.ObjectAnimator
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import com.myblogtour.blogtour.R
 import com.myblogtour.blogtour.appState.AppStateListBlog
 import com.myblogtour.blogtour.databinding.FragmentHomeBinding
 import com.myblogtour.blogtour.databinding.ItemRecyclerBlogCarouselBinding
+import com.myblogtour.blogtour.ui.googleMaps.GoogleMapsFragment
 import com.myblogtour.blogtour.utils.BaseFragment
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -66,6 +68,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
 
     override fun onItemClickMore(item: ItemRecyclerBlogCarouselBinding) {
         moreMenuPublication(item)
+    }
+
+    override fun onItemClickLocation() {
+        requireActivity().supportFragmentManager.beginTransaction()
+            .replace(R.id.containerFragment, GoogleMapsFragment()).commit()
     }
 
     private fun moreMenuPublication(item: ItemRecyclerBlogCarouselBinding) {
