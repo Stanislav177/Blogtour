@@ -30,8 +30,8 @@ class YandexMapsFragment :
         super.onViewCreated(view, savedInstanceState)
         MapKitFactory.initialize(requireActivity())
         with(binding) {
-            mapview.map.move(CameraPosition(Point(lat, lon), 14.0f, 0f, 0f),
-                Animation(Animation.Type.SMOOTH, 0f),
+            mapview.map.move(CameraPosition(Point(lat, lon), 17.0f, 0f, 0f),
+                Animation(Animation.Type.SMOOTH, 2f),
                 null)
         }
     }
