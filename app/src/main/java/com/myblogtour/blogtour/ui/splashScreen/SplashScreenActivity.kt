@@ -8,6 +8,7 @@ import android.os.Handler
 import android.os.Looper
 import android.view.View
 import android.view.animation.AnticipateInterpolator
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.animation.doOnEnd
 import androidx.core.splashscreen.SplashScreen
@@ -38,8 +39,11 @@ class SplashScreenActivity : AppCompatActivity() {
         }, 2500)
     }
 
+    @RequiresApi(31)
     private fun showSplashScreen(splashScreen: SplashScreen) {
-        splashScreen.setKeepOnScreenCondition { true }
+        splashScreen.setKeepOnScreenCondition {
+            true
+        }
         Executors.newSingleThreadExecutor().execute {
             Thread.sleep(2000)
             splashScreen.setKeepOnScreenCondition {

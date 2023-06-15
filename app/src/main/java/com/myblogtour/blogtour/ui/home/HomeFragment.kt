@@ -6,9 +6,12 @@ import android.animation.ObjectAnimator
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import com.myblogtour.blogtour.R
 import com.myblogtour.blogtour.appState.AppStateListBlog
 import com.myblogtour.blogtour.databinding.FragmentHomeBinding
 import com.myblogtour.blogtour.databinding.ItemRecyclerBlogCarouselBinding
+import com.myblogtour.blogtour.ui.maps.GoogleMapsFragment
+import com.myblogtour.blogtour.ui.maps.YandexMapsFragment
 import com.myblogtour.blogtour.utils.BaseFragment
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -66,6 +69,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
 
     override fun onItemClickMore(item: ItemRecyclerBlogCarouselBinding) {
         moreMenuPublication(item)
+    }
+
+    override fun onItemClickLocation() {
+        requireActivity().supportFragmentManager.beginTransaction()
+            .add(R.id.containerFragment, YandexMapsFragment()).commit()
     }
 
     private fun moreMenuPublication(item: ItemRecyclerBlogCarouselBinding) {

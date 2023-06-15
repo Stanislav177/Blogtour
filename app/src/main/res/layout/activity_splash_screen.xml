@@ -8,6 +8,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        app:srcCompat="@mipmap/ic_app" />
+        android:src="@mipmap/ic_app" />
 
 </FrameLayout>
