@@ -4,6 +4,8 @@ data class PublicationEntity(
     val id: String, // id поста
     val text: String, // текст
     val location: String, // city
+    val lat: Double, // широта
+    val lon: Double, // долгота
     val urlImage: List<ImageEntity>, // картинка
     val userProfile: String, // id пользователя
     val iconFromUserProfile: String, //icon
@@ -18,9 +20,5 @@ data class PublicationEntity(
 )
 
 data class ImageEntity(
-    val url: String? = null // url image
-)
-
-data class ListImagePublication(
-    val listImageUrl: List<ImageEntity>,
+    val url: String? = null, // url image
 )

@@ -7,5 +7,5 @@ interface MyOnClickListener {
     fun onItemClickLikeError()
     fun onItemClickComplaintPublication(id: String)
     fun onItemClickMore(item: ItemRecyclerBlogCarouselBinding)
-    fun onItemClickLocation()
+    fun onItemClickLocation(lat: Double, lon: Double)
 }

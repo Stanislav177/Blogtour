@@ -10,7 +10,6 @@ import com.myblogtour.blogtour.R
 import com.myblogtour.blogtour.appState.AppStateListBlog
 import com.myblogtour.blogtour.databinding.FragmentHomeBinding
 import com.myblogtour.blogtour.databinding.ItemRecyclerBlogCarouselBinding
-import com.myblogtour.blogtour.ui.maps.GoogleMapsFragment
 import com.myblogtour.blogtour.ui.maps.YandexMapsFragment
 import com.myblogtour.blogtour.utils.BaseFragment
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -71,9 +70,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
         moreMenuPublication(item)
     }
 
-    override fun onItemClickLocation() {
+    override fun onItemClickLocation(lat: Double, lon: Double) {
         requireActivity().supportFragmentManager.beginTransaction()
-            .add(R.id.containerFragment, YandexMapsFragment()).commit()
+            .replace(R.id.containerFragment, YandexMapsFragment.newInstance(lat, lon))
+            .addToBackStack("").commit()
     }
 
     private fun moreMenuPublication(item: ItemRecyclerBlogCarouselBinding) {

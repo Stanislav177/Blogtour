@@ -23,6 +23,8 @@ fun converterFromDtoToPublicationEntity(
                 publicationDTO.records[i].id,
                 publicationDTO.records[i].fields.text,
                 publicationDTO.records[i].fields.location,
+                publicationDTO.records[i].fields.lat.toDouble(),
+                publicationDTO.records[i].fields.lon.toDouble(),
                 converterUrlImageDto(publicationDTO.records[i].fields.image),
                 converterUserProfileIdDto(publicationDTO.records[i].fields.userprofile),
                 converterIconUserDto(publicationDTO.records[i].fields.iconprofile),
