@@ -21,6 +21,8 @@ data class FieldsPublication(
     val id: Long,
     val text: String,
     val location: String,
+    val lat: String,
+    val lon: String,
     val userprofile: List<String>,
     val image: List<ImagePublication>,
     val iconprofile: List<IconUser>,
@@ -29,7 +31,7 @@ data class FieldsPublication(
     val countlike: List<Long>?,
     val iduserprofile: List<String>,
     val date: String,
-    val idcounterlike: List<String>
+    val idcounterlike: List<String>,
 ) : Parcelable
 
 @Parcelize
@@ -45,7 +47,7 @@ data class ImagePublication(
 
 data class RecordUserProfileDTO(
     val id: String,
-    val fields: FieldsUserProfileDTO
+    val fields: FieldsUserProfileDTO,
 )
 
 data class FieldsUserProfileDTO(
@@ -57,7 +59,7 @@ data class FieldsUserProfileDTO(
     val likePublication: List<String>,
     val location: String,
     val datebirth: String,
-    val usergender: Int
+    val usergender: Int,
 )
 
 data class Record(
@@ -70,5 +72,5 @@ data class Fields(
     val id: Long,
     val location: String,
     val likeCount: Long,
-    val text: String
+    val text: String,
 )

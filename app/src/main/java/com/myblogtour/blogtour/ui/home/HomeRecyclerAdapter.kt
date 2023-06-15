@@ -109,7 +109,8 @@ class HomeRecyclerAdapter(private var myOnClickListener: MyOnClickListener) :
                         .apply { this })
                 }
                 location.setOnClickListener {
-                    myOnClickListener.onItemClickLocation()
+                    myOnClickListener.onItemClickLocation(listPost[layoutPosition].lat,
+                        listPost[layoutPosition].lon)
                 }
             }
         }
