@@ -16,8 +16,11 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.myblogtour.blogtour.R
 import com.myblogtour.blogtour.databinding.FragmentAddPublicationBinding
 import com.myblogtour.blogtour.domain.ImagePublicationEntity
+import com.myblogtour.blogtour.ui.maps.Search
+import com.myblogtour.blogtour.ui.maps.YandexMapsSearchFragment
 import com.myblogtour.blogtour.utils.BaseFragment
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -64,6 +67,9 @@ class AddPublicationFragment :
             }
             currentLocation.setOnClickListener {
                 checkPermissionLocation()
+//                requireActivity().supportFragmentManager.beginTransaction()
+//                    .add(R.id.containerFragment, YandexMapsSearchFragment()).addToBackStack("")
+//                    .commit()
             }
         }
     }

@@ -5,8 +5,8 @@ plugins {
     id 'kotlin-parcelize'
     id 'com.google.gms.google-services'
     id 'com.google.android.libraries.mapsplatform.secrets-gradle-plugin'
-
 }
+
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 
@@ -68,9 +68,7 @@ android {
 }
 
 dependencies {
-    implementation 'com.yandex.android:maps.mobile:4.3.1-lite'
     implementation 'com.yandex.android:maps.mobile:4.3.1-full'
-
 
     implementation 'com.squareup.retrofit2:adapter-rxjava3:2.9.0'
 
