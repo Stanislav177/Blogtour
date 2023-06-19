@@ -19,7 +19,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.myblogtour.blogtour.R
 import com.myblogtour.blogtour.databinding.FragmentAddPublicationBinding
 import com.myblogtour.blogtour.domain.ImagePublicationEntity
-import com.myblogtour.blogtour.ui.maps.Search
 import com.myblogtour.blogtour.ui.maps.YandexMapsSearchFragment
 import com.myblogtour.blogtour.utils.BaseFragment
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -59,7 +58,7 @@ class AddPublicationFragment :
             publishBtnAddPost.setOnClickListener {
                 viewModel.dataPublication(
                     editTextPost.text.toString(),
-                    editTextLocation.text.toString()
+                    locationPublication.text.toString()
                 )
             }
             attachPhotoAddPost.setOnClickListener {
@@ -67,9 +66,11 @@ class AddPublicationFragment :
             }
             currentLocation.setOnClickListener {
                 checkPermissionLocation()
-//                requireActivity().supportFragmentManager.beginTransaction()
-//                    .add(R.id.containerFragment, YandexMapsSearchFragment()).addToBackStack("")
-//                    .commit()
+            }
+            openMapsSearch.setOnClickListener {
+                requireActivity().supportFragmentManager.beginTransaction()
+                    .add(R.id.containerFragment, YandexMapsSearchFragment()).addToBackStack("")
+                    .commit()
             }
         }
     }
@@ -112,7 +113,10 @@ class AddPublicationFragment :
                 showToast(it)
             }
             address.observe(viewLifecycleOwner) {
-                binding.editTextLocation.text = it
+                with(binding){
+                    locationPublication.text = ""
+                    locationPublication.text = it
+                }
             }
             counterImage.observe(viewLifecycleOwner) {
                 if (it) {
@@ -232,7 +236,7 @@ class AddPublicationFragment :
                 viewModel.deleteImage()
                 viewModel.flagAddPublication(true)
                 editTextPost.text.clear()
-                editTextLocation.text.clear()
+                locationPublication.text = ""
                 adapterImage.clearImageList()
             }
         } else {

@@ -1,7 +1,6 @@
 package com.myblogtour.blogtour.ui.maps
 
 import android.content.Context
-import android.graphics.Color
 import android.graphics.PointF
 import android.os.Bundle
 import android.view.View
@@ -13,6 +12,8 @@ import com.myblogtour.blogtour.databinding.FragmentSearchYandexMapsBinding
 import com.myblogtour.blogtour.utils.BaseFragment
 import com.yandex.mapkit.MapKitFactory
 import com.yandex.mapkit.geometry.Point
+import com.yandex.mapkit.layers.GeoObjectTapEvent
+import com.yandex.mapkit.layers.GeoObjectTapListener
 import com.yandex.mapkit.layers.ObjectEvent
 import com.yandex.mapkit.map.*
 import com.yandex.mapkit.map.Map
@@ -29,26 +30,27 @@ import com.yandex.runtime.network.RemoteError
 class YandexMapsSearchFragment :
     BaseFragment<FragmentSearchYandexMapsBinding>(FragmentSearchYandexMapsBinding::inflate),
     UserLocationObjectListener, Session.SearchListener,
-    CameraListener {
+    CameraListener, GeoObjectTapListener, InputListener {
 
     private lateinit var locationmapkit: UserLocationLayer
     private lateinit var searchSession: Session
     private lateinit var searchManager: SearchManager
+    private lateinit var mapObjCollection: MapObjectCollection
     private var startSearch = false
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         MapKitFactory.initialize(requireActivity())
         SearchFactory.initialize(requireActivity())
-
         searchManager = SearchFactory.getInstance().createSearchManager(SearchManagerType.ONLINE)
-        val mapKit = MapKitFactory.getInstance()
-        locationmapkit = mapKit.createUserLocationLayer(binding.mapview.mapWindow)
-        locationmapkit.isVisible = true
-        locationmapkit.setObjectListener(this)
-        locationmapkit.isAutoZoomEnabled = true
-        binding.mapview.map.addCameraListener(this@YandexMapsSearchFragment)
+        initLocationKit()
+        initSearchClick()
+        mapObjCollection = binding.mapview.map.mapObjects
+        binding.mapview.map.addTapListener(this)
+        binding.mapview.map.addInputListener(this)
+    }
 
+    private fun initSearchClick() {
         binding.searchEdit.setOnEditorActionListener { _, i, _ ->
             if (i == EditorInfo.IME_ACTION_SEARCH) {
                 startSearch = true
@@ -59,6 +61,15 @@ class YandexMapsSearchFragment :
         }
     }
 
+    private fun initLocationKit() {
+        val mapKit = MapKitFactory.getInstance()
+        locationmapkit = mapKit.createUserLocationLayer(binding.mapview.mapWindow)
+        locationmapkit.isVisible = true
+        locationmapkit.setObjectListener(this)
+        locationmapkit.isAutoZoomEnabled = true
+        binding.mapview.map.addCameraListener(this@YandexMapsSearchFragment)
+    }
+
     override fun onCameraPositionChanged(
         map: Map,
         cameraPOsition: CameraPosition,
@@ -66,7 +77,7 @@ class YandexMapsSearchFragment :
         finished: Boolean,
     ) {
         if (finished) {
-            if (startSearch){
+            if (startSearch) {
                 submitQuery(binding.searchEdit.text.toString())
             }
         }
@@ -103,7 +114,6 @@ class YandexMapsSearchFragment :
     }
 
     override fun onSearchResponse(response: Response) {
-        val mapObjCollection = binding.mapview.map.mapObjects
         mapObjCollection.clear()
         for (searchResult in response.collection.children) {
             val point = searchResult.obj!!.geometry[0].point
@@ -146,4 +156,28 @@ class YandexMapsSearchFragment :
         }
     }
 
+    override fun onObjectTap(geo: GeoObjectTapEvent): Boolean {
+        val p = geo.geoObject
+            .metadataContainer.getItem(GeoObjectSelectionMetadata::class.java)
+        val point = geo.geoObject.geometry
+        for (i in point) {
+            mapObjCollection.clear()
+            mapObjCollection.addPlacemark(i.point!!,
+                ImageProvider.fromResource(requireActivity(), R.drawable.search_result))
+        }
+        if (p != null) {
+            binding.mapview.map.selectGeoObject(p.id, p.layerId)
+        }
+        return true
+    }
+
+    override fun onMapTap(p0: Map, p1: Point) {
+        binding.mapview.map.deselectGeoObject()
+        mapObjCollection.clear()
+        mapObjCollection.addPlacemark(p1,
+            ImageProvider.fromResource(requireActivity(), R.drawable.search_result))
+    }
+
+    override fun onMapLongTap(p0: Map, p1: Point) {
+    }
 }
