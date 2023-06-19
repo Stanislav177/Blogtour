@@ -9,6 +9,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import com.myblogtour.blogtour.R
 import com.myblogtour.blogtour.databinding.FragmentSearchYandexMapsBinding
+import com.myblogtour.blogtour.ui.maps.dialogLocationMap.DialogLocationMap
 import com.myblogtour.blogtour.utils.BaseFragment
 import com.yandex.mapkit.MapKitFactory
 import com.yandex.mapkit.geometry.Point
@@ -25,7 +26,6 @@ import com.yandex.runtime.Error
 import com.yandex.runtime.image.ImageProvider
 import com.yandex.runtime.network.NetworkError
 import com.yandex.runtime.network.RemoteError
-
 
 class YandexMapsSearchFragment :
     BaseFragment<FragmentSearchYandexMapsBinding>(FragmentSearchYandexMapsBinding::inflate),
@@ -157,25 +157,27 @@ class YandexMapsSearchFragment :
     }
 
     override fun onObjectTap(geo: GeoObjectTapEvent): Boolean {
-        val p = geo.geoObject
+        val geoObjectSelection = geo.geoObject
             .metadataContainer.getItem(GeoObjectSelectionMetadata::class.java)
         val point = geo.geoObject.geometry
         for (i in point) {
             mapObjCollection.clear()
             mapObjCollection.addPlacemark(i.point!!,
                 ImageProvider.fromResource(requireActivity(), R.drawable.search_result))
+            DialogLocationMap().show(requireActivity().supportFragmentManager, "")
         }
-        if (p != null) {
-            binding.mapview.map.selectGeoObject(p.id, p.layerId)
+        if (geoObjectSelection != null) {
+            binding.mapview.map.selectGeoObject(geoObjectSelection.id, geoObjectSelection.layerId)
         }
         return true
     }
 
-    override fun onMapTap(p0: Map, p1: Point) {
+    override fun onMapTap(p0: Map, point: Point) {
         binding.mapview.map.deselectGeoObject()
         mapObjCollection.clear()
-        mapObjCollection.addPlacemark(p1,
+        mapObjCollection.addPlacemark(point,
             ImageProvider.fromResource(requireActivity(), R.drawable.search_result))
+        DialogLocationMap().show(requireActivity().supportFragmentManager, "")
     }
 
     override fun onMapLongTap(p0: Map, p1: Point) {
