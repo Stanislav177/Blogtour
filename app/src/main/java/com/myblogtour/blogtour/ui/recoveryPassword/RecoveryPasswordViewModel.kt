@@ -7,7 +7,7 @@ import com.myblogtour.blogtour.appState.AppStateResetPassword
 import com.myblogtour.blogtour.domain.repository.AuthFirebaseRepository
 import com.myblogtour.blogtour.utils.validatorEmail.EmailValidatorPatternImpl
 
-class RecoveryPasswordViewModel(
+class  RecoveryPasswordViewModel(
     private val authFirebaseRepository: AuthFirebaseRepository,
     private val emailValidatorPattern: EmailValidatorPatternImpl = EmailValidatorPatternImpl(),
     private val liveData: MutableLiveData<AppStateResetPassword> = MutableLiveData()

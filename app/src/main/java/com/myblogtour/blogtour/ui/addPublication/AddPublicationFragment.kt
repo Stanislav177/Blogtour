@@ -19,7 +19,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.myblogtour.blogtour.R
 import com.myblogtour.blogtour.databinding.FragmentAddPublicationBinding
 import com.myblogtour.blogtour.domain.ImagePublicationEntity
-import com.myblogtour.blogtour.ui.maps.YandexMapsSearchFragment
+import com.myblogtour.blogtour.ui.maps.searchMapAddress.YandexMapsSearchFragment
 import com.myblogtour.blogtour.utils.BaseFragment
 import org.koin.androidx.viewmodel.ext.android.viewModel
 

@@ -17,7 +17,6 @@ class RecoveryPasswordFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initView()
-
         viewModel.getLiveData().observe(viewLifecycleOwner) {
             answerResetPassword(it)
         }

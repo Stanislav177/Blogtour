@@ -13,5 +13,16 @@ class DialogLocationMap :
         binding.btnOkLocation.setOnClickListener {
             dismiss()
         }
+        arguments?.getString("ADDRESS")?.let {
+            binding.locationMap.text = it
+        }
+    }
+
+    companion object {
+        fun newInstance(address: String?) = DialogLocationMap().apply {
+            arguments = Bundle().apply {
+                putString("ADDRESS", address)
+            }
+        }
     }
 }

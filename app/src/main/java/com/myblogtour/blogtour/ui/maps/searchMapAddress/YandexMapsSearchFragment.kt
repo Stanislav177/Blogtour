@@ -1,4 +1,4 @@
-package com.myblogtour.blogtour.ui.maps
+package com.myblogtour.blogtour.ui.maps.searchMapAddress
 
 import android.content.Context
 import android.graphics.PointF
@@ -9,8 +9,10 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import com.myblogtour.blogtour.R
 import com.myblogtour.blogtour.databinding.FragmentSearchYandexMapsBinding
+import com.myblogtour.blogtour.ui.maps.appStateMaps.AppStateSearchMapObj
 import com.myblogtour.blogtour.ui.maps.dialogLocationMap.DialogLocationMap
 import com.myblogtour.blogtour.utils.BaseFragment
+import com.yandex.mapkit.MapKit
 import com.yandex.mapkit.MapKitFactory
 import com.yandex.mapkit.geometry.Point
 import com.yandex.mapkit.layers.GeoObjectTapEvent
@@ -18,43 +20,64 @@ import com.yandex.mapkit.layers.GeoObjectTapListener
 import com.yandex.mapkit.layers.ObjectEvent
 import com.yandex.mapkit.map.*
 import com.yandex.mapkit.map.Map
-import com.yandex.mapkit.search.*
+import com.yandex.mapkit.search.SearchFactory
 import com.yandex.mapkit.user_location.UserLocationLayer
 import com.yandex.mapkit.user_location.UserLocationObjectListener
 import com.yandex.mapkit.user_location.UserLocationView
-import com.yandex.runtime.Error
 import com.yandex.runtime.image.ImageProvider
-import com.yandex.runtime.network.NetworkError
-import com.yandex.runtime.network.RemoteError
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class YandexMapsSearchFragment :
     BaseFragment<FragmentSearchYandexMapsBinding>(FragmentSearchYandexMapsBinding::inflate),
-    UserLocationObjectListener, Session.SearchListener,
+    UserLocationObjectListener,
     CameraListener, GeoObjectTapListener, InputListener {
 
     private lateinit var locationmapkit: UserLocationLayer
-    private lateinit var searchSession: Session
-    private lateinit var searchManager: SearchManager
     private lateinit var mapObjCollection: MapObjectCollection
+    private lateinit var mapKit: MapKit
     private var startSearch = false
+
+    private val viewModelYandexSearch: YandexMapsSearchViewModel by viewModel()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         MapKitFactory.initialize(requireActivity())
         SearchFactory.initialize(requireActivity())
-        searchManager = SearchFactory.getInstance().createSearchManager(SearchManagerType.ONLINE)
+        mapKit = MapKitFactory.getInstance()
         initLocationKit()
         initSearchClick()
         mapObjCollection = binding.mapview.map.mapObjects
         binding.mapview.map.addTapListener(this)
         binding.mapview.map.addInputListener(this)
+
+        viewModelYandexSearch.getLiveData().observe(viewLifecycleOwner) {
+            when (it) {
+                is AppStateSearchMapObj.Error -> {
+                    toast(it.error)
+                }
+                is AppStateSearchMapObj.Success -> {
+                    for (searchResult in it.listGeo) {
+                        val point = searchResult.obj!!.geometry[0].point
+                        if (point != null) {
+                            mapObjCollection.addPlacemark(Point(point.latitude, point.longitude),
+                                ImageProvider.fromResource(requireActivity(),
+                                    R.drawable.search_result))
+                        }
+                    }
+                }
+                is AppStateSearchMapObj.Address -> {
+                    openDialogFragment(it.address)
+                }
+            }
+        }
     }
 
     private fun initSearchClick() {
         binding.searchEdit.setOnEditorActionListener { _, i, _ ->
             if (i == EditorInfo.IME_ACTION_SEARCH) {
                 startSearch = true
-                submitQuery(binding.searchEdit.text.toString())
+                viewModelYandexSearch.getSubmitQuery(binding.searchEdit.text.toString(),
+                    VisibleRegionUtils.toPolygon(binding.mapview.map.visibleRegion))
                 closeKeyBoard()
             }
             false
@@ -62,7 +85,6 @@ class YandexMapsSearchFragment :
     }
 
     private fun initLocationKit() {
-        val mapKit = MapKitFactory.getInstance()
         locationmapkit = mapKit.createUserLocationLayer(binding.mapview.mapWindow)
         locationmapkit.isVisible = true
         locationmapkit.setObjectListener(this)
@@ -78,16 +100,12 @@ class YandexMapsSearchFragment :
     ) {
         if (finished) {
             if (startSearch) {
-                submitQuery(binding.searchEdit.text.toString())
+                if (binding.searchEdit.text.toString() != "") {
+                    viewModelYandexSearch.getSubmitQuery(binding.searchEdit.text.toString(),
+                        VisibleRegionUtils.toPolygon(binding.mapview.map.visibleRegion))
+                }
             }
         }
-    }
-
-    private fun submitQuery(query: String) {
-        searchSession = searchManager.submit(query,
-            VisibleRegionUtils.toPolygon(binding.mapview.map.visibleRegion),
-            SearchOptions(),
-            this@YandexMapsSearchFragment)
     }
 
     override fun onObjectAdded(userLocationView: UserLocationView) {
@@ -111,25 +129,6 @@ class YandexMapsSearchFragment :
 
     override fun onObjectUpdated(p0: UserLocationView, p1: ObjectEvent) {
 
-    }
-
-    override fun onSearchResponse(response: Response) {
-        mapObjCollection.clear()
-        for (searchResult in response.collection.children) {
-            val point = searchResult.obj!!.geometry[0].point
-            if (point != null) {
-                mapObjCollection.addPlacemark(Point(point.latitude, point.longitude),
-                    ImageProvider.fromResource(requireActivity(), R.drawable.search_result))
-            }
-        }
-    }
-
-    override fun onSearchError(error: Error) {
-        if (error is RemoteError) {
-            toast("Remote error")
-        } else if (error is NetworkError) {
-            toast("Network error")
-        }
     }
 
     private fun toast(mess: String) {
@@ -159,25 +158,29 @@ class YandexMapsSearchFragment :
     override fun onObjectTap(geo: GeoObjectTapEvent): Boolean {
         val geoObjectSelection = geo.geoObject
             .metadataContainer.getItem(GeoObjectSelectionMetadata::class.java)
-        val point = geo.geoObject.geometry
-        for (i in point) {
+        val geometryList = geo.geoObject.geometry
+        for (i in geometryList) {
+            viewModelYandexSearch.getSubmitPoint(i.point!!)
             mapObjCollection.clear()
             mapObjCollection.addPlacemark(i.point!!,
                 ImageProvider.fromResource(requireActivity(), R.drawable.search_result))
-            DialogLocationMap().show(requireActivity().supportFragmentManager, "")
         }
         if (geoObjectSelection != null) {
-            binding.mapview.map.selectGeoObject(geoObjectSelection.id, geoObjectSelection.layerId)
+            binding.mapview.map.selectGeoObject(geoObjectSelection.id,
+                geoObjectSelection.layerId)
         }
         return true
     }
 
-    override fun onMapTap(p0: Map, point: Point) {
+    override fun onMapTap(map: Map, point: Point) {
         binding.mapview.map.deselectGeoObject()
         mapObjCollection.clear()
         mapObjCollection.addPlacemark(point,
             ImageProvider.fromResource(requireActivity(), R.drawable.search_result))
-        DialogLocationMap().show(requireActivity().supportFragmentManager, "")
+    }
+
+    private fun openDialogFragment(str: String) {
+        DialogLocationMap.newInstance(str).show(requireActivity().supportFragmentManager, "")
     }
 
     override fun onMapLongTap(p0: Map, p1: Point) {
