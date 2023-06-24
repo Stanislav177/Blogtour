@@ -15,21 +15,28 @@ import android.view.View
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.myblogtour.blogtour.R
 import com.myblogtour.blogtour.databinding.FragmentAddPublicationBinding
 import com.myblogtour.blogtour.domain.ImagePublicationEntity
+import com.myblogtour.blogtour.ui.maps.data.EntityAddress
+import com.myblogtour.blogtour.ui.maps.observable.Observable
+import com.myblogtour.blogtour.ui.maps.observable.Observer
 import com.myblogtour.blogtour.ui.maps.searchMapAddress.YandexMapsSearchFragment
 import com.myblogtour.blogtour.utils.BaseFragment
+import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class AddPublicationFragment :
     BaseFragment<FragmentAddPublicationBinding>(FragmentAddPublicationBinding::inflate),
-    MyOnClickListenerPosition {
+    MyOnClickListenerPosition, Observer {
 
     private val REQUEST_CODE = 999
     private val MIN_DISTANCE = 10f
     private val MIN_PERIOD = 15L
+
+    private val obsImpl:Observable by inject()
 
     private val viewModel: AddPublicationViewModel by viewModel()
 
@@ -68,8 +75,9 @@ class AddPublicationFragment :
                 checkPermissionLocation()
             }
             openMapsSearch.setOnClickListener {
+                obsImpl.addS(this@AddPublicationFragment)
                 requireActivity().supportFragmentManager.beginTransaction()
-                    .add(R.id.containerFragment, YandexMapsSearchFragment()).addToBackStack("")
+                    .add(R.id.containerFragment, YandexMapsSearchFragment()).addToBackStack("ADD")
                     .commit()
             }
         }
@@ -113,7 +121,7 @@ class AddPublicationFragment :
                 showToast(it)
             }
             address.observe(viewLifecycleOwner) {
-                with(binding){
+                with(binding) {
                     locationPublication.text = ""
                     locationPublication.text = it
                 }
@@ -272,5 +280,9 @@ class AddPublicationFragment :
 
     override fun onItemClickCancel(uriLocal: Uri) {
         viewModel.cancel(uriLocal)
+    }
+
+    override fun update(entityAddress: EntityAddress) {
+        Toast.makeText(requireContext(), entityAddress.address, Toast.LENGTH_SHORT).show()
     }
 }

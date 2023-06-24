@@ -66,7 +66,7 @@ class YandexMapsSearchFragment :
                     }
                 }
                 is AppStateSearchMapObj.Address -> {
-                    openDialogFragment(it.address)
+                    openDialogFragment(it.entityData.address!!, it.entityData.lat, it.entityData.lon)
                 }
             }
         }
@@ -175,12 +175,14 @@ class YandexMapsSearchFragment :
     override fun onMapTap(map: Map, point: Point) {
         binding.mapview.map.deselectGeoObject()
         mapObjCollection.clear()
+        viewModelYandexSearch.getSubmitPoint(point)
         mapObjCollection.addPlacemark(point,
             ImageProvider.fromResource(requireActivity(), R.drawable.search_result))
     }
 
-    private fun openDialogFragment(str: String) {
-        DialogLocationMap.newInstance(str).show(requireActivity().supportFragmentManager, "")
+    private fun openDialogFragment(str: String, lat: Double, lon: Double) {
+        DialogLocationMap.newInstance(str, lat, lon)
+            .show(requireActivity().supportFragmentManager, "")
     }
 
     override fun onMapLongTap(p0: Map, p1: Point) {

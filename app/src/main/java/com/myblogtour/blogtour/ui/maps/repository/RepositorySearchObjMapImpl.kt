@@ -1,5 +1,6 @@
 package com.myblogtour.blogtour.ui.maps.repository
 
+import com.myblogtour.blogtour.ui.maps.data.ResponsePoint
 import com.yandex.mapkit.GeoObjectCollection
 import com.yandex.mapkit.geometry.Geometry
 import com.yandex.mapkit.geometry.Point
@@ -42,13 +43,13 @@ class RepositorySearchObjMapImpl(
 
     override fun submitPoint(
         point: Point,
-        onSuccess: (Response) -> Unit,
+        onSuccess: (ResponsePoint) -> Unit,
         onError: (String) -> Unit,
     ) {
         searchSession = searchManager
             .submit(point, 20, SearchOptions(), object : Session.SearchListener {
                 override fun onSearchResponse(response: Response) {
-                    onSuccess.invoke(response)
+                    onSuccess.invoke(ResponsePoint(point, response))
                 }
 
                 override fun onSearchError(error: Error) {

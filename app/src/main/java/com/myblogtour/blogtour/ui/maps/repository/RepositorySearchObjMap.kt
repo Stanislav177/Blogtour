@@ -1,5 +1,6 @@
 package com.myblogtour.blogtour.ui.maps.repository
 
+import com.myblogtour.blogtour.ui.maps.data.ResponsePoint
 import com.yandex.mapkit.GeoObjectCollection
 import com.yandex.mapkit.geometry.Geometry
 import com.yandex.mapkit.geometry.Point
@@ -15,7 +16,7 @@ interface RepositorySearchObjMap {
 
     fun submitPoint(
         point: Point,
-        onSuccess: (Response) -> Unit,
+        onSuccess: (ResponsePoint) -> Unit,
         onError: (String) -> Unit,
     )
 }

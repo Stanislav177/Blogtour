@@ -11,6 +11,7 @@ import com.myblogtour.blogtour.ui.addPublication.AddPublicationViewModel
 import com.myblogtour.blogtour.ui.authUser.AuthUserViewModel
 import com.myblogtour.blogtour.ui.home.HomeViewModel
 import com.myblogtour.blogtour.ui.main.MainViewModel
+import com.myblogtour.blogtour.ui.maps.observable.Observable
 import com.myblogtour.blogtour.ui.maps.repository.RepositorySearchObjMap
 import com.myblogtour.blogtour.ui.maps.repository.RepositorySearchObjMapImpl
 import com.myblogtour.blogtour.ui.maps.searchMapAddress.YandexMapsSearchViewModel
@@ -98,6 +99,8 @@ object Modules {
             SearchFactory.getInstance().createSearchManager(SearchManagerType.COMBINED)
         }
         single<RepositorySearchObjMap> { RepositorySearchObjMapImpl(get(named("searchManager"))) }
+
+        single<Observable> { Observable()   }
     }
 
     val permissionModule = module {
