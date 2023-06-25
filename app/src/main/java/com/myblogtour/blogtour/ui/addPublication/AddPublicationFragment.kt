@@ -5,7 +5,6 @@ import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
 import android.net.Uri
@@ -16,19 +15,29 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.myblogtour.blogtour.R
 import com.myblogtour.blogtour.databinding.FragmentAddPublicationBinding
 import com.myblogtour.blogtour.domain.ImagePublicationEntity
+import com.myblogtour.blogtour.ui.maps.data.EntityAddress
+import com.myblogtour.blogtour.ui.maps.observable.Observable
+import com.myblogtour.blogtour.ui.maps.observable.Observer
+import com.myblogtour.blogtour.ui.maps.searchMapAddress.YandexMapsSearchFragment
 import com.myblogtour.blogtour.utils.BaseFragment
+import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class AddPublicationFragment :
     BaseFragment<FragmentAddPublicationBinding>(FragmentAddPublicationBinding::inflate),
-    MyOnClickListenerPosition {
+    MyOnClickListenerPosition, Observer {
 
     private val REQUEST_CODE = 999
     private val MIN_DISTANCE = 10f
     private val MIN_PERIOD = 15L
 
+    private val OPEN_SEARCH_MAP = 999
+    private var statusLocation = 0
+
+    private val obsImpl: Observable by inject()
     private val viewModel: AddPublicationViewModel by viewModel()
 
     private val resultLauncher =
@@ -56,8 +65,9 @@ class AddPublicationFragment :
             publishBtnAddPost.setOnClickListener {
                 viewModel.dataPublication(
                     editTextPost.text.toString(),
-                    editTextLocation.text.toString()
+                    locationPublication.text.toString()
                 )
+                obsImpl.remove(this@AddPublicationFragment)
             }
             attachPhotoAddPost.setOnClickListener {
                 viewModel.getLoadingImage()
@@ -65,7 +75,19 @@ class AddPublicationFragment :
             currentLocation.setOnClickListener {
                 checkPermissionLocation()
             }
+            openMapsSearch.setOnClickListener {
+                statusLocation = OPEN_SEARCH_MAP
+                checkPermissionLocation()
+            }
         }
+    }
+
+    private fun openMapSearch(lat: Double, lon: Double) {
+        obsImpl.add(this@AddPublicationFragment)
+        requireActivity().supportFragmentManager.beginTransaction()
+            .add(R.id.containerFragment, YandexMapsSearchFragment.newInstance(lat, lon))
+            .addToBackStack("ADD")
+            .commit()
     }
 
     private fun addImagePublication(uri: Uri) {
@@ -106,7 +128,10 @@ class AddPublicationFragment :
                 showToast(it)
             }
             address.observe(viewLifecycleOwner) {
-                binding.editTextLocation.text = it
+                with(binding) {
+                    locationPublication.text = ""
+                    locationPublication.text = it
+                }
             }
             counterImage.observe(viewLifecycleOwner) {
                 if (it) {
@@ -187,16 +212,19 @@ class AddPublicationFragment :
         }
     }
 
-    private val locationListener = object : LocationListener {
-        override fun onLocationChanged(location: Location) {
-            setViewModelLocation(location.latitude, location.longitude)
-        }
+    private val locationListener = LocationListener { location ->
+        setViewModelLocation(location.latitude, location.longitude)
     }
 
-    private fun setViewModelLocation(lat: Double?, lon: Double?) {
-        viewModel.getAddress(lat, lon)
+    private fun setViewModelLocation(lat: Double, lon: Double) {
+        if (statusLocation == OPEN_SEARCH_MAP) {
+            openMapSearch(lat, lon)
+        } else {
+            viewModel.getAddress(lat, lon)
+        }
         locationManager.removeUpdates(locationListener)
     }
+
 
     override fun onRequestPermissionsResult(
         requestCode: Int,
@@ -226,7 +254,7 @@ class AddPublicationFragment :
                 viewModel.deleteImage()
                 viewModel.flagAddPublication(true)
                 editTextPost.text.clear()
-                editTextLocation.text.clear()
+                locationPublication.text = ""
                 adapterImage.clearImageList()
             }
         } else {
@@ -262,5 +290,10 @@ class AddPublicationFragment :
 
     override fun onItemClickCancel(uriLocal: Uri) {
         viewModel.cancel(uriLocal)
+    }
+
+    override fun update(entityAddress: EntityAddress) {
+        viewModel.setAddressPublication(entityAddress)
+        binding.locationPublication.text = entityAddress.address
     }
 }

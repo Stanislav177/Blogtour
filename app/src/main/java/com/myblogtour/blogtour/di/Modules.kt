@@ -11,6 +11,10 @@ import com.myblogtour.blogtour.ui.addPublication.AddPublicationViewModel
 import com.myblogtour.blogtour.ui.authUser.AuthUserViewModel
 import com.myblogtour.blogtour.ui.home.HomeViewModel
 import com.myblogtour.blogtour.ui.main.MainViewModel
+import com.myblogtour.blogtour.ui.maps.observable.Observable
+import com.myblogtour.blogtour.ui.maps.repository.RepositorySearchObjMap
+import com.myblogtour.blogtour.ui.maps.repository.RepositorySearchObjMapImpl
+import com.myblogtour.blogtour.ui.maps.searchMapAddress.YandexMapsSearchViewModel
 import com.myblogtour.blogtour.ui.myPublication.MyPublicationViewModel
 import com.myblogtour.blogtour.ui.noNetworkConnection.NoNetworkConnectionViewModel
 import com.myblogtour.blogtour.ui.profileUser.ProfileViewModel
@@ -28,6 +32,8 @@ import com.myblogtour.blogtour.utils.validatorPassword.PasswordValidatorPattern
 import com.myblogtour.blogtour.utils.validatorPassword.PasswordValidatorPatternImpl
 import com.myblogtour.blogtour.utils.validatorUserName.LoginValidatorPattern
 import com.myblogtour.blogtour.utils.validatorUserName.LoginValidatorPatternImpl
+import com.yandex.mapkit.search.SearchFactory
+import com.yandex.mapkit.search.SearchManagerType
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.qualifier.named
@@ -86,6 +92,15 @@ object Modules {
         single<NetworkStatusRepository> {
             NetworkStatusRepositoryImpl(androidContext())
         }
+    }
+
+    val maps = module {
+        single(named("searchManager")) {
+            SearchFactory.getInstance().createSearchManager(SearchManagerType.COMBINED)
+        }
+        single<RepositorySearchObjMap> { RepositorySearchObjMapImpl(get(named("searchManager"))) }
+
+        single<Observable> { Observable()   }
     }
 
     val permissionModule = module {
@@ -149,6 +164,9 @@ object Modules {
         }
         viewModel {
             NoNetworkConnectionViewModel(get())
+        }
+        viewModel {
+            YandexMapsSearchViewModel(get())
         }
     }
 }

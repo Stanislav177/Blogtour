@@ -11,6 +11,7 @@ import com.myblogtour.blogtour.domain.ImagePublicationEntity
 import com.myblogtour.blogtour.domain.repository.AuthFirebaseRepository
 import com.myblogtour.blogtour.domain.repository.CreatePublicationRepository
 import com.myblogtour.blogtour.domain.repository.ImageFbRepository
+import com.myblogtour.blogtour.ui.maps.data.EntityAddress
 import com.myblogtour.blogtour.utils.SingleLiveEvent
 import com.myblogtour.blogtour.utils.checkPermission.RepositoryLocationAddress
 
@@ -25,6 +26,8 @@ class AddPublicationViewModel(
     private var loadingImagePublication = true
     private lateinit var imagePublicationEntity: ImagePublicationEntity
     private var listImagePublication: MutableList<ImagePublicationEntity> = mutableListOf()
+    private var lonLocal: String = ""
+    private var latLocal: String = ""
 
     override val publishPostLiveData: LiveData<Boolean> = MutableLiveData()
     override val loadUriImage: LiveData<ImagePublicationEntity> = MutableLiveData()
@@ -161,11 +164,18 @@ class AddPublicationViewModel(
     }
 
     override fun getAddress(lat: Double?, lon: Double?) {
+        lonLocal = lon.toString()
+        latLocal = lat.toString()
         locationAddressRepository.getAddress(lat, lon, onAddress = {
             address.mutable().postValue(it.toEditable())
         }, errorAddress = {
             errorAddress.mutable().postValue(it)
         })
+    }
+
+    fun setAddressPublication(entityAddress: EntityAddress) {
+        lonLocal = entityAddress.lon.toString()
+        latLocal = entityAddress.lat.toString()
     }
 
     private fun converterJsonObject(
@@ -187,6 +197,8 @@ class AddPublicationViewModel(
         with(publicationJson) {
             addProperty("text", text)
             addProperty("location", location)
+            addProperty("lon", lonLocal)
+            addProperty("lat", latLocal)
             add("image", converterFromListToJson())
             add("userprofile", userProfile)
         }

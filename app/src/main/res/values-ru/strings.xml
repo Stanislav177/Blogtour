@@ -39,6 +39,8 @@
     <string name="current_location"><u>Текущее местоположение</u></string>
     <string name="delete_image"><u>Удалить</u></string>
     <string name="cancel"><u>Отменить</u></string>
+    <string name="add_location_publication">Местоположение:</string>
+    <string name="choose_maps"><u>Выбрать на карте</u></string>
 
 
     <string-array name="listGender">
