@@ -88,6 +88,10 @@ class YandexMapsSearchFragment :
             }
         }
 
+        initBtnZoomMaps()
+    }
+
+    private fun initBtnZoomMaps() {
         with(binding) {
             zoomPlusMaps.setOnClickListener {
                 mapview.map.move(CameraPosition(mapview.map.cameraPosition.target,
