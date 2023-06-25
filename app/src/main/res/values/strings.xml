@@ -39,7 +39,7 @@
     <string name="current_location"><u>Your current location</u></string>
     <string name="delete_image"><u>Delete</u></string>
     <string name="cancel"><u>Cancel</u></string>
-    <string name="add_location_publication">Location</string>
+    <string name="add_location_publication">Geolocation</string>
     <string name="choose_maps"><u>Select on the map</u></string>
     <string name="description_app">Learn, watch, share. \nLeave publications about your travels, share your impressions.
          \nView the geolocation of a publication.</string>
@@ -47,6 +47,7 @@
 
     <string name="terms_of_use">Terms of use for Yandex Maps</string>
     <string name="version">Version</string>
+    <string name="add_geolocation">Add geolocation</string>
 
     <string-array name="listGender">
         <item>Not indicated</item>
