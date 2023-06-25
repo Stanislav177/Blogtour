@@ -11,6 +11,7 @@ import com.myblogtour.blogtour.domain.ImagePublicationEntity
 import com.myblogtour.blogtour.domain.repository.AuthFirebaseRepository
 import com.myblogtour.blogtour.domain.repository.CreatePublicationRepository
 import com.myblogtour.blogtour.domain.repository.ImageFbRepository
+import com.myblogtour.blogtour.ui.maps.data.EntityAddress
 import com.myblogtour.blogtour.utils.SingleLiveEvent
 import com.myblogtour.blogtour.utils.checkPermission.RepositoryLocationAddress
 
@@ -170,6 +171,11 @@ class AddPublicationViewModel(
         }, errorAddress = {
             errorAddress.mutable().postValue(it)
         })
+    }
+
+    fun setAddressPublication(entityAddress: EntityAddress) {
+        lonLocal = entityAddress.lon.toString()
+        latLocal = entityAddress.lat.toString()
     }
 
     private fun converterJsonObject(

@@ -5,7 +5,7 @@ import com.myblogtour.blogtour.ui.maps.data.EntityAddress
 class Observable {
     private val observers: MutableList<Observer> = mutableListOf()
 
-    fun addS(observer: Observer) {
+    fun add(observer: Observer) {
         observers.add(observer)
     }
 

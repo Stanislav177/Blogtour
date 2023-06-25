@@ -12,6 +12,7 @@ import com.myblogtour.blogtour.databinding.FragmentSearchYandexMapsBinding
 import com.myblogtour.blogtour.ui.maps.appStateMaps.AppStateSearchMapObj
 import com.myblogtour.blogtour.ui.maps.dialogLocationMap.DialogLocationMap
 import com.myblogtour.blogtour.utils.BaseFragment
+import com.yandex.mapkit.Animation
 import com.yandex.mapkit.MapKit
 import com.yandex.mapkit.MapKitFactory
 import com.yandex.mapkit.geometry.Point
@@ -37,36 +38,69 @@ class YandexMapsSearchFragment :
     private lateinit var mapKit: MapKit
     private var startSearch = false
 
+    private var lon = 54.0
+    private var lat = 37.0
+
     private val viewModelYandexSearch: YandexMapsSearchViewModel by viewModel()
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        arguments?.getDouble("LAT")?.let {
+            lat = it
+        }
+        arguments?.getDouble("LON")?.let {
+            lon = it
+        }
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         MapKitFactory.initialize(requireActivity())
         SearchFactory.initialize(requireActivity())
         mapKit = MapKitFactory.getInstance()
-        initLocationKit()
         initSearchClick()
         mapObjCollection = binding.mapview.map.mapObjects
         binding.mapview.map.addTapListener(this)
         binding.mapview.map.addInputListener(this)
-
+        mapObjCollection.addPlacemark(Point(lat, lon),
+            ImageProvider.fromResource(requireActivity(), R.drawable.search_result))
+        binding.mapview.map.move(CameraPosition(Point(lat, lon),
+            17.0f,
+            0f,
+            0f),
+            Animation(Animation.Type.SMOOTH, 2f),
+            null)
         viewModelYandexSearch.getLiveData().observe(viewLifecycleOwner) {
             when (it) {
                 is AppStateSearchMapObj.Error -> {
                     toast(it.error)
                 }
                 is AppStateSearchMapObj.Success -> {
-                    for (searchResult in it.listGeo) {
-                        val point = searchResult.obj!!.geometry[0].point
-                        if (point != null) {
-                            mapObjCollection.addPlacemark(Point(point.latitude, point.longitude),
-                                ImageProvider.fromResource(requireActivity(),
-                                    R.drawable.search_result))
-                        }
-                    }
+                    searchObjectMap(it)
                 }
                 is AppStateSearchMapObj.Address -> {
-                    openDialogFragment(it.entityData.address!!, it.entityData.lat, it.entityData.lon)
+                    openDialogFragment(it.entityData.address!!,
+                        it.entityData.lat,
+                        it.entityData.lon)
+                }
+            }
+        }
+    }
+
+    private fun searchObjectMap(it: AppStateSearchMapObj.Success) {
+        var iterator = 0
+        for (searchResult in it.listGeo) {
+            val point = searchResult.obj!!.geometry[0].point
+            if (point != null) {
+                mapObjCollection.addPlacemark(Point(point.latitude, point.longitude),
+                    ImageProvider.fromResource(requireActivity(),
+                        R.drawable.search_result))
+                if (iterator == 0) {
+                    binding.mapview.map.move(CameraPosition(Point(point.latitude,
+                        point.longitude), 16.0f,
+                        0f,
+                        0f))
+                    iterator++
                 }
             }
         }
@@ -82,14 +116,6 @@ class YandexMapsSearchFragment :
             }
             false
         }
-    }
-
-    private fun initLocationKit() {
-        locationmapkit = mapKit.createUserLocationLayer(binding.mapview.mapWindow)
-        locationmapkit.isVisible = true
-        locationmapkit.setObjectListener(this)
-        locationmapkit.isAutoZoomEnabled = true
-        binding.mapview.map.addCameraListener(this@YandexMapsSearchFragment)
     }
 
     override fun onCameraPositionChanged(
@@ -186,5 +212,14 @@ class YandexMapsSearchFragment :
     }
 
     override fun onMapLongTap(p0: Map, p1: Point) {
+    }
+
+    companion object {
+        fun newInstance(lat: Double, lon: Double) = YandexMapsSearchFragment().apply {
+            arguments = Bundle().apply {
+                putDouble("LAT", lat)
+                putDouble("LON", lon)
+            }
+        }
     }
 }

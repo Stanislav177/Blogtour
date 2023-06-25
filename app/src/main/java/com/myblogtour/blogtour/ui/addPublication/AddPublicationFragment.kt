@@ -5,7 +5,6 @@ import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
 import android.net.Uri
@@ -15,7 +14,6 @@ import android.view.View
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.myblogtour.blogtour.R
 import com.myblogtour.blogtour.databinding.FragmentAddPublicationBinding
@@ -36,8 +34,10 @@ class AddPublicationFragment :
     private val MIN_DISTANCE = 10f
     private val MIN_PERIOD = 15L
 
-    private val obsImpl:Observable by inject()
+    private val OPEN_SEARCH_MAP = 999
+    private var statusLocation = 0
 
+    private val obsImpl: Observable by inject()
     private val viewModel: AddPublicationViewModel by viewModel()
 
     private val resultLauncher =
@@ -67,6 +67,7 @@ class AddPublicationFragment :
                     editTextPost.text.toString(),
                     locationPublication.text.toString()
                 )
+                obsImpl.remove(this@AddPublicationFragment)
             }
             attachPhotoAddPost.setOnClickListener {
                 viewModel.getLoadingImage()
@@ -75,12 +76,18 @@ class AddPublicationFragment :
                 checkPermissionLocation()
             }
             openMapsSearch.setOnClickListener {
-                obsImpl.addS(this@AddPublicationFragment)
-                requireActivity().supportFragmentManager.beginTransaction()
-                    .add(R.id.containerFragment, YandexMapsSearchFragment()).addToBackStack("ADD")
-                    .commit()
+                statusLocation = OPEN_SEARCH_MAP
+                checkPermissionLocation()
             }
         }
+    }
+
+    private fun openMapSearch(lat: Double, lon: Double) {
+        obsImpl.add(this@AddPublicationFragment)
+        requireActivity().supportFragmentManager.beginTransaction()
+            .add(R.id.containerFragment, YandexMapsSearchFragment.newInstance(lat, lon))
+            .addToBackStack("ADD")
+            .commit()
     }
 
     private fun addImagePublication(uri: Uri) {
@@ -205,16 +212,19 @@ class AddPublicationFragment :
         }
     }
 
-    private val locationListener = object : LocationListener {
-        override fun onLocationChanged(location: Location) {
-            setViewModelLocation(location.latitude, location.longitude)
-        }
+    private val locationListener = LocationListener { location ->
+        setViewModelLocation(location.latitude, location.longitude)
     }
 
-    private fun setViewModelLocation(lat: Double?, lon: Double?) {
-        viewModel.getAddress(lat, lon)
+    private fun setViewModelLocation(lat: Double, lon: Double) {
+        if (statusLocation == OPEN_SEARCH_MAP) {
+            openMapSearch(lat, lon)
+        } else {
+            viewModel.getAddress(lat, lon)
+        }
         locationManager.removeUpdates(locationListener)
     }
+
 
     override fun onRequestPermissionsResult(
         requestCode: Int,
@@ -283,6 +293,7 @@ class AddPublicationFragment :
     }
 
     override fun update(entityAddress: EntityAddress) {
-        Toast.makeText(requireContext(), entityAddress.address, Toast.LENGTH_SHORT).show()
+        viewModel.setAddressPublication(entityAddress)
+        binding.locationPublication.text = entityAddress.address
     }
 }
