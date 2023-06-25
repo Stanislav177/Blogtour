@@ -8,7 +8,8 @@ import androidx.fragment.app.Fragment
 import com.myblogtour.blogtour.R
 import com.myblogtour.blogtour.appState.AppStateUserAuth
 import com.myblogtour.blogtour.databinding.FragmentAuthUserBinding
-import com.myblogtour.blogtour.ui.privacyPolicy.DialogPrivacyPolicy
+import com.myblogtour.blogtour.ui.privacyPolicy.DialogPolicy
+import com.myblogtour.blogtour.ui.privacyPolicy.POLITIC
 import com.myblogtour.blogtour.ui.profileUser.ProfileFragment
 import com.myblogtour.blogtour.ui.recoveryPassword.RecoveryPasswordFragment
 import com.myblogtour.blogtour.ui.registrationUser.RegistrationUserFragment
@@ -39,7 +40,7 @@ class AuthUserFragment : BaseFragment<FragmentAuthUserBinding>(FragmentAuthUserB
                 toFragment(RecoveryPasswordFragment())
             }
             btnPrivacyPolicy.setOnClickListener {
-                val openDialog = DialogPrivacyPolicy()
+                val openDialog = DialogPolicy.newInstance(POLITIC)
                 openDialog.show(requireActivity().supportFragmentManager, "")
             }
         }

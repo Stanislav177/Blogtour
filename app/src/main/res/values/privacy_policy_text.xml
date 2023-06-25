@@ -1,67 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="privacy_policy_text" translatable="false">
-        Политика обработки данных
+    <string name="privacy_policy_text">
+        Data processing policy
 
-        \n 1. Общие положения
-Приложение BlogTour обрабатывает и защищает персональные данные зарегистрированных и незарегистрированных пользователей, кто обращается к нашему приложению.
-Предоставляя нам персональные данные, вы соглашаетесь на их обработку в соответствии с этой политикой.
+         \n 1. General
+The BlogTour application processes and protects the personal data of registered and unregistered users who access our application.
+By providing us with personal data, you consent to their processing in accordance with this policy.
 
-        \n 2. Определения
-Персональные данные – любая информация, относящаяся к прямо или косвенно определённому, или определяемому физическому лицу (субъекту персональных данных).
-Обработка персональных данных – осуществление действий или совокупности действий в отношении персональных данных, включая сбор, запись, систематизацию, накопление, хранение, уточнение, обновление и изменение, извлечение, использование, предоставление, доступ, блокирование, удаление и уничтожение – как с использованием, так и без использования средств автоматизированной обработки данных.
-Мы можем обрабатывать ваши данные перечисленными способами в целях, закрепленных в разделе 4 настоящей Политики.
-Оператор персональных данных – государственный орган, муниципальный орган, юридическое или физическое лицо, самостоятельно или совместно с другими лицами организующие и (или) осуществляющие обработку персональных данных, а также определяющие цели обработки персональных данных, состав персональных данных, подлежащих обработке, действия (операции), совершаемые с персональными данными.
+         \n 2. Definitions
+Personal data - any information relating to a directly or indirectly identified or identifiable natural person (subject of personal data).
+Processing of personal data - the implementation of actions or a set of actions in relation to personal data, including the collection, recording, systematization, accumulation, storage, clarification, updating and modification, extraction, use, provision, access, blocking, deletion and destruction - both using and and without the use of automated data processing tools.
+We may process your data in the ways listed for the purposes set out in Section 4 of this Policy.
+Personal data operator - a state body, municipal body, legal entity or individual, independently or jointly with other persons organizing and (or) carrying out the processing of personal data, as well as determining the purposes of processing personal data, the composition of personal data to be processed, actions (operations) committed with personal data.
 
-       \n 3. Какие данные мы обрабатываем
-Вы предоставляете нам персональные данные, когда:
-Регистрируетесь в приложении;
-Размещаете публикации;
-Ваше устройство автоматически передает технические данные: дату и временя доступа к приложению, действиях в приложении, технических характеристиках устройства, IP-адресе и т.п.
-Мы обрабатываем только общие категории персональных данных. Мы не обрабатываем биометрические персональные данные и специальные категории персональных данных.
-Данный Сервис может содержать ссылки на другие сайты. Если вы нажмете на стороннюю ссылку, вы будете перенаправлены на этот сайт.
-Внешние сайты не управляются данным приложением. Поэтому настоятельно рекомендую ознакомиться с Политикой конфиденциальности этих ресурсов.
-Приложение не контролирует и не несет ответственности за содержание, политику конфиденциальности или практики любых сторонних ресурсов или Услуг.
+        \n 3. What data we process
+You provide us with personal data when:
+Register in the application;
+Posting publications;
+Your device automatically transmits technical data: date and time of access to the application, actions in the application, technical characteristics of the device, IP address, etc.
+We process only general categories of personal data. We do not process biometric personal data and special categories of personal data.
+This Service may contain links to other websites. If you click on a third party link, you will be redirected to this site.
+External sites are not controlled by this application. Therefore, I strongly recommend that you read the Privacy Policy of these resources.
+The Application does not control and is not responsible for the content, privacy policies or practices of any third party resources or Services.
 
-        \n 4. Цели обработки персональных данных
-Мы обрабатываем персональные данные пользователей приложения BlogTour следующим образом:
-Цели обработки	Данные, которые можем обрабатывать (если применимо)
-Предоставление вам возможности размещать публикации, комментировать и оценивать публикации, создавать профиль.
-Предупреждение и пресечение нарушения законодательства.
-Выполнение обязанностей, предусмотренных законодательством (например, налоговой отчётности, ответов на запросы государственных органов)
-Предоставление ответов на ваши обращения: (Фамилия, имя, отчество, номер телефона, адрес электронной почты).
+         \n 4. Purposes of personal data processing
+We process the personal data of users of the BlogTour app in the following ways:
+Purposes of processing Data we may process (if applicable)
+Allowing you to post, comment and rate posts, create a profile.
+Prevention and suppression of violations of the law.
+Fulfillment of obligations stipulated by law (for example, tax reporting, responding to requests from government agencies)
+Providing answers to your requests: (Last name, first name, patronymic, phone number, e-mail address).
 
-        \n 5. Правовые основания обработки
-Мы обрабатываем ваши персональные данные:
-C вашего согласия.
-Вы даёте согласие на обработку ваших персональных данных при регистрации и каждом случае входа в приложение, а также в процессе использования приложения BlogTour.
-Вы даете согласие на 1 год с даты удаления вашего профиля c сервиса BlogTour либо, если вы являетесь незарегистрированным пользователем, - с даты достижения цели обработки персональных данных.
-Для выполнения обязанностей, возложенных на нас законодательством.
+         \n 5. Legal basis for processing
+We process your personal data:
+With your consent.
+You consent to the processing of your personal data upon registration and each time you enter the application, as well as in the process of using the BlogTour application.
+You consent for 1 year from the date of deletion of your profile from the BlogTour service or, if you are an unregistered user, from the date of achievement of the purpose of processing personal data.
+To fulfill our obligations under the law.
 
-        \n 6. Информация для детей
-Еще одной частью нашего приоритета является добавление защиты детей при использовании Интернета. Мы призываем родителей и опекунов наблюдать, участвовать и/или контролировать и направлять свою онлайн-активность.
-BlogTour сознательно не собирает какую-либо Личную Идентифицируемую Информацию от детей в возрасте до 13 лет.
-Если вы считаете, что ваш ребенок предоставил такого рода информацию в нашем Приложении, мы настоятельно рекомендуем вам немедленно связаться с нами, и мы сделаем все возможное, чтобы быстро удалить такую информацию из наших записей.
+         \n 6. Information for children
+Another part of our priority is to add child protection when using the Internet. We encourage parents and guardians to observe, participate and/or monitor and direct their online activities.
+BlogTour does not knowingly collect any Personally Identifiable Information from children under the age of 13.
+If you believe that your child has provided this type of information on our App, we strongly encourage you to contact us immediately and we will do our best to promptly remove such information from our records.
 
-        \n 7. Изменения в настоящей Политике конфиденциальности
-Я могу обновлять нашу Политику конфиденциальности с время от времени. Таким образом, вам рекомендуется просматривать эту страницу периодически для уточнения любых изменений.
-Эта политика действует с 10.03.2023
+         \n 7. Changes to this Privacy Policy
+I may update our Privacy Policy from time to time. Therefore, you are encouraged to review this page periodically for any changes.
+This policy is valid from 03/10/2023
 
-        \n 8. Хранение персональных данных
-Для хранения данных мы используем cервисы: Google Play, Google Аналитика для Firebase
-Мы храним ваши данные в соответствии со сроками обработки данных, необходимыми для достижения целей обработки, указанных в разделе 4 настоящей Политики.
+         \n 8. Storage of personal data
+For data storage we use services: Google Play, Google Analytics for Firebase
+We store your data in accordance with the data processing periods necessary to achieve the processing purposes specified in Section 4 of this Policy.
 
-        \n 9. Сроки обработки данных
-Мы прекращаем обработку ваших персональных данных в сроки, установленные законом:
-по достижении целей обработки, указанных в разделе 4 настоящей Политики, либо при утрате необходимости в их достижении (если нет других оснований для обработки, предусмотренных законодательством).
-Например, для выполнения возложенных на нас обязанностей, предупреждения и пресечения нарушений законов, наших правил, защиты пользователей от мошеннических и иных недобросовестных действий, а также для предоставления ответов на обращения, мы должны обрабатывать данные в течение сроков, определенных в соответствии с законодательством (процессуальным, налоговым, гражданским, о бухгалтерском учете, пр.).
-Также мы прекратим обработку ваших данных:
-при выявлении неправомерной обработки, если обеспечить правомерность невозможно;
-при удалении приложения.
-По истечении установленных сроков, мы автоматически удаляем данные из информационных систем. Если данные обрабатываются без использования средств автоматической обработки (например, бумажные обращения) – уничтожаем такие материальные носители.
+        \n 9. Terms of data processing
+We stop processing your personal data within the terms established by law:
+upon achievement of the purposes of processing specified in section 4 of this Policy, or if there is no need to achieve them (unless there are other grounds for processing provided by law).
+For example, in order to fulfill the duties assigned to us, to prevent and suppress violations of laws, our rules, to protect users from fraudulent and other unfair actions, as well as to provide responses to requests, we must process data within the periods determined in accordance with the law (procedural , tax, civil, accounting, etc.).
+We will also stop processing your data:
+upon detection of unlawful processing, if lawfulness cannot be ensured;
+when deleting an application.
+After the expiration of the established deadlines, we automatically delete the data from the information systems. If the data is processed without the use of automatic processing tools (for example, paper applications), we destroy such material media.
 
 
-        \n 10. Свяжитесь с нами
-Если у вас есть какие-либо вопросы или предложения по нашей Политики конфиденциальности, не стесняйтесь обращаться к нам по адресу: mobile.product.app@gmail.com
+         \n 10. Contact us
+If you have any questions or suggestions regarding our Privacy Policy, feel free to contact us at: mobile.product.app@gmail.com
     </string>
 </resources>

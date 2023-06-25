@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.myblogtour.blogtour.R
 import com.myblogtour.blogtour.databinding.BottomNavigationLayoutAuthBinding
+import com.myblogtour.blogtour.ui.aboutApp.AboutAppFragment
 import com.myblogtour.blogtour.ui.authUser.AuthUserFragment
 import com.myblogtour.blogtour.ui.setting.SettingFragment
 import com.myblogtour.blogtour.utils.BaseDialogFragment
@@ -29,6 +30,10 @@ class BottomNavigationDrawerFragmentAuth : BaseDialogFragment<BottomNavigationLa
                 }
                 R.id.navBtnSetting -> {
                     toFragment(SettingFragment())
+                    this.dismiss()
+                }
+                R.id.navBtnAboutApp -> {
+                    toFragment(AboutAppFragment())
                     this.dismiss()
                 }
             }
