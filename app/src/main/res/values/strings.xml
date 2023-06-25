@@ -41,6 +41,11 @@
     <string name="cancel"><u>Cancel</u></string>
     <string name="add_location_publication">Location</string>
     <string name="choose_maps"><u>Select on the map</u></string>
+    <string name="description_app">Learn, watch, share. \nLeave publications about your travels, share your impressions.
+         \nView the geolocation of a publication.</string>
+    <string name="politic_conf">Privacy Policy</string>
+
+    <string name="terms_of_use">Terms of use for Yandex Maps</string>
 
     <string-array name="listGender">
         <item>Not indicated</item>

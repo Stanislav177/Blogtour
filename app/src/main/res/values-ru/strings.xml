@@ -41,6 +41,9 @@
     <string name="cancel"><u>Отменить</u></string>
     <string name="add_location_publication">Местоположение:</string>
     <string name="choose_maps"><u>Выбрать на карте</u></string>
+    <string name="description_app">Узнавай, смотри, делись. \nОставляйте публикации о ваших путешествиях, делитесь впечатлениями. \nПросматривай геопозицию публикации.</string>
+    <string name="politic_conf">Политика конфиденциальности</string>
+    <string name="terms_of_use">Условия использования Яндекс Карт</string>
 
 
     <string-array name="listGender">
