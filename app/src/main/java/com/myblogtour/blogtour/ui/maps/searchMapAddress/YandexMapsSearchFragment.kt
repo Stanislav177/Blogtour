@@ -37,6 +37,7 @@ class YandexMapsSearchFragment :
     private lateinit var mapObjCollection: MapObjectCollection
     private lateinit var mapKit: MapKit
     private var startSearch = false
+    private var iterator = 0
 
     private var lon = 54.0
     private var lat = 37.0
@@ -59,9 +60,10 @@ class YandexMapsSearchFragment :
         SearchFactory.initialize(requireActivity())
         mapKit = MapKitFactory.getInstance()
         initSearchClick()
-        mapObjCollection = binding.mapview.map.mapObjects
+        binding.mapview.map.addCameraListener(this@YandexMapsSearchFragment)
         binding.mapview.map.addTapListener(this)
         binding.mapview.map.addInputListener(this)
+        mapObjCollection = binding.mapview.map.mapObjects
         mapObjCollection.addPlacemark(Point(lat, lon),
             ImageProvider.fromResource(requireActivity(), R.drawable.search_result))
         binding.mapview.map.move(CameraPosition(Point(lat, lon),
@@ -88,7 +90,6 @@ class YandexMapsSearchFragment :
     }
 
     private fun searchObjectMap(it: AppStateSearchMapObj.Success) {
-        var iterator = 0
         for (searchResult in it.listGeo) {
             val point = searchResult.obj!!.geometry[0].point
             if (point != null) {
