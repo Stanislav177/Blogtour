@@ -1,12 +1,11 @@
 package com.myblogtour.blogtour.ui.main
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.myblogtour.blogtour.R
 import com.myblogtour.blogtour.databinding.BottomNavigationLayoutBinding
+import com.myblogtour.blogtour.ui.aboutApp.AboutAppFragment
 import com.myblogtour.blogtour.ui.addPublication.AddPublicationFragment
 import com.myblogtour.blogtour.ui.myPublication.MyPublicationFragment
 import com.myblogtour.blogtour.ui.profileUser.ProfileFragment
@@ -33,17 +32,16 @@ class BottomNavigationDrawerFragment :
                     toFragment(MyPublicationFragment())
                     this.dismiss()
                 }
-//                R.id.navBtnFavoritePublication -> {
-//                    Toast.makeText(requireActivity(), "FavoritePublication", Toast.LENGTH_SHORT)
-//                        .show()
-//                    this.dismiss()
-//                }
                 R.id.navBtnSetting -> {
                     toFragment(SettingFragment())
                     this.dismiss()
                 }
                 R.id.navBtnLoadPublication -> {
                     toFragment(AddPublicationFragment())
+                    this.dismiss()
+                }
+                R.id.navBtnAboutApp -> {
+                    toFragment(AboutAppFragment())
                     this.dismiss()
                 }
             }

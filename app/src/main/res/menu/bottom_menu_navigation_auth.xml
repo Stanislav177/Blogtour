@@ -9,4 +9,8 @@
         android:id="@+id/navBtnSetting"
         android:icon="@drawable/ic_settings"
         android:title="Настройки" />
+    <item
+        android:id="@+id/navBtnAboutApp"
+        android:icon="@drawable/ic_app_shortcut"
+        android:title="О приложении" />
 </menu>

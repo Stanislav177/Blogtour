@@ -7,7 +7,8 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import com.myblogtour.blogtour.appState.AppStateUserRegistration
 import com.myblogtour.blogtour.databinding.FragmentRegistrationUserBinding
-import com.myblogtour.blogtour.ui.privacyPolicy.DialogPrivacyPolicy
+import com.myblogtour.blogtour.ui.privacyPolicy.DialogPolicy
+import com.myblogtour.blogtour.ui.privacyPolicy.POLITIC
 import com.myblogtour.blogtour.utils.BaseFragment
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -49,7 +50,7 @@ class RegistrationUserFragment :
                 viewModel.deleteImage()
             }
             btnPrivacyPolicy.setOnClickListener {
-                val dialog = DialogPrivacyPolicy()
+                val dialog = DialogPolicy.newInstance(POLITIC)
                 dialog.show(requireActivity().supportFragmentManager, "")
             }
         }
