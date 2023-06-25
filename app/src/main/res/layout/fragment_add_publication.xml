@@ -61,12 +61,10 @@
             android:id="@+id/locationPublication"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="2dp"
-            android:hint="Локация"
+            android:hint="@string/add_geolocation"
             android:textColor="@color/black"
-            app:layout_constraintBottom_toBottomOf="@+id/textLocationLocal"
-            app:layout_constraintStart_toEndOf="@+id/textLocationLocal"
-            app:layout_constraintTop_toTopOf="@+id/textLocationLocal" />
+            app:layout_constraintStart_toStartOf="@+id/textLocationLocal"
+            app:layout_constraintTop_toBottomOf="@id/textLocationLocal" />
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/appCompatImageView"
@@ -74,7 +72,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textLocationLocal"
+            app:layout_constraintTop_toBottomOf="@+id/locationPublication"
             app:srcCompat="@drawable/ic_location" />
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -92,8 +90,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="7dp"
-            android:textColor="@color/black"
             android:text="@string/choose_maps"
+            android:textColor="@color/black"
             app:layout_constraintBottom_toBottomOf="@+id/appCompatImageView"
             app:layout_constraintStart_toEndOf="@+id/currentLocation"
             app:layout_constraintTop_toTopOf="@+id/appCompatImageView" />
