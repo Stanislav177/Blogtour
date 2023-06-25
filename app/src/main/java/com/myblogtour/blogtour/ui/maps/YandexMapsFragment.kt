@@ -44,7 +44,26 @@ class YandexMapsFragment :
                 Animation(Animation.Type.SMOOTH, 2f),
                 null)
         }
+        initBtnZoomMaps()
     }
+
+    private fun initBtnZoomMaps() {
+        with(binding) {
+            zoomPlusMaps.setOnClickListener {
+                mapview.map.move(CameraPosition(mapview.map.cameraPosition.target,
+                    mapview.map.cameraPosition.zoom + 1,
+                    0.0f,
+                    0.0f), Animation(Animation.Type.SMOOTH, 1f), null)
+            }
+            zoomMinusMaps.setOnClickListener {
+                mapview.map.move(CameraPosition(mapview.map.cameraPosition.target,
+                    mapview.map.cameraPosition.zoom - 1,
+                    0.0f,
+                    0.0f), Animation(Animation.Type.SMOOTH, 1f), null)
+            }
+        }
+    }
+
 
     override fun onStart() {
         binding.mapview.onStart()
