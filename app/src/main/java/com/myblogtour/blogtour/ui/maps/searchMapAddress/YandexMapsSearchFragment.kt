@@ -12,6 +12,7 @@ import com.myblogtour.blogtour.databinding.FragmentSearchYandexMapsBinding
 import com.myblogtour.blogtour.ui.maps.appStateMaps.AppStateSearchMapObj
 import com.myblogtour.blogtour.ui.maps.dialogLocationMap.DialogLocationMap
 import com.myblogtour.blogtour.utils.BaseFragment
+import com.myblogtour.blogtour.utils.closeKeyBoard
 import com.yandex.mapkit.Animation
 import com.yandex.mapkit.MapKit
 import com.yandex.mapkit.MapKitFactory
@@ -87,7 +88,6 @@ class YandexMapsSearchFragment :
                 }
             }
         }
-
         initBtnZoomMaps()
     }
 
@@ -132,7 +132,7 @@ class YandexMapsSearchFragment :
                 startSearch = true
                 viewModelYandexSearch.getSubmitQuery(binding.searchEdit.text.toString(),
                     VisibleRegionUtils.toPolygon(binding.mapview.map.visibleRegion))
-                closeKeyBoard()
+                requireActivity().closeKeyBoard()
             }
             false
         }
@@ -191,14 +191,6 @@ class YandexMapsSearchFragment :
         binding.mapview.onStop()
         MapKitFactory.getInstance().onStop()
         super.onStop()
-    }
-
-    private fun closeKeyBoard() {
-        requireActivity().currentFocus?.let { view ->
-            val imm =
-                requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
-            imm?.hideSoftInputFromWindow(view.windowToken, 0)
-        }
     }
 
     override fun onObjectTap(geo: GeoObjectTapEvent): Boolean {
