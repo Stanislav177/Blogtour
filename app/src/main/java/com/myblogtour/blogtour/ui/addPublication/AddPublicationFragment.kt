@@ -23,6 +23,7 @@ import com.myblogtour.blogtour.ui.maps.observable.Observable
 import com.myblogtour.blogtour.ui.maps.observable.Observer
 import com.myblogtour.blogtour.ui.maps.searchMapAddress.YandexMapsSearchFragment
 import com.myblogtour.blogtour.utils.BaseFragment
+import com.myblogtour.blogtour.utils.closeKeyBoard
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -78,6 +79,7 @@ class AddPublicationFragment :
             openMapsSearch.setOnClickListener {
                 statusLocation = OPEN_SEARCH_MAP
                 checkPermissionLocation()
+                requireActivity().closeKeyBoard()
             }
         }
     }
