@@ -5,11 +5,11 @@ import android.view.View
 import android.widget.Toast
 import com.myblogtour.blogtour.appState.AppStateNetworkConnection
 import com.myblogtour.blogtour.databinding.BottomDialogNoNetworkBinding
-import com.myblogtour.blogtour.utils.BaseDialogFragment
+import com.myblogtour.blogtour.utils.BaseBottomSheetDialogFragment
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class NoNetworkConnectionDialog :
-    BaseDialogFragment<BottomDialogNoNetworkBinding>(BottomDialogNoNetworkBinding::inflate) {
+    BaseBottomSheetDialogFragment<BottomDialogNoNetworkBinding>(BottomDialogNoNetworkBinding::inflate) {
 
     private val vm: NoNetworkConnectionViewModel by viewModel()
 

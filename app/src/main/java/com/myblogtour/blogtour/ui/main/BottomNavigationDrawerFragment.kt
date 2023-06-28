@@ -10,10 +10,10 @@ import com.myblogtour.blogtour.ui.addPublication.AddPublicationFragment
 import com.myblogtour.blogtour.ui.myPublication.MyPublicationFragment
 import com.myblogtour.blogtour.ui.profileUser.ProfileFragment
 import com.myblogtour.blogtour.ui.setting.SettingFragment
-import com.myblogtour.blogtour.utils.BaseDialogFragment
+import com.myblogtour.blogtour.utils.BaseBottomSheetDialogFragment
 
 class BottomNavigationDrawerFragment :
-    BaseDialogFragment<BottomNavigationLayoutBinding>(BottomNavigationLayoutBinding::inflate) {
+    BaseBottomSheetDialogFragment<BottomNavigationLayoutBinding>(BottomNavigationLayoutBinding::inflate) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
