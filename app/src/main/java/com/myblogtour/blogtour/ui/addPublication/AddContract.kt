@@ -25,7 +25,6 @@ interface AddContract {
             text: String,
             location: String,
         )
-
         fun getAddress(lat: Double?, lon: Double?)
     }
 }

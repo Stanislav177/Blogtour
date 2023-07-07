@@ -17,12 +17,13 @@ class RegistrationUserFragment :
 
     private val viewModel: RegistrationViewModel by viewModel()
 
-    private val resultLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) {
-        it?.let {
-            binding.iconUserProfileRegistration.setImageURI(it)
-            viewModel.loadingIconUserProfile(it)
+    private val resultLauncher =
+        registerForActivityResult(ActivityResultContracts.GetContent()) {
+            it?.let {
+                binding.iconUserProfileRegistration.setImageURI(it)
+                viewModel.loadingIconUserProfile(it)
+            }
         }
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

@@ -1,11 +1,13 @@
 package com.myblogtour.blogtour.ui.profileUser
 
 import android.app.DatePickerDialog
+import android.net.Uri
 import android.os.Bundle
 import android.text.Editable
 import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import coil.load
 import coil.transform.CircleCropTransformation
@@ -25,6 +27,17 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(FragmentProfileBind
     private lateinit var userLocal: UserProfileEntity
     private lateinit var email: String
     private lateinit var dpd: DatePickerDialog
+
+    private val resultLauncher =
+        registerForActivityResult(ActivityResultContracts.GetContent()) {
+            it?.let { uri ->
+                changePhotoUser(uri)
+            }
+        }
+
+    private fun changePhotoUser(uri: Uri) {
+        viewModel.changeImageProfileUser(uri)
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -70,6 +83,10 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(FragmentProfileBind
                     binding.tvDateOfBirthUser.text.toString()
                 )
             }
+            changePhotoUserProfile.setOnClickListener {
+                resultLauncher.launch("image/*")
+                it.isClickable = false
+            }
         }
     }
 
@@ -93,33 +110,52 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(FragmentProfileBind
     }
 
     private fun initViewModel() {
-        viewModel.userSuccess.observe(viewLifecycleOwner) {
-            renderData(it)
+        with(viewModel) {
+            userSuccess.observe(viewLifecycleOwner) {
+                renderData(it)
+            }
+            userSingOut.observe(viewLifecycleOwner) {
+                toFragment(AuthUserFragment())
+            }
+            verificationEmail.observe(viewLifecycleOwner) {
+                showToast(it)
+            }
+            errorSaveProfile.observe(viewLifecycleOwner) {
+                binding.progressBarSaveProfile.visibility = View.GONE
+                showToast(it)
+            }
+            successSaveUserProfile.observe(viewLifecycleOwner) {
+                binding.progressBarSaveProfile.visibility = View.GONE
+                showToast(it)
+            }
+            errorLocationUser.observe(viewLifecycleOwner) {
+                binding.progressBarSaveProfile.visibility = View.GONE
+                binding.userLocation.error = it
+                showToast(it)
+            }
+            errorUserLogin.observe(viewLifecycleOwner) {
+                binding.progressBarSaveProfile.visibility = View.GONE
+                binding.userLogin.error = it
+            }
+            progressLoadingImage.observe(viewLifecycleOwner) {
+                with(binding) {
+                    progressBarProfileUser.visibility = View.VISIBLE
+                    progressLoadingImagePercentProfileUser.visibility = View.VISIBLE
+                    progressLoadingImagePercentProfileUser.text = "${it.progress}%"
+                }
+            }
+            onSuccessLoadingImageUser.observe(viewLifecycleOwner) {
+                with(binding) {
+                    progressBarProfileUser.visibility = View.GONE
+                    progressLoadingImagePercentProfileUser.visibility = View.GONE
+                    imageUserProfile.load(it) {
+                        transformations(CircleCropTransformation())
+                    }
+                    changePhotoUserProfile.isClickable = true
+                }
+            }
+            onRefresh()
         }
-        viewModel.userSingOut.observe(viewLifecycleOwner) {
-            toFragment(AuthUserFragment())
-        }
-        viewModel.verificationEmail.observe(viewLifecycleOwner) {
-            showToast(it)
-        }
-        viewModel.errorSaveProfile.observe(viewLifecycleOwner) {
-            binding.progressBarSaveProfile.visibility = View.GONE
-            showToast(it)
-        }
-        viewModel.successSaveUserProfile.observe(viewLifecycleOwner) {
-            binding.progressBarSaveProfile.visibility = View.GONE
-            showToast(it)
-        }
-        viewModel.errorLocationUser.observe(viewLifecycleOwner) {
-            binding.progressBarSaveProfile.visibility = View.GONE
-            binding.userLocation.error = it
-            showToast(it)
-        }
-        viewModel.errorUserLogin.observe(viewLifecycleOwner) {
-            binding.progressBarSaveProfile.visibility = View.GONE
-            binding.userLogin.error = it
-        }
-        viewModel.onRefresh()
     }
 
     private fun showToast(it: String?) {
@@ -138,7 +174,7 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(FragmentProfileBind
         userLocal = user
         with(binding) {
             userLogin.text = user.nickname.toEditable()
-            iconUserProfile.load(user.icon) {
+            imageUserProfile.load(user.icon) {
                 placeholder(R.drawable.ic_load_image)
                 transformations(CircleCropTransformation())
             }

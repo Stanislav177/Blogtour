@@ -117,7 +117,7 @@ object Modules {
 
     val viewModelsModule = module {
         viewModel {
-            ProfileViewModel(get(), get(), get())
+            ProfileViewModel(get(), get(), get(), get())
         }
         viewModel {
             HomeViewModel(publicationRepository = get(), authFirebaseRepository = get())
