@@ -192,5 +192,10 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(FragmentProfileBind
         }
     }
 
+    override fun onDestroy() {
+        viewModel.cancelLoading()
+        super.onDestroy()
+    }
+
     private fun String.toEditable() = Editable.Factory.getInstance().newEditable(this)
 }

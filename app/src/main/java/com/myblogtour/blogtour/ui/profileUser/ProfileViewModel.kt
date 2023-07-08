@@ -93,6 +93,7 @@ class ProfileViewModel(
                                     dateBirth
                                 ),
                                 onSuccess = {
+                                    deleteImage()
                                     successSaveUserProfile.mutable()
                                         .postValue("Изменения сохранены")
                                 },
@@ -157,6 +158,13 @@ class ProfileViewModel(
         }
         jsonField.add("fields", json)
         return jsonField
+    }
+
+    private fun deleteImage(){
+        imageFbRepository.deleteImage(imageUserProfile.uriLocal!!)
+    }
+    fun cancelLoading(){
+        imageFbRepository.cancelLoading()
     }
 
     private fun <T> LiveData<T>.mutable(): MutableLiveData<T> {
