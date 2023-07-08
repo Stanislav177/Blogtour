@@ -5,6 +5,7 @@ import android.text.Editable
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 import com.myblogtour.blogtour.domain.ImageUserProfileEntity
 import com.myblogtour.blogtour.domain.UserProfileEntity
@@ -23,6 +24,7 @@ class ProfileViewModel(
     ProfileContract.ProfileViewModel {
 
     private lateinit var imageUserProfile: ImageUserProfileEntity
+    private var urlImageUser: Uri? = null
 
     override val userSuccess: LiveData<UserProfileEntity> = MutableLiveData()
     override val userError: LiveData<Throwable> = MutableLiveData()
@@ -119,6 +121,7 @@ class ProfileViewModel(
     override fun changeImageProfileUser(uri: Uri) {
         imageFbRepository.imageLoading(uri,
             onSuccess = {
+                urlImageUser = it
                 imageUserProfile = ImageUserProfileEntity(it, uri)
                 onSuccessLoadingImageUser.mutable().postValue(imageUserProfile.uriLocal)
             },
@@ -138,11 +141,19 @@ class ProfileViewModel(
     ): JsonObject {
         val json = JsonObject()
         val jsonField = JsonObject()
+        val jsonUrlImage = JsonObject()
+        val jsonArrayUrlImage = JsonArray()
+
         with(json) {
             addProperty("nickname", loginUser)
             addProperty("location", locationUser)
             addProperty("usergender", genderUser)
             addProperty("datebirth", dateBirth)
+        }
+        if (urlImageUser != null) {
+            jsonUrlImage.addProperty("url", "$urlImageUser")
+            jsonArrayUrlImage.add(jsonUrlImage)
+            json.add("icon", jsonArrayUrlImage)
         }
         jsonField.add("fields", json)
         return jsonField
