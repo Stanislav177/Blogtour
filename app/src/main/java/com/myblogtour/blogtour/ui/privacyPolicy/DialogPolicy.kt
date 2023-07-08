@@ -5,13 +5,13 @@ import android.os.Bundle
 import android.view.View
 import com.myblogtour.blogtour.R
 import com.myblogtour.blogtour.databinding.DialogCustomPolicyBinding
-import com.myblogtour.blogtour.utils.BaseDialogFragment
+import com.myblogtour.blogtour.utils.BaseBottomSheetDialogFragment
 
 const val POLITIC = 999
 const val TERMS = 111
 
 class DialogPolicy :
-    BaseDialogFragment<DialogCustomPolicyBinding>(DialogCustomPolicyBinding::inflate) {
+    BaseBottomSheetDialogFragment<DialogCustomPolicyBinding>(DialogCustomPolicyBinding::inflate) {
 
     private var statusText = 0
     override fun onAttach(context: Context) {

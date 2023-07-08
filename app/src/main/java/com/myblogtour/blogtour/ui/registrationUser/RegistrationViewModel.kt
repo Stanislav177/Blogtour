@@ -195,6 +195,7 @@ class RegistrationViewModel(
         val urlIconJsonObject = JsonObject()
         val userIconJsonArray = JsonArray()
         urlIconJsonObject.addProperty("url", uriIconUser.toString())
+
         userJsonObject.addProperty("uid", uid)
         userJsonObject.addProperty("nickname", userLogin)
         userJsonObject.addProperty("location", "Введите город")

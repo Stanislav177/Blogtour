@@ -58,8 +58,8 @@ class AddPublicationViewModel(
         loadingImage.mutable().postValue(loadingImagePublication)
     }
 
-    fun cancel(uri: Uri) {
-        imageFbRepository.cancelLoading(uri)
+    fun cancel() {
+        imageFbRepository.cancelLoading()
     }
 
     fun deleteImage() {
@@ -119,9 +119,11 @@ class AddPublicationViewModel(
                     loadUriImage.mutable().postValue(imagePublicationEntity)
                     loadingImagePublication = true
                     amountImage.mutable().postValue(listImagePublication.size)
-                }, onError = {
+                },
+                onError = {
 
-                }, onProgress = { onProgress ->
+                },
+                onProgress = { onProgress ->
                     imagePublicationEntity =
                         ImagePublicationEntity(uriLocal = uri, progress = onProgress)
                     progressLoad.mutable().postValue(imagePublicationEntity)
@@ -153,11 +155,13 @@ class AddPublicationViewModel(
                         converterJsonObject(
                             text,
                             location)
-                    createPublicationRepository.createPublication(onSuccess = {
-                        publishPostLiveData.mutable().postValue(it)
-                    }, onError = {
-                        errorMessagePublicationAdd.mutable().postValue(it.message)
-                    }, publishPost)
+                    createPublicationRepository.createPublication(
+                        onSuccess = {
+                            publishPostLiveData.mutable().postValue(it)
+                        },
+                        onError = {
+                            errorMessagePublicationAdd.mutable().postValue(it.message)
+                        }, publishPost)
                 }
             }
         }
@@ -166,11 +170,13 @@ class AddPublicationViewModel(
     override fun getAddress(lat: Double?, lon: Double?) {
         lonLocal = lon.toString()
         latLocal = lat.toString()
-        locationAddressRepository.getAddress(lat, lon, onAddress = {
-            address.mutable().postValue(it.toEditable())
-        }, errorAddress = {
-            errorAddress.mutable().postValue(it)
-        })
+        locationAddressRepository.getAddress(lat, lon,
+            onAddress = {
+                address.mutable().postValue(it.toEditable())
+            },
+            errorAddress = {
+                errorAddress.mutable().postValue(it)
+            })
     }
 
     fun setAddressPublication(entityAddress: EntityAddress) {
@@ -184,13 +190,15 @@ class AddPublicationViewModel(
     ): JsonObject {
         val userProfile = JsonArray()
         var userIdProfile = ""
-        authFirebaseRepository.userCurrent(onSuccess = {
-            it.let {
-                userIdProfile = it.displayName!!
-            }
-        }, onError = {
+        authFirebaseRepository.userCurrent(
+            onSuccess = {
+                it.let {
+                    userIdProfile = it.displayName!!
+                }
+            },
+            onError = {
 
-        })
+            })
         val publicationJson = JsonObject()
         val fieldsJson = JsonObject()
         userProfile.add(userIdProfile)

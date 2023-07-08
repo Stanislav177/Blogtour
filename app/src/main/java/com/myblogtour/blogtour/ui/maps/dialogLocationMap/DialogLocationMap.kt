@@ -6,11 +6,11 @@ import androidx.fragment.app.FragmentManager
 import com.myblogtour.blogtour.databinding.DialogCustomMapLocationBinding
 import com.myblogtour.blogtour.ui.maps.data.EntityAddress
 import com.myblogtour.blogtour.ui.maps.observable.Observable
-import com.myblogtour.blogtour.utils.BaseDialogFragment
+import com.myblogtour.blogtour.utils.BaseBottomSheetDialogFragment
 import org.koin.android.ext.android.inject
 
 class DialogLocationMap :
-    BaseDialogFragment<DialogCustomMapLocationBinding>(DialogCustomMapLocationBinding::inflate) {
+    BaseBottomSheetDialogFragment<DialogCustomMapLocationBinding>(DialogCustomMapLocationBinding::inflate) {
     private var entityAddress: EntityAddress? = null
     private var address: String? = null
     private var lon: Double? = null

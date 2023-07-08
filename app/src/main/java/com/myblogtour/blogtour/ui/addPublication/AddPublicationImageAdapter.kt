@@ -57,7 +57,7 @@ class AddPublicationImageAdapter(private val onClickListenerPosition: MyOnClickL
                     imagePublication.visibility = View.GONE
                     cancelImagePublication.visibility = View.VISIBLE
                     cancelImagePublication.setOnClickListener {
-                        onClickListenerPosition.onItemClickCancel(image.uriLocal!!)
+                        onClickListenerPosition.onItemClickCancel()
                         listImagePublication.removeAt(layoutPosition)
                         notifyDataSetChanged()
                     }

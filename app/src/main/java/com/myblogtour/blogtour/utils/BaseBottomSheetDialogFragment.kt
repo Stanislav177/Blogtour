@@ -4,16 +4,16 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.DialogFragment
 import androidx.viewbinding.ViewBinding
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
-abstract class BaseDialogFragment<T : ViewBinding>(
+abstract class BaseBottomSheetDialogFragment<T : ViewBinding>(
     private val inflaterBinding: (
         inflater: LayoutInflater,
         root: ViewGroup?,
-        attachToRoot: Boolean,
-    ) -> T,
-) : DialogFragment() {
+        attachToRoot: Boolean
+    ) -> T
+) : BottomSheetDialogFragment() {
 
     private var _binding: T? = null
     val binding: T
@@ -24,7 +24,7 @@ abstract class BaseDialogFragment<T : ViewBinding>(
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?,
+        savedInstanceState: Bundle?
     ): View {
         _binding = inflaterBinding.invoke(inflater, container, false)
         return binding.root
@@ -34,5 +34,4 @@ abstract class BaseDialogFragment<T : ViewBinding>(
         super.onDestroy()
         _binding = null
     }
-
 }

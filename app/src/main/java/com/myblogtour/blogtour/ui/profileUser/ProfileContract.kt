@@ -1,7 +1,9 @@
 package com.myblogtour.blogtour.ui.profileUser
 
+import android.net.Uri
 import android.text.Editable
 import androidx.lifecycle.LiveData
+import com.myblogtour.blogtour.domain.ImageUserProfileEntity
 import com.myblogtour.blogtour.domain.UserProfileEntity
 
 interface ProfileContract {
@@ -15,6 +17,10 @@ interface ProfileContract {
         val successSaveUserProfile: LiveData<String>
         val errorUserLogin: LiveData<String>
         val errorLocationUser: LiveData<String>
+        val progressLoadingImage: LiveData<ImageUserProfileEntity>
+        val onSuccessLoadingImageUser: LiveData<Uri>
+
+
         fun onRefresh()
         fun singInOut()
         fun verificationEmail()
@@ -22,7 +28,9 @@ interface ProfileContract {
             loginUser: Editable?,
             locationUser: String,
             genderUser: Int,
-            dateBirth: String
+            dateBirth: String,
         )
+
+        fun changeImageProfileUser(uri: Uri)
     }
 }

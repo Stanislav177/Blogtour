@@ -5,18 +5,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.fragment.app.DialogFragment
 import com.myblogtour.blogtour.databinding.DialogCustomResetPasswordBinding
+import com.myblogtour.blogtour.utils.BaseDialogFragment
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class DialogResetPasswordFragment : DialogFragment() {
+class DialogResetPasswordFragment :
+    BaseDialogFragment<DialogCustomResetPasswordBinding>(DialogCustomResetPasswordBinding::inflate) {
     private lateinit var emailUser: String
-
-    private var _binding: DialogCustomResetPasswordBinding? = null
-    private val binding: DialogCustomResetPasswordBinding
-        get() {
-            return _binding!!
-        }
 
     private val viewModel: ViewModelResetPassword by viewModel()
 
@@ -27,19 +22,10 @@ class DialogResetPasswordFragment : DialogFragment() {
         }
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = DialogCustomResetPasswordBinding.inflate(
-            layoutInflater,
-            container,
-            false
-        )
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         initViewModel()
         initBtn()
-        return binding.root
     }
 
     private fun initViewModel() {
@@ -56,7 +42,7 @@ class DialogResetPasswordFragment : DialogFragment() {
             errorReAuthentication.observe(viewLifecycleOwner) {
                 binding.localTILPassword.error = it
             }
-            updatePasswordUser.observe(viewLifecycleOwner){
+            updatePasswordUser.observe(viewLifecycleOwner) {
                 updatePassword(it)
             }
         }
@@ -64,10 +50,10 @@ class DialogResetPasswordFragment : DialogFragment() {
     }
 
     private fun updatePassword(it: Boolean) {
-        if (it){
+        if (it) {
             Toast.makeText(requireActivity(), "Пароль успешно изменен", Toast.LENGTH_SHORT).show()
             dismiss()
-        } else{
+        } else {
             Toast.makeText(requireActivity(), "Что-то пошло не так", Toast.LENGTH_SHORT).show()
             dismiss()
         }
@@ -106,11 +92,6 @@ class DialogResetPasswordFragment : DialogFragment() {
                 viewModel.reAuth(emailUser, binding.editTextCurrentPassword.text.toString())
             }
         }
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        _binding = null
     }
 
     companion object {

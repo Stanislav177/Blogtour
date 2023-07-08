@@ -1,12 +1,16 @@
 package com.myblogtour.blogtour.ui.profileUser
 
+import android.net.Uri
 import android.text.Editable
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.google.gson.JsonArray
 import com.google.gson.JsonObject
+import com.myblogtour.blogtour.domain.ImageUserProfileEntity
 import com.myblogtour.blogtour.domain.UserProfileEntity
 import com.myblogtour.blogtour.domain.repository.AuthFirebaseRepository
+import com.myblogtour.blogtour.domain.repository.ImageFbRepository
 import com.myblogtour.blogtour.domain.repository.UserProfileRepository
 import com.myblogtour.blogtour.utils.SingleLiveEvent
 import com.myblogtour.blogtour.utils.validatorUserName.LoginValidatorPattern
@@ -14,9 +18,13 @@ import com.myblogtour.blogtour.utils.validatorUserName.LoginValidatorPattern
 class ProfileViewModel(
     private val userProfileRepository: UserProfileRepository,
     private val authFirebaseRepository: AuthFirebaseRepository,
-    private val validNameValidatorPattern: LoginValidatorPattern
+    private val validNameValidatorPattern: LoginValidatorPattern,
+    private val imageFbRepository: ImageFbRepository,
 ) : ViewModel(),
     ProfileContract.ProfileViewModel {
+
+    private lateinit var imageUserProfile: ImageUserProfileEntity
+    private var urlImageUser: Uri? = null
 
     override val userSuccess: LiveData<UserProfileEntity> = MutableLiveData()
     override val userError: LiveData<Throwable> = MutableLiveData()
@@ -26,6 +34,8 @@ class ProfileViewModel(
     override val successSaveUserProfile: LiveData<String> = SingleLiveEvent()
     override val errorUserLogin: LiveData<String> = SingleLiveEvent()
     override val errorLocationUser: LiveData<String> = SingleLiveEvent()
+    override val progressLoadingImage: LiveData<ImageUserProfileEntity> = MutableLiveData()
+    override val onSuccessLoadingImageUser: LiveData<Uri> = MutableLiveData()
 
     override fun onRefresh() {
         authFirebaseRepository.userCurrent(
@@ -66,7 +76,7 @@ class ProfileViewModel(
         loginUser: Editable?,
         locationUser: String,
         genderUser: Int,
-        dateBirth: String
+        dateBirth: String,
     ) {
         validNameValidatorPattern.afterTextUserName(loginUser)
         when {
@@ -83,6 +93,7 @@ class ProfileViewModel(
                                     dateBirth
                                 ),
                                 onSuccess = {
+                                    deleteImage()
                                     successSaveUserProfile.mutable()
                                         .postValue("Изменения сохранены")
                                 },
@@ -108,22 +119,52 @@ class ProfileViewModel(
         }
     }
 
+    override fun changeImageProfileUser(uri: Uri) {
+        imageFbRepository.imageLoading(uri,
+            onSuccess = {
+                urlImageUser = it
+                imageUserProfile = ImageUserProfileEntity(it, uri)
+                onSuccessLoadingImageUser.mutable().postValue(imageUserProfile.uriLocal)
+            },
+            onError = {
+
+            },
+            onProgress = {
+                progressLoadingImage.mutable().postValue(ImageUserProfileEntity(progress = it))
+            })
+    }
+
     private fun converterDataUserProfileToJson(
         loginUser: String,
         locationUser: String,
         genderUser: Int,
-        dateBirth: String
+        dateBirth: String,
     ): JsonObject {
         val json = JsonObject()
         val jsonField = JsonObject()
+        val jsonUrlImage = JsonObject()
+        val jsonArrayUrlImage = JsonArray()
+
         with(json) {
             addProperty("nickname", loginUser)
             addProperty("location", locationUser)
             addProperty("usergender", genderUser)
             addProperty("datebirth", dateBirth)
         }
+        if (urlImageUser != null) {
+            jsonUrlImage.addProperty("url", "$urlImageUser")
+            jsonArrayUrlImage.add(jsonUrlImage)
+            json.add("icon", jsonArrayUrlImage)
+        }
         jsonField.add("fields", json)
         return jsonField
+    }
+
+    private fun deleteImage(){
+        imageFbRepository.deleteImage(imageUserProfile.uriLocal!!)
+    }
+    fun cancelLoading(){
+        imageFbRepository.cancelLoading()
     }
 
     private fun <T> LiveData<T>.mutable(): MutableLiveData<T> {

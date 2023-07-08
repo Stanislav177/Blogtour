@@ -48,6 +48,7 @@
     <string name="terms_of_use">Terms of use for Yandex Maps</string>
     <string name="version">Version</string>
     <string name="add_geolocation">Add geolocation</string>
+    <string name="сhange_photo"><u>Сhange photo</u></string>
 
     <string-array name="listGender">
         <item>Not indicated</item>

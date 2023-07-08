@@ -17,7 +17,7 @@
             android:layout_height="match_parent">
 
             <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/iconUserProfile"
+                android:id="@+id/imageUserProfile"
                 android:layout_width="150dp"
                 android:layout_height="150dp"
                 android:layout_marginStart="25dp"
@@ -26,14 +26,36 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/changePhotoUserProfile"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/сhange_photo"
+                app:layout_constraintEnd_toEndOf="@+id/imageUserProfile"
+                app:layout_constraintStart_toStartOf="@+id/imageUserProfile"
+                app:layout_constraintTop_toBottomOf="@+id/imageUserProfile" />
+
             <ProgressBar
                 android:id="@+id/progressBarProfileUser"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintBottom_toBottomOf="@+id/iconUserProfile"
-                app:layout_constraintEnd_toEndOf="@+id/iconUserProfile"
-                app:layout_constraintStart_toStartOf="@+id/iconUserProfile"
-                app:layout_constraintTop_toTopOf="@+id/iconUserProfile" />
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="@+id/imageUserProfile"
+                app:layout_constraintEnd_toEndOf="@+id/imageUserProfile"
+                app:layout_constraintStart_toStartOf="@+id/imageUserProfile"
+                app:layout_constraintTop_toTopOf="@+id/imageUserProfile" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/progressLoadingImagePercentProfileUser"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="100%"
+                android:textColor="@color/black"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="@+id/imageUserProfile"
+                app:layout_constraintEnd_toEndOf="@+id/imageUserProfile"
+                app:layout_constraintStart_toStartOf="@+id/imageUserProfile"
+                app:layout_constraintTop_toTopOf="@+id/imageUserProfile" />
 
 
             <com.google.android.material.textfield.TextInputLayout
@@ -44,9 +66,8 @@
                 android:layout_marginStart="5dp"
                 android:layout_marginTop="5dp"
                 android:hint="@string/login"
-                app:counterEnabled="true"
                 app:counterMaxLength="15"
-                app:layout_constraintStart_toEndOf="@+id/iconUserProfile"
+                app:layout_constraintStart_toEndOf="@+id/imageUserProfile"
                 app:layout_constraintTop_toBottomOf="@+id/iconVerifiedUser">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -54,8 +75,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:inputType="textCapWords"
-                    android:maxLines="1"
                     android:maxLength="15"
+                    android:maxLines="1"
                     android:textSize="20sp" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -66,15 +87,14 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
                 android:src="@drawable/ic_verified_user"
-                app:layout_constraintStart_toEndOf="@+id/iconUserProfile"
-                app:layout_constraintTop_toTopOf="@+id/iconUserProfile" />
+                app:layout_constraintStart_toEndOf="@+id/imageUserProfile"
+                app:layout_constraintTop_toTopOf="@+id/imageUserProfile" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/textBtnVerificationEmail"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="3dp"
-                android:text="@string/confirm_email"
                 android:textSize="10sp"
                 app:layout_constraintBottom_toBottomOf="@+id/iconVerifiedUser"
                 app:layout_constraintStart_toEndOf="@+id/iconVerifiedUser"

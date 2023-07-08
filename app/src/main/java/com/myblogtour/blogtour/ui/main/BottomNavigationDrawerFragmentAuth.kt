@@ -1,19 +1,16 @@
 package com.myblogtour.blogtour.ui.main
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.myblogtour.blogtour.R
 import com.myblogtour.blogtour.databinding.BottomNavigationLayoutAuthBinding
 import com.myblogtour.blogtour.ui.aboutApp.AboutAppFragment
 import com.myblogtour.blogtour.ui.authUser.AuthUserFragment
 import com.myblogtour.blogtour.ui.setting.SettingFragment
-import com.myblogtour.blogtour.utils.BaseDialogFragment
+import com.myblogtour.blogtour.utils.BaseBottomSheetDialogFragment
 
-class BottomNavigationDrawerFragmentAuth : BaseDialogFragment<BottomNavigationLayoutAuthBinding>(BottomNavigationLayoutAuthBinding::inflate) {
+class BottomNavigationDrawerFragmentAuth : BaseBottomSheetDialogFragment<BottomNavigationLayoutAuthBinding>(BottomNavigationLayoutAuthBinding::inflate) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
