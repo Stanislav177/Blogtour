@@ -12,6 +12,6 @@ interface ImageFbRepository {
     )
 
     fun deleteImage(uri: List<Uri?>)
-    fun deleteImage(uri: Uri)
+    fun deleteImage(uri: Uri?)
     fun cancelLoading()
 }

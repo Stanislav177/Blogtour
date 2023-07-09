@@ -1,5 +1,6 @@
 package com.myblogtour.blogtour.di
 
+import androidx.work.WorkManager
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
@@ -100,7 +101,7 @@ object Modules {
         }
         single<RepositorySearchObjMap> { RepositorySearchObjMapImpl(get(named("searchManager"))) }
 
-        single<Observable> { Observable()   }
+        single { Observable() }
     }
 
     val permissionModule = module {
@@ -117,7 +118,7 @@ object Modules {
 
     val viewModelsModule = module {
         viewModel {
-            ProfileViewModel(get(), get(), get(), get())
+            ProfileViewModel(get(), get(), get(), get(), get(named("workManager")))
         }
         viewModel {
             HomeViewModel(publicationRepository = get(), authFirebaseRepository = get())
@@ -168,6 +169,10 @@ object Modules {
         viewModel {
             YandexMapsSearchViewModel(get())
         }
+    }
+
+    val workerModule = module {
+        single(named("workManager")) { WorkManager.getInstance(androidContext()) }
     }
 }
 

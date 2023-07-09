@@ -18,7 +18,8 @@ class App : Application() {
                 Modules.viewModelsModule,
                 Modules.firebase,
                 Modules.permissionModule,
-                Modules.maps)
+                Modules.maps,
+                Modules.workerModule)
         }
         MapKitFactory.setApiKey(BuildConfig.API_KEY_YANDEX)
     }

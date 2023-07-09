@@ -5,6 +5,9 @@ import android.text.Editable
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.work.Data
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.WorkManager
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 import com.myblogtour.blogtour.domain.ImageUserProfileEntity
@@ -12,14 +15,17 @@ import com.myblogtour.blogtour.domain.UserProfileEntity
 import com.myblogtour.blogtour.domain.repository.AuthFirebaseRepository
 import com.myblogtour.blogtour.domain.repository.ImageFbRepository
 import com.myblogtour.blogtour.domain.repository.UserProfileRepository
+import com.myblogtour.blogtour.utils.MyWorkerDeleteImageFB
 import com.myblogtour.blogtour.utils.SingleLiveEvent
 import com.myblogtour.blogtour.utils.validatorUserName.LoginValidatorPattern
+import java.util.concurrent.TimeUnit
 
 class ProfileViewModel(
     private val userProfileRepository: UserProfileRepository,
     private val authFirebaseRepository: AuthFirebaseRepository,
     private val validNameValidatorPattern: LoginValidatorPattern,
     private val imageFbRepository: ImageFbRepository,
+    private val managerWorker: WorkManager,
 ) : ViewModel(),
     ProfileContract.ProfileViewModel {
 
@@ -160,10 +166,23 @@ class ProfileViewModel(
         return jsonField
     }
 
-    private fun deleteImage(){
-        imageFbRepository.deleteImage(imageUserProfile.uriLocal!!)
+    private fun deleteImage() {
+        val workerDeleteImageFB = OneTimeWorkRequestBuilder<MyWorkerDeleteImageFB>()
+            .setInputData(createInputDataForUri())
+            .setInitialDelay(10, TimeUnit.SECONDS)
+            .build()
+        managerWorker.enqueue(workerDeleteImageFB)
     }
-    fun cancelLoading(){
+
+    private fun createInputDataForUri(): Data {
+        val builder = Data.Builder()
+        imageUserProfile.uriLocal?.let {
+            builder.putString("KEY_IMAGE_URI", it.toString())
+        }
+        return builder.build()
+    }
+
+    fun cancelLoading() {
         imageFbRepository.cancelLoading()
     }
 
