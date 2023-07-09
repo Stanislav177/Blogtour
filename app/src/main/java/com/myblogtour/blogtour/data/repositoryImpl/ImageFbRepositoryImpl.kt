@@ -72,10 +72,11 @@ class ImageFbRepositoryImpl(private val storageRef: StorageReference) : ImageFbR
         }.start()
     }
 
-    override fun deleteImage(uri: Uri) {
+    override fun deleteImage(uri: Uri?) {
         Thread {
-            Thread.sleep(10000)
-            storageRef.child("image/${uri.lastPathSegment}").delete()
+            uri?.let {
+                storageRef.child("image/${it.lastPathSegment}").delete()
+            }
         }.start()
     }
 
