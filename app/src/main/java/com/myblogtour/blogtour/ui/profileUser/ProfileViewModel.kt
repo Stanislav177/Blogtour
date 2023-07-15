@@ -172,6 +172,7 @@ class ProfileViewModel(
             .setInitialDelay(10, TimeUnit.SECONDS)
             .build()
         managerWorker.enqueue(workerDeleteImageFB)
+        //managerWorker.cancelWorkById(workerDeleteImageFB.id)
     }
 
     private fun createInputDataForUri(): Data {
