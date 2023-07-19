@@ -70,20 +70,16 @@ class AddPublicationViewModel(
 
     fun deleteImage() {
         var arrayListUriStr: Array<String> = arrayOf()
-        //val uriList: MutableList<Uri?> = mutableListOf()
         for (i in listImagePublication.indices) {
             when (i) {
                 0 -> {
                     arrayListUriStr += listImagePublication[i].uriLocal.toString()
-                    //uriList.add(listImagePublication[i].uriLocal)
                 }
                 1 -> {
                     arrayListUriStr += listImagePublication[i].uriLocal.toString()
-                    //uriList.add(listImagePublication[i].uriLocal)
                 }
                 2 -> {
                     arrayListUriStr += listImagePublication[i].uriLocal.toString()
-                    //uriList.add(listImagePublication[i].uriLocal)
                 }
             }
         }
@@ -95,7 +91,6 @@ class AddPublicationViewModel(
                 .setInitialDelay(15, TimeUnit.SECONDS)
                 .build()
             managerWorker.enqueue(workerDeleteImageFB)
-            //imageFbRepository.deleteImage(uriList.toList())
         }
         listImagePublication.clear()
         amountImage.mutable().postValue(listImagePublication.size)
