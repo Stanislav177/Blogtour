@@ -131,7 +131,7 @@ object Modules {
                 get(),
                 get(),
                 get(),
-                get()
+                get(),get(named("workManager"))
             )
         }
         viewModel {

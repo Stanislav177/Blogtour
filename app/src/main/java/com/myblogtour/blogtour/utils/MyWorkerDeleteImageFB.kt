@@ -16,7 +16,13 @@ class MyWorkerDeleteImageFB(context: Context, workerParameters: WorkerParameters
 
     override fun doWork(): Result {
         val resourceUriStr = inputData.getString("KEY_IMAGE_URI")
-        imageDeleteImageFB.deleteImage(converterStrUri(resourceUriStr))
+        val resourceListUser = inputData.getStringArray("LIST")
+        if (resourceUriStr != null) {
+            imageDeleteImageFB.deleteImage(converterStrUri(resourceUriStr))
+        } else if (resourceListUser != null) {
+            imageDeleteImageFB.deleteImage(converterStrListToUri(resourceListUser))
+        }
+
         return Result.success()
     }
 
@@ -26,5 +32,13 @@ class MyWorkerDeleteImageFB(context: Context, workerParameters: WorkerParameters
             uri = it.toUri()
         }
         return uri
+    }
+
+    private fun converterStrListToUri(array: Array<String>): List<Uri?> {
+        val listUri: MutableList<Uri> = mutableListOf()
+        for (i in array.toList()) {
+            listUri.add(i.toUri())
+        }
+        return listUri
     }
 }

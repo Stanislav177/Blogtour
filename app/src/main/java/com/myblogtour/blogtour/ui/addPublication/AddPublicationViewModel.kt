@@ -5,6 +5,9 @@ import android.text.Editable
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.work.Data
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.WorkManager
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 import com.myblogtour.blogtour.domain.ImagePublicationEntity
@@ -12,14 +15,17 @@ import com.myblogtour.blogtour.domain.repository.AuthFirebaseRepository
 import com.myblogtour.blogtour.domain.repository.CreatePublicationRepository
 import com.myblogtour.blogtour.domain.repository.ImageFbRepository
 import com.myblogtour.blogtour.ui.maps.data.EntityAddress
+import com.myblogtour.blogtour.utils.MyWorkerDeleteImageFB
 import com.myblogtour.blogtour.utils.SingleLiveEvent
 import com.myblogtour.blogtour.utils.checkPermission.RepositoryLocationAddress
+import java.util.concurrent.TimeUnit
 
 class AddPublicationViewModel(
     private val authFirebaseRepository: AuthFirebaseRepository,
     private val createPublicationRepository: CreatePublicationRepository,
     private val locationAddressRepository: RepositoryLocationAddress,
     private val imageFbRepository: ImageFbRepository,
+    private val managerWorker: WorkManager,
 ) : ViewModel(), AddContract.ViewModel {
 
     private var flagAddPublication = true
@@ -63,37 +69,55 @@ class AddPublicationViewModel(
     }
 
     fun deleteImage() {
-        val uriList: MutableList<Uri?> = mutableListOf()
+        var arrayListUriStr: Array<String> = arrayOf()
         for (i in listImagePublication.indices) {
             when (i) {
                 0 -> {
-                    uriList.add(listImagePublication[i].uriLocal)
+                    arrayListUriStr += listImagePublication[i].uriLocal.toString()
                 }
                 1 -> {
-                    uriList.add(listImagePublication[i].uriLocal)
+                    arrayListUriStr += listImagePublication[i].uriLocal.toString()
                 }
                 2 -> {
-                    uriList.add(listImagePublication[i].uriLocal)
+                    arrayListUriStr += listImagePublication[i].uriLocal.toString()
                 }
             }
         }
-        if (uriList.size > 0) {
-            imageFbRepository.deleteImage(uriList.toList())
+        val builder = Data.Builder()
+        builder.putStringArray("LIST", arrayListUriStr)
+        if (arrayListUriStr.isNotEmpty()) {
+            val workerDeleteImageFB = OneTimeWorkRequestBuilder<MyWorkerDeleteImageFB>()
+                .setInputData(builder.build())
+                .setInitialDelay(15, TimeUnit.SECONDS)
+                .build()
+            managerWorker.enqueue(workerDeleteImageFB)
         }
         listImagePublication.clear()
         amountImage.mutable().postValue(listImagePublication.size)
     }
 
     fun deleteImage(uriImage: Uri?) {
-        uriImage?.let {
-            imageFbRepository.deleteImage(it)
-        }
+        val workerDeleteImageFB = OneTimeWorkRequestBuilder<MyWorkerDeleteImageFB>()
+            .setInputData(createInputDataForUri(uriImage))
+            .setInitialDelay(0, TimeUnit.SECONDS)
+            .build()
+        managerWorker.enqueue(workerDeleteImageFB)
+        //managerWorker.cancelWorkById(workerDeleteImageFB.id)
+
         listImagePublication.indices.find {
             listImagePublication[it].uriLocal == uriImage
         }?.let { index ->
             listImagePublication.removeAt(index)
         }
         amountImage.mutable().postValue(listImagePublication.size)
+    }
+
+    private fun createInputDataForUri(uriImage: Uri?): Data {
+        val builder = Data.Builder()
+        uriImage?.let {
+            builder.putString("KEY_IMAGE_URI", it.toString())
+        }
+        return builder.build()
     }
 
     private fun checkImageList(uri: Uri): Boolean {

@@ -58,18 +58,15 @@ class ImageFbRepositoryImpl(private val storageRef: StorageReference) : ImageFbR
     override fun deleteImage(uriList: List<Uri?>) {
         val listSize = uriList.size
         var position = 0
-        Thread {
-            Thread.sleep(10000)
-            do {
-                if (listSize < position) {
-                    break
-                }
-                uriList[position]?.let {
-                    storageRef.child("image/${it.lastPathSegment}").delete()
-                }
-                position++
-            } while (listSize > position)
-        }.start()
+        do {
+            if (listSize < position) {
+                break
+            }
+            uriList[position]?.let {
+                storageRef.child("image/${it.lastPathSegment}").delete()
+            }
+            position++
+        } while (listSize > position)
     }
 
     override fun deleteImage(uri: Uri?) {
